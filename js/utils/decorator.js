@@ -1,4 +1,6 @@
-define('utils/decorator', function () {
+define('utils/decorator', function (require) {
+
+	var d3 = require('d3');
 
 	var decorator = function (func) {
 		var _handlers = [],
@@ -61,6 +63,15 @@ define('utils/decorator', function () {
 			}
 		});
 		return property;
+	};
+
+	decorator.decorate = function (obj) {
+		d3.keys(obj).forEach(function (property) {
+			if (typeof (obj[property]) === "function" && ! (obj[property].decorated)) {
+				obj[property] = decorator(obj[property]);
+			}
+		});
+		return obj;
 	};
 
 

@@ -1,8 +1,7 @@
 define(function (require) {
 	var pm = require('utils/pluginmanager'),
 		data = require('modules/data'),
-		layout = require('utils/layout'),
-		open = require('plugins/open');
+		decorator = require('utils/decorator');
 
 	var plugin = pm.create_plugin('settings', 'setup');
 
@@ -19,12 +18,5 @@ define(function (require) {
 		return data.default_config;
 	};
 
-	plugin.windup = function () {
-		if (data.config.load_last_opened) {
-			open.open_last_used(true);
-			layout.show_main();
-		}
-	};
-
-	return plugin;
+	return decorator.decorate(plugin);
 });

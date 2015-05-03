@@ -1,4 +1,4 @@
-define(['logger', 'utils/common', 'utils/pluginmanager', 'utils/layout', 'plugins/open'], function (logger, common, pm, layout, open) {
+define(['logger', '../../../utils/common', 'utils/pluginmanager', 'utils/layout', 'plugins/open'], function (logger, common, pm, layout, open) {
 	var module = {};
 
 	var DEV_PLUGIN;
@@ -10,9 +10,11 @@ define(['logger', 'utils/common', 'utils/pluginmanager', 'utils/layout', 'plugin
 		logger.filter = null;
 
 		common.data.static_path = '';
+
+		layout.init_layout.add(this.init);
 	};
 
-	module.windup = function () {
+	module.init = function () {
 		var footer = common.data.footer;
 		footer += '<br /><span class="version">development version</span>';
 		layout.set_footer(footer);

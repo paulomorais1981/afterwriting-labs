@@ -159,5 +159,5 @@ define(function (require) {
 		return active;
 	};
 
-	return plugin;
+	return decorator.decorate(plugin);
 });

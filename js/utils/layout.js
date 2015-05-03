@@ -1,7 +1,10 @@
-define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanager', 'utils/common', 'templates', 'utils/decorator', 'impromptu', 'jstree', 'cookie'], function ($, temlates, data, Handlebars, pm, common, templates, decorator) {
-	
+define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanager', 'utils/common', 'templates', 'utils/decorator', 'impromptu', 'jstree', 'cookie', 'logger'], function ($, temlates, data, Handlebars, pm, common, templates, decorator, impromptu, jstree, cookie, logger) {
+
+	var log = logger.get('bootstrap');
+
 	var module = {
-		only_active_visible: true
+		only_active_visible: true,
+		plugins: []
 	};
 
 	var switch_and_return = function (plugin) {
@@ -107,7 +110,35 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 		$('.footer').html(content);
 	};
 
-	module.init_layout = function (context) {
+	module.add_plugin = function (plugin) {
+
+		var template_name = 'templates/plugins/' + plugin.name + '.hbs';
+		if (templates.hasOwnProperty(template_name)) {
+			var template = templates[template_name];
+			var html = template(plugin.context);
+			plugin.view = html;
+		}
+
+		this.plugins.push(plugin);
+	};
+
+	module.open_content = function () {
+		var duration = module.small ? 0 : 200;
+		$('.content').removeClass('content-closed').animate({
+			top: 0
+		}, {
+			duration: duration
+		});
+	};
+
+	module.init_layout = function () {
+
+		log.info('Initializing plugins:');
+		this.plugins.forEach(function (plugin) {
+			module.plugins[plugin.name] = plugin;
+			log.info('Initializing plugin: ' + plugin.name);
+			plugin.init();
+		});
 
 		calculate_basics();
 
@@ -118,14 +149,13 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 		}
 
 		var layout = templates['templates/layout.hbs'];
-		var body = layout(context);
+		var body = layout({plugins: this.plugins});
 		$('body').append(body);
-
 
 		var inactive_plugins_count = 0,
 			all_plugins_count = 0;
 
-		context.plugins.forEach(function (plugin) {
+		this.plugins.forEach(function (plugin) {
 			if (plugin.class !== "active") {
 				inactive_plugins_count++;
 			}
@@ -160,15 +190,6 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 
 		};
 
-		module.open_content = function () {
-			var duration = module.small ? 0 : 200;
-			$('.content').removeClass('content-closed').animate({
-				top: 0
-			}, {
-				duration: duration
-			});
-		};
-
 		/** calc on each reize **/
 		$(window).resize(function () {
 			calculate_basics();
@@ -199,7 +220,6 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 		};
 
 		/** info handlers **/
-		module.info_opened = decorator.signal();
 		$('.info-content').hide();
 		$('.info-icon').click(function () {
 			var duration = module.small ? 0 : 200;
@@ -230,7 +250,7 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 			}
 		});
 
-		context.plugins.forEach(function (plugin) {
+		this.plugins.forEach(function (plugin) {
 			$('.tool[plugin="' + plugin.name + '"]').click(function () {
 				if (!$(this).hasClass('active')) {
 					module.switch_to_plugin($(this).attr('plugin'));
@@ -274,19 +294,20 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 		$('.content').css('display', 'block');
 		$('.menu').fadeIn();
 
-
-		module.scopes = {
-			toolbar_switch_to: decorator(switch_and_return),
-			main_switch_to: decorator(switch_and_return),
-			switcher_switch_to: decorator(switch_and_return),
-
-			toolbar_close_content: decorator(module.close_content),
-			back_close_content: decorator(module.close_content)
-		};
-
 		var footer = common.data.footer;
 		module.set_footer(footer);
 	};
 
-	return module;
+	module.info_opened = decorator.signal();
+
+	module.scopes = {
+		toolbar_switch_to: decorator(switch_and_return),
+		main_switch_to: decorator(switch_and_return),
+		switcher_switch_to: decorator(switch_and_return),
+
+		toolbar_close_content: decorator(module.close_content),
+		back_close_content: decorator(module.close_content)
+	};
+
+	return decorator.decorate(module);
 });

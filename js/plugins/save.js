@@ -205,5 +205,5 @@ define(function (require) {
 		$.prompt('File saved!');
 	};
 
-	return plugin;
+	return decorator.decorate(plugin);
 });

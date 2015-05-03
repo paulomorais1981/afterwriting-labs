@@ -43,5 +43,5 @@ define(function (require) {
 		editor.synced.remove(plugin.refresh);
 	};
 
-	return plugin;
+	return decorator.decorate(plugin);
 });

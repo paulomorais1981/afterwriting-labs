@@ -6,6 +6,6 @@ define(function(require){
 	plugin.class = "active";
 	
 	plugin.download_clicked = decorator.signal();
-	
-	return plugin;
+
+	return decorator.decorate(plugin);
 });

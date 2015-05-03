@@ -193,5 +193,5 @@ define(function (require) {
 		last_session_script_loaded = true;
 	}
 
-	return plugin;
+	return decorator.decorate(plugin);
 });

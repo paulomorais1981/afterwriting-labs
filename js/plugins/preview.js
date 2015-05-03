@@ -21,6 +21,6 @@ define(function (require) {
 	plugin.deactivate = function() {
 		editor.synced.remove(plugin.refresh);
 	};
-	
-	return plugin;
+
+	return decorator.decorate(plugin);
 });
