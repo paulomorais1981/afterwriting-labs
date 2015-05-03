@@ -174,7 +174,6 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 			$(this).removeClass('tool-hover');
 		});
 
-
 		var calculate_content = function () {
 			var left = module.small ? 0 : ($('html').width() - $('.content').outerWidth()) / 2;
 			var height = $(document).height();

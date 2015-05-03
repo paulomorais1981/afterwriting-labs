@@ -1,7 +1,6 @@
 define(function(require){
 
-    var bootstrap = require('bootstrap'),
-        layout = require('utils/layout'),
+    var layout = require('utils/layout'),
         data = require('modules/data'),
         open = require('plugins/open');
 
@@ -9,7 +8,7 @@ define(function(require){
 
     module.prepare = function() {
         if (data.config.load_last_opened) {
-            bootstrap.initialized.add(this.load_last_opened);
+            layout.init_layout.add(this.load_last_opened);
         }
     };
 
