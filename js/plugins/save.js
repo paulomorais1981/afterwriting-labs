@@ -8,7 +8,7 @@ define(function (require) {
 		$ = require('jquery'),
 		tree = require('utils/tree'),
 		forms = require('utils/forms'),
-		decorator = require('utils/decorator'),
+		off = require('off'),
 		data = require('modules/data');
 
 	var plugin = pm.create_plugin('save', 'save');
@@ -156,8 +156,8 @@ define(function (require) {
 		});
 	};
 
-	plugin.gd_saved = decorator.signal();
-	plugin.db_saved = decorator.signal();
+	plugin.gd_saved = off.signal();
+	plugin.db_saved = off.signal();
 
 	plugin.is_dropbox_available = function () {
 		return window.location.protocol !== 'file:';
@@ -205,5 +205,5 @@ define(function (require) {
 		$.prompt('File saved!');
 	};
 
-	return decorator.decorate(plugin);
+	return off.decorate(plugin);
 });

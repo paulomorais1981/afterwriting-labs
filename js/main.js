@@ -15,7 +15,8 @@
 			impromptu: 'libs/jquery-impromptu.min',
 			jstree: 'libs/jstree.min',
 			cookie: 'libs/jquery.cookie',
-			dropbox: 'libs/dropbox.min'
+			dropbox: 'libs/dropbox.min',
+			off: 'libs/off-min'
 		},
 		shim: {
 			handlebars: {

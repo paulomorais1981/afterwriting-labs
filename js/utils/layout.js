@@ -1,4 +1,4 @@
-define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanager', 'utils/common', 'templates', 'utils/decorator', 'impromptu', 'jstree', 'cookie', 'logger'], function ($, temlates, data, Handlebars, pm, common, templates, decorator, impromptu, jstree, cookie, logger) {
+define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanager', 'utils/common', 'templates', 'off', 'impromptu', 'jstree', 'cookie', 'logger'], function ($, temlates, data, Handlebars, pm, common, templates, off, impromptu, jstree, cookie, logger) {
 
 	var log = logger.get('bootstrap');
 
@@ -69,7 +69,7 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 
 	};
 
-	module.close_content = decorator(function (immediately) {
+	module.close_content = off(function (immediately) {
 		var duration = module.small ? 0 : 500;
 		var action = immediately ? 'offset' : 'animate';
 		var closed_plugin = pm.get_current();
@@ -83,7 +83,7 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 		return closed_plugin;
 	});
 	
-	module.toggle_expand = decorator(function() {		
+	module.toggle_expand = off(function() {
 		$('.content').toggleClass('expanded');		
 	});
 
@@ -298,16 +298,16 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 		module.set_footer(footer);
 	};
 
-	module.info_opened = decorator.signal();
+	module.info_opened = off.signal();
 
 	module.scopes = {
-		toolbar_switch_to: decorator(switch_and_return),
-		main_switch_to: decorator(switch_and_return),
-		switcher_switch_to: decorator(switch_and_return),
+		toolbar_switch_to: off(switch_and_return),
+		main_switch_to: off(switch_and_return),
+		switcher_switch_to: off(switch_and_return),
 
-		toolbar_close_content: decorator(module.close_content),
-		back_close_content: decorator(module.close_content)
+		toolbar_close_content: off(module.close_content),
+		back_close_content: off(module.close_content)
 	};
 
-	return decorator.decorate(module);
+	return off.decorate(module);
 });

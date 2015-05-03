@@ -2,7 +2,7 @@ define(function(require){
 	
 	var logger = require('logger'),
 		data = require('modules/data'),
-		decorator = require('utils/decorator');
+		off = require('off');
 	
 	var log = logger.get('pluginmanager');
 	
@@ -24,7 +24,7 @@ define(function(require){
 		};
 	};
 
-	module.switch_to = decorator(function (plugin) {
+	module.switch_to = off(function (plugin) {
 		if (plugin === current) {
 			module.switch_to.lock = true;
 			return;

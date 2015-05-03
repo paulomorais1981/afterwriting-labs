@@ -1,7 +1,7 @@
 define(function (require) {
 	var pm = require('utils/pluginmanager'),
 		data = require('modules/data'),
-		decorator = require('utils/decorator');
+		off = require('off');
 
 	var plugin = pm.create_plugin('settings', 'setup');
 
@@ -18,5 +18,5 @@ define(function (require) {
 		return data.default_config;
 	};
 
-	return decorator.decorate(plugin);
+	return off.decorate(plugin);
 });

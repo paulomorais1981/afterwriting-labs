@@ -2,7 +2,7 @@ define(function (require) {
 	
 	var pm = require('utils/pluginmanager'),
 		editor = require('plugins/editor'),
-		decorator = require('utils/decorator'),
+		off = require('off'),
 		pdfmaker = require('utils/pdfmaker');
 	
 	var plugin = pm.create_plugin('preview', 'view');
@@ -11,7 +11,7 @@ define(function (require) {
 		pdfmaker.get_pdf(callback);
 	};
 	
-	plugin.refresh = decorator.signal();		
+	plugin.refresh = off.signal();
 	
 	plugin.activate = function() {
 		editor.synced.add(plugin.refresh);
@@ -22,5 +22,5 @@ define(function (require) {
 		editor.synced.remove(plugin.refresh);
 	};
 
-	return decorator.decorate(plugin);
+	return off.decorate(plugin);
 });

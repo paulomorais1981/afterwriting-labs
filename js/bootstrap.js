@@ -1,10 +1,10 @@
 /*global define*/
-define(['logger', 'utils/decorator'], function (logger, decorator) {
+define(['logger', 'off'], function (logger, off) {
 
 	var log = logger.get('bootstrap'),
 		module = {};
 
-	module.initialized = decorator.signal();
+	module.initialized = off.signal();
 
 	module.init = function (modules) {
 		modules = Array.prototype.splice.call(modules, 0);
@@ -27,7 +27,7 @@ define(['logger', 'utils/decorator'], function (logger, decorator) {
 		this.initialized();
 	};
 
-	module.init = decorator(module.init);
+	module.init = off(module.init);
 
 	return module;
 });

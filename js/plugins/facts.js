@@ -3,7 +3,7 @@ define(function (require) {
 		data = require('modules/data'),
 		queries = require('modules/queries'),
 		editor = require('plugins/editor'),
-		decorator = require('utils/decorator'),
+		off = require('off'),
 		fhelpers = require('utils/fountain/helpers');
 
 	var plugin = pm.create_plugin('facts', 'facts');
@@ -30,7 +30,7 @@ define(function (require) {
 		return data.config.each_scene_on_new_page;
 	};
 	
-	plugin.refresh = decorator(function(){
+	plugin.refresh = off(function(){
 		generate_data();
 	});
 	
@@ -43,5 +43,5 @@ define(function (require) {
 		editor.synced.remove(plugin.refresh);
 	};
 
-	return decorator.decorate(plugin);
+	return off.decorate(plugin);
 });

@@ -3,7 +3,7 @@ define(function (require) {
 	var pm = require('utils/pluginmanager'),
 		editor = require('plugins/editor'),
 		data = require('modules/data'),
-		decorator = require('utils/decorator'),
+		off = require('off'),
 		queries = require('modules/queries');
 	
 	var plugin = pm.create_plugin('stats', 'stats');
@@ -12,7 +12,7 @@ define(function (require) {
 		editor.goto(line);
 	};
 
-	plugin.refresh = decorator(function () {
+	plugin.refresh = off(function () {
 		plugin.is_active = true;
 		plugin.data.days_and_nights = queries.days_and_nights.run(data.parsed_stats.tokens);
 		plugin.data.int_and_ext = queries.int_and_ext.run(data.parsed_stats.tokens);
@@ -34,5 +34,5 @@ define(function (require) {
 		editor.synced.remove(plugin.refresh);
 	};
 
-	return decorator.decorate(plugin);
+	return off.decorate(plugin);
 });

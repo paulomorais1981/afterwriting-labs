@@ -2,7 +2,7 @@ define(function (require) {
 
 	var pm = require('utils/pluginmanager'),
 		data = require('modules/data'),
-		decorator = require('utils/decorator'),
+		off = require('off'),
 		gd = require('utils/googledrive'),
 		db = require('utils/dropbox'),
 		converter = require('utils/converters/scriptconverter'),
@@ -22,7 +22,7 @@ define(function (require) {
 		is_sync: false
 	};
 
-	plugin.synced = decorator.signal();
+	plugin.synced = off.signal();
 
 	plugin.create_editor = function (textarea) {
 		editor = cm.fromTextArea(textarea, {
@@ -105,7 +105,7 @@ define(function (require) {
 		}
 	};
 
-	plugin.synced = decorator.signal();
+	plugin.synced = off.signal();
 	
 	plugin.set_sync = function (value) {
 		plugin.data.is_sync = value;
@@ -159,5 +159,5 @@ define(function (require) {
 		return active;
 	};
 
-	return decorator.decorate(plugin);
+	return off.decorate(plugin);
 });
