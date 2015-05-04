@@ -11,17 +11,10 @@ define(['logger', 'off'], function (logger, off) {
 
 		log.info('Modules preparation.');
 		modules.forEach(function (module) {
-			if (module.prepare && typeof (module.prepare) === 'function') {
-				module.prepare();
+			if (module !== this && module.init && typeof (module.init) === 'function') {
+				module.init();
 			}
-		});
-
-		log.info('Modules windup.');
-		modules.forEach(function (module) {
-			if (module.windup && typeof (module.windup) === 'function') {
-				module.windup();
-			}
-		});
+		}.bind(this));
 
 		log.info('Bootstrapping finished.');
 		this.initialized();

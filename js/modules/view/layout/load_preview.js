@@ -5,7 +5,7 @@ define(function(require){
 
     var module = {};
 
-    module.prepare = function() {
+    module.init = function() {
         layout.add_plugin(preview);
     };
 

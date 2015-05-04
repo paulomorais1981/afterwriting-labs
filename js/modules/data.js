@@ -240,7 +240,7 @@ define('modules/data', function (require) {
 		}
 	};
 
-	plugin.prepare = function () {
+	plugin.init = function () {
 		plugin.load_config();
 	};
 

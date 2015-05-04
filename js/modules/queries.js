@@ -1,5 +1,6 @@
 define(function (require) {
-	var helper = require('utils/helper'),
+	var bootstrap = require('bootstrap'),
+		helper = require('utils/helper'),
 		data = require('modules/data'),
 		fquery = require('utils/fountain/query'),
 		fhelpers = require('utils/fountain/helpers');
@@ -435,7 +436,11 @@ define(function (require) {
 		return runner;
 	};
 
-	plugin.windup = function () {
+	plugin.init = function () {
+		bootstrap.initialized.add(this.create_queries);
+	};
+
+	plugin.create_queries = function () {
 		plugin.days_and_nights = create_days_and_nights();
 		plugin.int_and_ext = create_int_and_ext();
 		plugin.scene_length = create_scene_length();

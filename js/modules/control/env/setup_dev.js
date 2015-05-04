@@ -3,7 +3,7 @@ define(['logger', '../../../utils/common', 'utils/pluginmanager', 'utils/layout'
 
 	var DEV_PLUGIN;
 
-	module.prepare = function () {
+	module.init = function () {
 		// set up logger
 		logger.useDefaults();
 		logger.setLevel(logger.DEBUG);
@@ -11,10 +11,10 @@ define(['logger', '../../../utils/common', 'utils/pluginmanager', 'utils/layout'
 
 		common.data.static_path = '';
 
-		layout.init_layout.add(this.init);
+		layout.init_layout.add(this.update_layout);
 	};
 
-	module.init = function () {
+	module.update_layout = function () {
 		var footer = common.data.footer;
 		footer += '<br /><span class="version">development version</span>';
 		layout.set_footer(footer);

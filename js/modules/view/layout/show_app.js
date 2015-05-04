@@ -6,7 +6,7 @@ define(function(require){
 
     var module = {};
 
-    module.prepare = function() {
+    module.init = function() {
         bootstrap.initialized.add(this.init_layout);
     };
 

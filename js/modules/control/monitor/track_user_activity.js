@@ -2,6 +2,7 @@
 define(function (require) {
 
 	var logger = require('logger'),
+		bootstrap = require('bootstrap'),
 		info = require('plugins/info'),
 		open = require('plugins/open'),
 		save = require('plugins/save'),
@@ -27,7 +28,7 @@ define(function (require) {
 		};
 	};
 
-	module.prepare = function () {
+	module.init = function () {
 		if (window.location.protocol !== 'file:') {
 			(function (i, s, o, g, r, a, m) {
 				i['GoogleAnalyticsObject'] = r;
@@ -45,9 +46,11 @@ define(function (require) {
 			ga('create', 'UA-53953908-1', 'auto');
 			ga('send', 'pageview');
 		}
+
+		bootstrap.initialized.add(module.assign_trackers);
 	};
 
-	module.windup = function () {
+	module.assign_trackers = function () {
 		// layout stats
 		layout.scopes.toolbar_switch_to.add(function (plugin) {
 			track_event('navigation', plugin.name, 'toolbar');

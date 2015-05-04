@@ -14,7 +14,7 @@ define(['utils/charts/spider',
 	var module = {};
 
 
-	module.prepare = function () {
+	module.init = function () {
 		module.spider_chart = spider_chart;
 		module.bar_chart = bar_chart;
 		module.pie_chart = pie_chart;

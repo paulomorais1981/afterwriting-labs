@@ -6,7 +6,7 @@ define(function(require){
 
     var module = {};
 
-    module.prepare = function() {
+    module.init = function() {
         if (data.config.load_last_opened) {
             layout.init_layout.add(this.load_last_opened);
         }
