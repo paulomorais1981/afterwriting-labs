@@ -8,8 +8,10 @@ define(['logger', 'off'], function (logger, off) {
 	bootstrap.state = {};
 
 	bootstrap.init = function (modules) {
-		modules = Array.prototype.splice.call(modules, 0);
-		state.modules = modules;
+		var args = Array.prototype.splice.call(modules, 0),
+			modules = args.reduce(function(result, current){return result.concat(current)}, []);
+
+		bootstrap.state.modules = modules;
 
 		log.info('Modules preparation.');
 		modules.forEach(function (module) {
