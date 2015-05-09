@@ -108,17 +108,7 @@
 	</ul>
 </p>
 <script>
-require(['plugins/info', 'components/button', 'components/elementcomponent'],function(info, buttonf, elementf){
+require(['plugins/info'],function(info){
 	$('#download-link').click(info.download_clicked);
-
-	var component_test = elementf(document.getElementById('component-test'));
-	var button = buttonf();
-	button.label("Click me");
-	button.clicked.add(function(){
-		var new_label = prompt("New button label:");
-		button.label(new_label);
-	});
-	component_test.add(button);
-	window.button_test = button;
 });
 </script>
