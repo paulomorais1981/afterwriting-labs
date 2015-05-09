@@ -7,19 +7,19 @@
 <!--- main menu -->
 <div class="menu" style="display:none">
 	<ul class="selector">
-		{{#each plugins}} {{#if view}}
+		{{#each plugins}}
 		<li class="menu-item {{name}} {{class}}" plugin="{{name}}">
 			<img src="{{static_path}}gfx/icons/{{name}}.svg" />
 			<span>{{title}}</span>
-		</li>{{/if}}{{/each}}</ul>
+		</li>{{/each}}</ul>
 </div>
 <div class="footer"></div>
 <!--- plugin content -->
 <div class="content" style="display:none">
 	<div class="top-bar">
-		{{#each plugins}}{{#if view}}
+		{{#each plugins}}
 		<img class="tool {{class}}" src="{{static_path}}gfx/icons/{{name}}.svg" plugin="{{name}}" />
-		{{/if}}{{/each}}
+		{{/each}}
 		
 		<div class="right-icons">
 			<img class="close-content panel-icon" src="{{static_path}}gfx/icons/close.svg" />
@@ -27,7 +27,6 @@
 		</div>
 		
 	</div>
-	<div class="plugin-contents">
-		{{#each plugins}}<div class="plugin-content" plugin="{{name}}">{{{view}}}</div>{{/each}}</div>
+	<div class="plugin-contents"></div>
 </div>
 <div id="tooltip"></div>

@@ -1,4 +1,4 @@
-define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanager', 'utils/common', 'templates', 'off', 'impromptu', 'jstree', 'cookie', 'logger'], function ($, temlates, data, Handlebars, pm, common, templates, off, impromptu, jstree, cookie, logger) {
+define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanager', 'utils/common', 'templates', 'off', 'impromptu', 'jstree', 'cookie', 'logger', 'utils/view/component'], function ($, temlates, data, Handlebars, pm, common, templates, off, impromptu, jstree, cookie, logger, component) {
 
 	var log = logger.get('bootstrap');
 
@@ -111,14 +111,6 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 	};
 
 	module.add_plugin = function (plugin) {
-
-		var template_name = 'templates/plugins/' + plugin.name + '.hbs';
-		if (templates.hasOwnProperty(template_name)) {
-			var template = templates[template_name];
-			var html = template(plugin.context);
-			plugin.view = html;
-		}
-
 		this.plugins.push(plugin);
 	};
 
@@ -132,13 +124,7 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 	};
 
 	module.init_layout = function () {
-
-		log.info('Initializing plugins:');
-		this.plugins.forEach(function (plugin) {
-			module.plugins[plugin.name] = plugin;
-			log.info('Initializing plugin: ' + plugin.name);
-			plugin.init();
-		});
+		var plugin_contents = component();
 
 		calculate_basics();
 
@@ -151,6 +137,14 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 		var layout = templates['templates/layout.hbs'];
 		var body = layout({plugins: this.plugins});
 		$('body').append(body);
+
+		plugin_contents.init(d3.select('.plugin-contents').node());
+		log.info('Initializing plugins:');
+		this.plugins.forEach(function (plugin) {
+			module.plugins[plugin.name] = plugin;
+			log.info('Initializing plugin: ' + plugin.name);
+			plugin_contents.add(plugin);
+		});
 
 		var inactive_plugins_count = 0,
 			all_plugins_count = 0;

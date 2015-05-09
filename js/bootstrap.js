@@ -2,17 +2,19 @@
 define(['logger', 'off'], function (logger, off) {
 
 	var log = logger.get('bootstrap'),
-		module = {};
+		bootstrap = {};
 
-	module.initialized = off.signal();
+	bootstrap.initialized = off.signal();
+	bootstrap.state = {};
 
-	module.init = function (modules) {
+	bootstrap.init = function (modules) {
 		modules = Array.prototype.splice.call(modules, 0);
+		state.modules = modules;
 
 		log.info('Modules preparation.');
 		modules.forEach(function (module) {
 			if (module !== this && module.init && typeof (module.init) === 'function') {
-				module.init();
+				module.init(bootstrap.state);
 			}
 		}.bind(this));
 
@@ -20,7 +22,7 @@ define(['logger', 'off'], function (logger, off) {
 		this.initialized();
 	};
 
-	module.init = off(module.init);
+	bootstrap.init = off(bootstrap.init);
 
-	return module;
+	return bootstrap;
 });

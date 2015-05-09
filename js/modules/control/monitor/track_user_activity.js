@@ -3,7 +3,6 @@ define(function (require) {
 
 	var logger = require('logger'),
 		bootstrap = require('bootstrap'),
-		info = require('plugins/info'),
 		open = require('plugins/open'),
 		save = require('plugins/save'),
 		editor = require('plugins/editor'),
@@ -28,7 +27,9 @@ define(function (require) {
 		};
 	};
 
-	module.init = function () {
+	module.init = function (state) {
+		this.view_registry = state.view_registry;
+
 		if (window.location.protocol !== 'file:') {
 			(function (i, s, o, g, r, a, m) {
 				i['GoogleAnalyticsObject'] = r;
@@ -73,7 +74,10 @@ define(function (require) {
 		layout.toggle_expand.add(track_handler('feature', 'expand'));
 
 		// info
-		info.download_clicked.add(track_handler('feature', 'download'));
+		var info = module.view_registry.get('info');
+		if (info) {
+			info.download_clicked.add(track_handler('feature', 'download'));
+		}
 
 		// open
 		open.open_sample.add(function (result, args) {

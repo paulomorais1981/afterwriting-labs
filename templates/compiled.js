@@ -9,14 +9,6 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 
 function program1(depth0,data) {
   
-  var buffer = "", stack1;
-  buffer += " ";
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.view), {hash:{},inverse:self.noop,fn:self.program(2, program2, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  return buffer;
-  }
-function program2(depth0,data) {
-  
   var buffer = "", stack1, helper;
   buffer += "\r\n		<li class=\"menu-item ";
   if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
@@ -46,14 +38,7 @@ function program2(depth0,data) {
   return buffer;
   }
 
-function program4(depth0,data) {
-  
-  var stack1;
-  stack1 = helpers['if'].call(depth0, (depth0 && depth0.view), {hash:{},inverse:self.noop,fn:self.program(5, program5, data),data:data});
-  if(stack1 || stack1 === 0) { return stack1; }
-  else { return ''; }
-  }
-function program5(depth0,data) {
+function program3(depth0,data) {
   
   var buffer = "", stack1, helper;
   buffer += "\r\n		<img class=\"tool ";
@@ -76,26 +61,11 @@ function program5(depth0,data) {
   return buffer;
   }
 
-function program7(depth0,data) {
-  
-  var buffer = "", stack1, helper;
-  buffer += "<div class=\"plugin-content\" plugin=\"";
-  if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.name); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "\">";
-  if (helper = helpers.view) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.view); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</div>";
-  return buffer;
-  }
-
   buffer += "<!--- top logo -->\r\n<p class=\"logo\">\r\n	<span class=\"apostrophe\">&rsquo;</span><span class=\"after\">after</span><span class=\"writing\">writing</span>\r\n</p>\r\n<!--- out of content -->\r\n<div id=\"back\" style=\"opacity:0; width: 100%; height: 100%; position: absolute; top: 0; left: 0\"></div>\r\n<!--- main menu -->\r\n<div class=\"menu\" style=\"display:none\">\r\n	<ul class=\"selector\">\r\n		";
   stack1 = helpers.each.call(depth0, (depth0 && depth0.plugins), {hash:{},inverse:self.noop,fn:self.program(1, program1, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "</ul>\r\n</div>\r\n<div class=\"footer\"></div>\r\n<!--- plugin content -->\r\n<div class=\"content\" style=\"display:none\">\r\n	<div class=\"top-bar\">\r\n		";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.plugins), {hash:{},inverse:self.noop,fn:self.program(4, program4, data),data:data});
+  stack1 = helpers.each.call(depth0, (depth0 && depth0.plugins), {hash:{},inverse:self.noop,fn:self.program(3, program3, data),data:data});
   if(stack1 || stack1 === 0) { buffer += stack1; }
   buffer += "\r\n		\r\n		<div class=\"right-icons\">\r\n			<img class=\"close-content panel-icon\" src=\"";
   if (helper = helpers.static_path) { stack1 = helper.call(depth0, {hash:{},data:data}); }
@@ -105,10 +75,7 @@ function program7(depth0,data) {
   if (helper = helpers.static_path) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.static_path); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "gfx/icons/expand.svg\" />\r\n		</div>\r\n		\r\n	</div>\r\n	<div class=\"plugin-contents\">\r\n		";
-  stack1 = helpers.each.call(depth0, (depth0 && depth0.plugins), {hash:{},inverse:self.noop,fn:self.program(7, program7, data),data:data});
-  if(stack1 || stack1 === 0) { buffer += stack1; }
-  buffer += "</div>\r\n</div>\r\n<div id=\"tooltip\"></div>";
+    + "gfx/icons/expand.svg\" />\r\n		</div>\r\n		\r\n	</div>\r\n	<div class=\"plugin-contents\"></div>\r\n</div>\r\n<div id=\"tooltip\"></div>";
   return buffer;
   });
 
@@ -167,7 +134,11 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<h1>Component test</h1>\r\n<div id=\"component-test\"></div>\r\n<h1>About</h1>\r\n<p>\r\n	<em>'afterwriting labs</em>&nbsp;is a place where you can play with some screenwriting tools. You can open screenplays written in <a href=\"http://fountain.io/\" target=\"_blank\"><strong>Fountain format</strong></a> or <a href=\"http://www.finaldraft.com/\" target=\"_blank\"><strong>Final Draft</strong></a> (it will be converted to fountain). You can also use one of the\r\n	<a class=\"switch\" href=\"#\" plugin=\"open\">samples</a>.</p>\r\n<p>You can use it offline too! (sorry, no Dropbox/Google Drive support for offline version). Just download this\r\n	<a href=\"afterwriting.zip\" id=\"download-link\">file</a>, unzip and double click on afterwriting.html.</p>\r\n<p>\r\n	It's a client-side only app. That means your screenplay is never sent out of your PC.\r\n</p>\r\n<p>\r\n<h2>Contact</h2>\r\n<p><a href=\"http://twitter.com/afterwriting\" target=\"_blank\" title=\"twitter.com/afterwriting\"><img src=\"";
+  buffer += "<h1>About ";
+  if (helper = helpers.title) { stack1 = helper.call(depth0, {hash:{},data:data}); }
+  else { helper = (depth0 && depth0.title); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
+  buffer += escapeExpression(stack1)
+    + "</h1>\r\n<p>\r\n	<em>'afterwriting labs</em>&nbsp;is a place where you can play with some screenwriting tools. You can open screenplays written in <a href=\"http://fountain.io/\" target=\"_blank\"><strong>Fountain format</strong></a> or <a href=\"http://www.finaldraft.com/\" target=\"_blank\"><strong>Final Draft</strong></a> (it will be converted to fountain). You can also use one of the\r\n	<a class=\"switch\" href=\"#\" plugin=\"open\">samples</a>.</p>\r\n<p>You can use it offline too! (sorry, no Dropbox/Google Drive support for offline version). Just download this\r\n	<a href=\"afterwriting.zip\" id=\"download-link\">file</a>, unzip and double click on afterwriting.html.</p>\r\n<p>\r\n	It's a client-side only app. That means your screenplay is never sent out of your PC.\r\n</p>\r\n<p>\r\n<h2>Contact</h2>\r\n<p><a href=\"http://twitter.com/afterwriting\" target=\"_blank\" title=\"twitter.com/afterwriting\"><img src=\"";
   if (helper = helpers.static_path) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.static_path); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
@@ -215,7 +186,7 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   if (helper = helpers.static_path) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.static_path); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "gfx/icons/stats.svg\" class=\"plugin-icon\" />\r\n		<em>Useless Stats</em>&nbsp;- some statistics, don't take them too seriously!</li>\r\n</ul>\r\n<h1>Thanks</h1>\r\n<p>\r\n	<ul>\r\n		<li>Icons made by <a href=\"http://www.flaticon.com/authors/freepik\" title=\"Freepik\">Freepik</a> from <a href=\"http://www.flaticon.com\" title=\"Flaticon\">www.flaticon.com</a> is licensed by <a href=\"http://creativecommons.org/licenses/by/3.0/\" title=\"Creative Commons BY 3.0\">CC BY 3.0</a>\r\n		</li>\r\n		<li>Sample scripts:\r\n			<ul>\r\n				<li>\r\n					<em>Brick & Steel</em>&nbsp;by\r\n					<a href=\"http://prolost.com/about/\" target=\"_blank\">Stu Maschwitz</a>\r\n				</li>\r\n				<li>\r\n					<em>My Living Memory</em>&nbsp;&amp;&nbsp;<em>Priting Trouble</em>&nbsp;by\r\n					<a href=\"http://www.webring.org/l/rd?ring=indepfilm;id=59;url=http%3A%2F%2Fwww%2Ecvisual%2Ecom%2F\" target=\"_blank\">Dan Rahmel</a>\r\n				</li>				\r\n			</ul>\r\n		</li>\r\n		<li>DayRoman font by\r\n			<a href=\"http://apostrophiclab.pedroreina.net/\" target=\"_blank\">Apostrophic Laboratories</a>\r\n		</li>\r\n		<li>Courier Prime font by\r\n			<a href=\"http://quoteunquoteapps.com/courierprime/\" target=\"_blank\">Quote-Unquote Apps</a>\r\n		</li>\r\n		<li>JS libs:\r\n			<ul>\r\n				<li>\r\n					<a href=\"https://github.com/mattdaly/Fountain.js\" target=\"_blank\">Fountain.js</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"https://github.com/eligrey/FileSaver.js\" target=\"_blank\">FileSaver.js</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://github.com/jonnyreeves/js-logger\" target=\"_blank\">js-logger</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://pdfkit.org/\" target=\"_blank\">PDFKit</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://codemirror.net/\" target=\"_blank\">CodeMirror</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://jquery.com/\" target=\"_blank\">jQuery</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://d3js.org/\" target=\"_blank\">d3.js</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://handlebarsjs.com/\" target=\"_blank\">Handlebars</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"https://github.com/jrburke/almond\" target=\"_blank\">Almond</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://requirejs.org/\" target=\"_blank\">RequireJS</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://www.jstree.com/\" target=\"_blank\">jstree</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://trentrichardson.com/Impromptu/\" target=\"_blank\">JQuery Impromptu</a>\r\n				</li>\r\n			</ul>\r\n		</li>\r\n	</ul>\r\n</p>\r\n<script>\r\nrequire(['plugins/info'],function(info){\r\n	$('#download-link').click(info.download_clicked);\r\n});\r\n</script>";
+    + "gfx/icons/stats.svg\" class=\"plugin-icon\" />\r\n		<em>Useless Stats</em>&nbsp;- some statistics, don't take them too seriously!</li>\r\n</ul>\r\n<h1>Thanks</h1>\r\n<p>\r\n	<ul>\r\n		<li>Icons made by <a href=\"http://www.flaticon.com/authors/freepik\" title=\"Freepik\">Freepik</a> from <a href=\"http://www.flaticon.com\" title=\"Flaticon\">www.flaticon.com</a> is licensed by <a href=\"http://creativecommons.org/licenses/by/3.0/\" title=\"Creative Commons BY 3.0\">CC BY 3.0</a>\r\n		</li>\r\n		<li>Sample scripts:\r\n			<ul>\r\n				<li>\r\n					<em>Brick & Steel</em>&nbsp;by\r\n					<a href=\"http://prolost.com/about/\" target=\"_blank\">Stu Maschwitz</a>\r\n				</li>\r\n				<li>\r\n					<em>My Living Memory</em>&nbsp;&amp;&nbsp;<em>Priting Trouble</em>&nbsp;by\r\n					<a href=\"http://www.webring.org/l/rd?ring=indepfilm;id=59;url=http%3A%2F%2Fwww%2Ecvisual%2Ecom%2F\" target=\"_blank\">Dan Rahmel</a>\r\n				</li>				\r\n			</ul>\r\n		</li>\r\n		<li>DayRoman font by\r\n			<a href=\"http://apostrophiclab.pedroreina.net/\" target=\"_blank\">Apostrophic Laboratories</a>\r\n		</li>\r\n		<li>Courier Prime font by\r\n			<a href=\"http://quoteunquoteapps.com/courierprime/\" target=\"_blank\">Quote-Unquote Apps</a>\r\n		</li>\r\n		<li>JS libs:\r\n			<ul>\r\n				<li>\r\n					<a href=\"https://github.com/mattdaly/Fountain.js\" target=\"_blank\">Fountain.js</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"https://github.com/eligrey/FileSaver.js\" target=\"_blank\">FileSaver.js</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://github.com/jonnyreeves/js-logger\" target=\"_blank\">js-logger</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://pdfkit.org/\" target=\"_blank\">PDFKit</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://codemirror.net/\" target=\"_blank\">CodeMirror</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://jquery.com/\" target=\"_blank\">jQuery</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://d3js.org/\" target=\"_blank\">d3.js</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://handlebarsjs.com/\" target=\"_blank\">Handlebars</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"https://github.com/jrburke/almond\" target=\"_blank\">Almond</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://requirejs.org/\" target=\"_blank\">RequireJS</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://www.jstree.com/\" target=\"_blank\">jstree</a>\r\n				</li>\r\n				<li>\r\n					<a href=\"http://trentrichardson.com/Impromptu/\" target=\"_blank\">JQuery Impromptu</a>\r\n				</li>\r\n			</ul>\r\n		</li>\r\n	</ul>\r\n</p>";
   return buffer;
   });
 
