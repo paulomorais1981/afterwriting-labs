@@ -6,7 +6,7 @@ define(function (require) {
     return function() {
 
         var component = {
-            name: "Component",
+            $name: "BaseComponent",
             flow: flow(),
             initialized: off.property(),
             children: []
@@ -24,7 +24,7 @@ define(function (require) {
 
         component.initialized.add(function () {
             component.children.forEach(function (child) {
-                child.init();
+                component.init_child(child);
             });
         });
 
@@ -39,15 +39,10 @@ define(function (require) {
         });
 
         component.add = off(function (child) {
-            if (!component.container) {
-                console.error("Component", component.name, "does not support adding children. Child:", child);
-                throw new Error("Component does not support adding children.");
-            }
-
             component.children.push(child);
-            child.parent = component.container;
+
             if (component.initialized()) {
-                child.init();
+                component.init_child(child);
             }
         });
 
@@ -58,6 +53,14 @@ define(function (require) {
                 children.splice(index, 1);
             }
         });
+
+        component.init_child = function(child) {
+            if (!component.container) {
+                throw new Error("Component " + component.$name + " does not support adding children. Child: " + child.$name);
+            }
+            child.parent = component.container;
+            child.init();
+        };
 
         return component;
     }
