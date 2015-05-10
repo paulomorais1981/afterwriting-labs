@@ -13,9 +13,12 @@ define(function(require){
         open.open_from_google_drive = off.signal();
         open.open_last_used = off.signal();
         open.open_sample = off.signal();
+        open.open_file = off.signal();
 
         open.show_google_drive = off.property(false);
         open.show_dropbox = off.property(false);
+
+        open.last_used = off.property(); // {title, date}
 
         open.init.override(function($super){
             $super();
@@ -26,6 +29,9 @@ define(function(require){
             this.add(header);
 
             var content = handlebar('plugins/open');
+            content.context({
+                last_used: open.last_used()
+            });
             this.add(content);
         });
 
@@ -46,7 +52,7 @@ define(function(require){
             $('a[open-action="googledrive"]').click(open.open_from_google_drive);
             $('a[open-action="dropbox"]').click(open.open_from_dropbox);
 
-            open.activate.add(function(){
+            open.activate.override(function(){
                 if (open.show_dropbox()) {
                     $('a[open-action="dropbox"]').parent().show();
                 } else {
