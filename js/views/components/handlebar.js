@@ -9,13 +9,12 @@ define(function(require){
      */
     return function(template_name) {
         var component = base();
-        component.$name = "HandleBar Component";
+        component.$name("HandleBarComponent");
 
         component.template_name = template_name;
         component.context = off.property();
-
-        // optional tag
-        component.tag = null;
+        
+        component.tag = 'div';
 
         component.init.override(function($super){
             $super();

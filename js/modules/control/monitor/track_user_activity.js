@@ -68,9 +68,11 @@ define(function (require) {
 		layout.scopes.back_close_content.add(function (plugin) {
 			track_event('navigation', 'back-close', plugin.name);
 		});
-		layout.info_opened.add(function (section) {
-			track_event('feature', 'help', section);
-		});
+
+		// TODO: watch info_header_opened once layout is rewrriten as a component / add section
+		//layout.info_opened.add(function (section) {
+		//	track_event('feature', 'help', section);
+		//});
 		layout.toggle_expand.add(track_handler('feature', 'expand'));
 
 		// info

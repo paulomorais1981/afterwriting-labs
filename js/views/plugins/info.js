@@ -5,7 +5,7 @@ define(function(require){
 
     return function() {
         var info = base('info');
-        info.$name = "Info Plugin";
+        info.$name("InfoPlugin");
 
         info.download_clicked = off.signal();
 
@@ -13,6 +13,7 @@ define(function(require){
             $super();
 
             var content = handlebar('plugins/info');
+            content.tag = null;
             this.add(content);
 
             content.recreate_content.add(info.recreate_interactions);

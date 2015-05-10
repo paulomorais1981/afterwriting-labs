@@ -18,6 +18,9 @@ define(function (require) {
         self = rendering_queue;
 
         rendering_queue.add = function (method) {
+            if (typeof method !== 'function') {
+                throw new Error('Object passed to the rendering queue is not a function.');
+            }
             if (self.queue.indexOf(method) === -1) {
                 self.queue.push(method);
             }

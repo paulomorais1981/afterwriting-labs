@@ -5,7 +5,7 @@ define(function (require) {
 
     return function (name) {
         var plugin = base();
-        plugin.$name = "Base Plugin";
+        plugin.$name("BasePlugin");
         plugin.name = name;
 
         plugin.init.override(function ($super) {

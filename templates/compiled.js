@@ -210,7 +210,7 @@ function program1(depth0,data) {
   return buffer;
   }
 
-  buffer += "<h1>Start&nbsp;<div class=\"info-icon\" section=\"open-start\" /></h1>\r\n<p class=\"info-content\" section=\"open-start\">You can open a .fountain or .fdx file (it will be converted to Fountain), or use one of the samples below.</p>\r\n<ul class=\"no-bullets\">\r\n	<li>\r\n		<img src=\"";
+  buffer += "<ul class=\"no-bullets\">\r\n	<li>\r\n		<img src=\"";
   if (helper = helpers.static_path) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.static_path); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
