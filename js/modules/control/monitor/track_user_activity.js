@@ -87,7 +87,8 @@ define(function (require) {
 		});
 
 		open.create_new.add(track_handler('feature', 'open-new'));
-		open.open_file_dialog.add(track_handler('feature', 'open-file-dialog'));
+		// TODO
+		//open.open_file_dialog.add(track_handler('feature', 'open-file-dialog'));
 		open.open_file.add(function (format) {
 			track_event('feature', 'open-file-opened', format);
 		});

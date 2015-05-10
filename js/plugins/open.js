@@ -56,8 +56,6 @@ define(function (require) {
 		return finished;
 	};
 
-	plugin.open_file_dialog = off.signal();
-
 	plugin.create_new = function () {
 		set_script('');
 	};
