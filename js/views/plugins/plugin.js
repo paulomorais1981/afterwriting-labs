@@ -3,10 +3,11 @@ define(function (require) {
     var base = require('utils/view/component'),
         d3 = require('d3');
 
-    return function (name) {
+    return function (name, title) {
         var plugin = base();
         plugin.$name("BasePlugin");
         plugin.name = name;
+        plugin.title = title;
 
         plugin.init.override(function ($super) {
             $super();

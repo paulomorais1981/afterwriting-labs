@@ -5,7 +5,7 @@ define(function(require){
         infoheader = require('views/components/infoheader');
 
     return function() {
-        var open = base('open');
+        var open = base('open', 'open');
         open.$name("InfoPlugin");
 
         open.download_clicked = off.signal();
