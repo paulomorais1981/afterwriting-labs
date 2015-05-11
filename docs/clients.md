@@ -6,10 +6,17 @@ Afterwriting CLI is a command line tool that lets you generate PDF from your fou
 Requirements
 ------------
 
-Afterriting CLI requires node.js. To install it, follow instructions on [node.js website](http://nodejs.org/).
+Afterwriting CLI requires node.js. To install it, follow instructions on [node.js website](http://nodejs.org/).
 
 Installation
 ------------
+
+**Using npm:**
+
+    > npm install afterwriting -g
+    > afterwriting --help
+
+**From sources:**
 
 Download project sources - https://github.com/ifrost/afterwriting-labs/releases/latest. Extract all files and open a terminal window:
 
@@ -67,7 +74,7 @@ The output can be customized using configuration file passed as --config paramet
 		"print_footer": "",
 		"print_watermark": "",
 		"scenes_numbers": "none",
-		"each_scene_on_new_page": false,
+		"each_scene_on_new_page": false
 	}
 
 Available options:
@@ -133,6 +140,8 @@ The script:
 
 
 The output:
+
+    INT. ROOM - DAY
 
     BOND enters the room. Dr. Julius No attacks him.
     
