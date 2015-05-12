@@ -1,9 +1,10 @@
 define(function(require){
 
     var base = require('views/plugins/plugin'),
+        off = require('off'),
         handlebar = require('views/components/handlebar');
 
-    return function() {
+    return off(function() {
         var info = base('info', 'info');
         info.$name("InfoPlugin");
 
@@ -24,6 +25,6 @@ define(function(require){
         };
 
         return info;
-    };
+    });
 
 });

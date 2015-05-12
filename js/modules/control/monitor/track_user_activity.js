@@ -7,7 +7,9 @@ define(function (require) {
 		save = require('plugins/save'),
 		editor = require('plugins/editor'),
 		stats = require('plugins/stats'),
-		layout = require('utils/layout');
+		layout = require('utils/layout'),
+
+		info = require('views/plugins/info');
 
 	var module = {};
 	var log = logger.get('monitor');
@@ -49,6 +51,10 @@ define(function (require) {
 		}
 
 		bootstrap.initialized.add(module.assign_trackers);
+
+		info.add(function(info_plugin){
+			info_plugin.download_clicked.add(track_handler('feature', 'download'));
+		});
 	};
 
 	module.assign_trackers = function () {
@@ -75,11 +81,6 @@ define(function (require) {
 		//});
 		layout.toggle_expand.add(track_handler('feature', 'expand'));
 
-		// info
-		var info = module.view_registry.get('info');
-		if (info) {
-			info.download_clicked.add(track_handler('feature', 'download'));
-		}
 
 		// open
 		open.open_sample.add(function (result, args) {
