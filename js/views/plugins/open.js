@@ -1,10 +1,11 @@
 define(function(require){
 
     var base = require('views/plugins/plugin'),
+        off = require('off'),
         handlebar = require('views/components/handlebar'),
         infoheader = require('views/components/infoheader');
 
-    return function() {
+    return off(function() {
         var open = base('open', 'open');
         open.$name("OpenPlugin");
 
@@ -82,6 +83,6 @@ define(function(require){
         open.flow(open.init).run(open.init_content);
 
         return open;
-    };
+    });
 
 });

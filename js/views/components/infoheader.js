@@ -1,17 +1,16 @@
 define(function(require){
 
     var base = require('utils/view/component'),
+        off = require('off'),
         $ = require('jquery');
 
-    return function() {
+    return off(function() {
         var header = base();
         header.$name('HeaderWithInfo');
 
         header.title = off.property();
         header.info  = off.property();
         header.opened = off.signal();
-
-        header.expose('info_header_opened', header.opened);
 
         header.init.override(function($super){
             $super();
@@ -49,6 +48,6 @@ define(function(require){
         header.flow(header.title, header.info).run(header.render);
 
         return header;
-    }
+    });
 
 });

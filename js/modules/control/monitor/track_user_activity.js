@@ -9,7 +9,9 @@ define(function (require) {
 		stats = require('plugins/stats'),
 		layout = require('utils/layout'),
 
-		info = require('views/plugins/info');
+		InfoHeader = require('views/components/infoheader'),
+		Open = require('views/plugins/open'),
+		Info = require('views/plugins/info');
 
 	var module = {};
 	var log = logger.get('monitor');
@@ -52,8 +54,35 @@ define(function (require) {
 
 		bootstrap.initialized.add(module.assign_trackers);
 
-		info.add(function(info_plugin){
+		InfoHeader.add(function(header){
+			header.opened.add(function(){
+				track_event('feature', 'help', header.title())
+			});
+		});
+
+		Info.add(function(info_plugin){
 			info_plugin.download_clicked.add(track_handler('feature', 'download'));
+		});
+
+		Open.add(function(open){
+			open.open_sample.add(function (result, args) {
+				track_event('feature', 'open-sample', args[0]);
+			});
+
+			open.create_new.add(track_handler('feature', 'open-new'));
+			open.open_file_dialog.add(track_handler('feature', 'open-file-dialog'));
+			open.open_file.add(function () {
+				track_event('feature', 'open-file-opened');
+			});
+			open.open_from_dropbox.add(function () {
+				track_event('feature', 'open-dropbox');
+			});
+			open.open_from_google_drive.add(function () {
+				track_event('feature', 'open-googledrive');
+			});
+			open.open_last_used.add(function (startup) {
+				track_event('feature', 'open-last-used', startup === true ? 'startup' : 'manual');
+			});
 		});
 	};
 
@@ -74,35 +103,9 @@ define(function (require) {
 		layout.scopes.back_close_content.add(function (plugin) {
 			track_event('navigation', 'back-close', plugin.name);
 		});
-
-		// TODO: watch info_header_opened once layout is rewrriten as a component / add section
-		//layout.info_opened.add(function (section) {
-		//	track_event('feature', 'help', section);
-		//});
+		;
 		layout.toggle_expand.add(track_handler('feature', 'expand'));
 
-
-		// open
-		open.open_sample.add(function (result, args) {
-			track_event('feature', 'open-sample', args[0]);
-		});
-
-		open.create_new.add(track_handler('feature', 'open-new'));
-		// TODO
-		//open.open_file_dialog.add(track_handler('feature', 'open-file-dialog'));
-		open.open_file.add(function (format) {
-			track_event('feature', 'open-file-opened', format);
-		});
-		open.open_from_dropbox.add(function (format) {
-			track_event('feature', 'open-dropbox', format);
-		});
-		open.open_from_google_drive.add(function (format) {
-			track_event('feature', 'open-googledrive', format);
-		});
-		open.open_last_used.add(function (startup) {
-			track_event('feature', 'open-last-used', startup === true ? 'startup' : 'manual');
-		});
-		
 		// editor
 		editor.synced.add(function(cloud){
 			track_event('feature', 'sync', cloud);
