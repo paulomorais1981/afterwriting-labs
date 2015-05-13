@@ -6,7 +6,7 @@ define(function(require){
         infoheader = require('views/components/infoheader');
 
     return off(function() {
-        var open = base('open', 'open');
+        var open = base('open', 'open', true);
         open.$name("OpenPlugin");
 
         open.create_new = off.signal();

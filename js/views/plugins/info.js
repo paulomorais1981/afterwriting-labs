@@ -5,7 +5,7 @@ define(function(require){
         handlebar = require('views/components/handlebar');
 
     return off(function() {
-        var info = base('info', 'info');
+        var info = base('info', 'info', true);
         info.$name("InfoPlugin");
 
         info.download_clicked = off.signal();
