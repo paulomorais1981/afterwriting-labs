@@ -8,6 +8,7 @@ require(['bootstrap',
 		'modules/control/monitor/track_user_activity',
 		'modules/control/open/load_last_used',
 
+		'modules/view/sync',
 		'modules/view/layout/load_all_plugins',
 
 		'modules/view/layout/show_app',

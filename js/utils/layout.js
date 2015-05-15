@@ -197,6 +197,7 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 
 		/** initialize **/
 		calculate_content();
+		window.requestAnimationFrame(calculate_content);
 		module.close_content(true);
 
 		module.switch_to_plugin = function (plugin) {

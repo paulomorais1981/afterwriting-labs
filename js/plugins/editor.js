@@ -5,8 +5,8 @@ define(function (require) {
 		off = require('off'),
 		gd = require('utils/googledrive'),
 		db = require('utils/dropbox'),
-		converter = require('utils/converters/scriptconverter'),
-		cm = require('libs/codemirror/lib/codemirror');
+		converter = require('utils/converters/scriptconverter');
+		//cm = require('libs/codemirror/lib/codemirror');
 
 	// codemirror plugins
 	require('libs/codemirror/addon/selection/active-line');
@@ -25,15 +25,15 @@ define(function (require) {
 	plugin.synced = off.signal();
 
 	plugin.create_editor = function (textarea) {
-		editor = cm.fromTextArea(textarea, {
-			mode: "fountain",
-			lineNumbers: false,
-			lineWrapping: true,
-			styleActiveLine: true,
-			extraKeys: {
-				"Ctrl-Space": "autocomplete"
-			}
-		});
+		//editor = cm.fromTextArea(textarea, {
+		//	mode: "fountain",
+		//	lineNumbers: false,
+		//	lineWrapping: true,
+		//	styleActiveLine: true,
+		//	extraKeys: {
+		//		"Ctrl-Space": "autocomplete"
+		//	}
+		//});
 
 		editor.on('change', function () {
 			data.script(editor.getValue());

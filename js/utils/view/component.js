@@ -77,6 +77,11 @@ define(function (require) {
             child.init();
         });
 
+        component.manage = off(function(child){
+            component.children().push(child);
+            child.$bubble.add(component.$bubble);
+        });
+
         component.destroy_child = off(function(child) {
             child.parent = null;
             child.$bubble.remove(component.$bubble);
