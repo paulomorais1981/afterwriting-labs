@@ -4,12 +4,28 @@ define(function(require){
         off = require('off'),
         $ = require('jquery');
 
+    /**
+     * Header with additional information displayed when users clicks on [?] icon
+     * @module InfoHeader
+     */
     return off(function() {
         var header = base();
         header.$name('HeaderWithInfo');
 
+        /**
+         * @var {string} title - header text
+         */
         header.title = off.property();
+
+        /**
+         * @var {string} info - text displayed as additional info
+         */
         header.info  = off.property();
+
+        /**
+         * Dispatched when info box is opened
+         * @event opened
+         */
         header.opened = off.signal();
 
         header.init.override(function($super){

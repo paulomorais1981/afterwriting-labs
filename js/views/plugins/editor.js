@@ -9,14 +9,30 @@ define(function(require){
         component = require('utils/view/component'),
         infoheader = require('views/components/infoheader');
 
+    /**
+     * Editor plugin factory
+     * @module EditorPlugin
+     */
     return off(function(){
-        var editor_plugin = base('editor', 'editor', true);
-        var content, editor;
+        var self = base('editor', 'editor', true);
 
-        editor_plugin.enabled = off.property(true);
-        editor_plugin.additional_icons = off.property([]);
+        /**
+         * Editor's enabled flag
+         * @var {boolean} enabled
+         */
+        self.enabled = off.property(true);
 
-        editor_plugin.init.override(function($super){
+        /**
+         * Optional, additional components to add in top right corner
+         * @var {Component[]} additional_icons
+         */
+        self.additional_icons = off.property([]);
+
+        /**
+         * Init
+         * @function
+         */
+        self.init.override(function($super){
             $super();
 
             var header = infoheader();
@@ -24,20 +40,23 @@ define(function(require){
             header.info('Just a basic fountain editor. Use Ctrl-Space for auto-complete. Go to fountain.io for more details about Fountain format.');
             this.add(header);
 
-            content = handlebar('plugins/editor')
-            this.add(content);
-            editor_plugin.flow(content.init).run(editor_plugin.init_content).dynamic();
+            self.content = handlebar('plugins/editor')
+            self.add(self.content);
+            self.flow(self.content.init).run(self.init_content).dynamic();
         });
 
-        editor_plugin.activate.override(function($super){
+        /**
+         * Active the plugin
+         */
+        self.activate.override(function($super){
             $super();
-            editor_plugin.update_size();
+            self.update_size();
         });
 
-        editor_plugin.init_content = off(function() {
+        self.init_content = off(function() {
 
             var text_area = $('#editor-textarea').get(0);
-            editor = cm.fromTextArea(text_area, {
+            self.editor = cm.fromTextArea(text_area, {
                 mode: "fountain",
                 lineNumbers: false,
                 lineWrapping: true,
@@ -47,45 +66,45 @@ define(function(require){
                 }
             });
 
-            editor_plugin.update_size();
-            editor_plugin.init_resize_updates();
-            editor_plugin.create_icons_placeholder();
-            editor_plugin.render();
+            self.update_size();
+            self.init_resize_updates();
+            self.create_icons_placeholder();
+            self.render();
         });
 
-        editor_plugin.create_icons_placeholder = function() {
-            this.icons_placeholder = component();
-            this.icons_placeholder.init($('#additional_icons').get(0));
-            this.manage(this.icons_placeholder);
+        self.create_icons_placeholder = function() {
+            self.icons_placeholder = component();
+            self.icons_placeholder.init($('#additional_icons').get(0));
+            self.manage(this.icons_placeholder);
 
-            if (this.additional_icons().length == 0) {
+            if (self.additional_icons().length == 0) {
                 $('#separator').hide();
             }
 
-            this.additional_icons().forEach(function(icon){
-                this.icons_placeholder.add(icon);
-            }, this);
+            self.additional_icons().forEach(function(icon){
+                self.icons_placeholder.add(icon);
+            });
         };
 
-        editor_plugin.update_size = function() {
+        self.update_size = function() {
             // TODO: if (layout.small) {
             var width = "auto",
                 height = $('.plugin-content[plugin="editor"]').height() - 70;
-            editor.setSize(width, height);
-            editor.refresh();
+            self.editor.setSize(width, height);
+            self.editor.refresh();
         };
 
-        editor_plugin.init_resize_updates = function() {
-            $(window).resize(this.update_size);
+        self.init_resize_updates = function() {
+            $(window).resize(self.update_size);
         };
 
-        editor_plugin.render = function() {
+        self.render = function() {
             $('.CodeMirror').css('opacity', this.enabled() ? 1 : 0.5);
         };
 
-        editor_plugin.flow(editor_plugin.enabled).run(editor_plugin.render);
+        self.flow(self.enabled).run(self.render);
 
-        return editor_plugin;
+        return self;
     });
 
 });

@@ -3,16 +3,48 @@ define(function (require) {
     var off = require('off'),
         flow = require('utils/view/flow');
 
-    return function() {
+    /**
+     * Base Component factory.
+     * @module Component
+     */
+    return off(function() {
 
-        var component = {
-            flow: flow(),
-            $bubble: off.signal(),
-            initialized: off.property(),
-            children: off.property([]),
-            $names: off.property([])
-        };
+        var component = {};
 
+        /**
+         * Flow definition. Usage:
+         * component.flow(signal, signal, ...).run(method, method, ...)
+         * This will run each method (on next rendering frame) after one of the signals is dispatched (only
+         * if component is already initialized).
+         * @function flow
+         */
+        component.flow = flow();
+
+        /**
+         * @var {boolean} initialized - true if component has been initialized
+         */
+        component.initialized = off.property();
+
+        /**
+         * List of component children. Use add to add a new child/
+         * @var {component[]} children
+         */
+        component.children = off.property([]);
+
+        /**
+         * @private
+         */
+        component.$bubble = off.signal();
+
+        /**
+         * Full name chain
+         * @private
+         */
+        component.$names = off.property([])
+
+        /**
+         * Component name
+         */
         component.$name = off.property("", function(value, guard){
             if (value) {
                 component.$names().push(value);
@@ -20,6 +52,12 @@ define(function (require) {
             return guard(value);
         });
 
+        /**
+         * Checks if name exist in the current component name-chain
+         * @function is
+         * @param {string} name - name to check
+         * @returns {boolean}
+         */
         component.is = off(function(name){
             return this.$names().indexOf(name) !== -1;
         });
@@ -104,5 +142,5 @@ define(function (require) {
         };
 
         return component;
-    }
+    });
 });
