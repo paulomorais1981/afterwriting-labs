@@ -53,7 +53,7 @@ define(function(require){
             self.update_size();
         });
 
-        self.init_content = off(function() {
+        self.create_editor = off(function() {
 
             var text_area = $('#editor-textarea').get(0);
             self.editor = cm.fromTextArea(text_area, {
