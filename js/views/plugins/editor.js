@@ -2,12 +2,12 @@ define(function(require){
 
     var off = require('off'),
         $ = require('jquery'),
-        cm = require('libs/codemirror/lib/codemirror'),
         common = require('utils/common'),
         handlebar = require('views/components/handlebar'),
         base = require('views/plugins/plugin'),
-        component = require('utils/view/component'),
-        infoheader = require('views/components/infoheader');
+        Component = require('utils/view/component'),
+        FountainEditor = require('views/components/fountaineditor'),
+        InfoHeader = require('views/components/infoheader');
 
     /**
      * Editor plugin factory
@@ -15,12 +15,6 @@ define(function(require){
      */
     return off(function(){
         var self = base('editor', 'editor', true);
-
-        /**
-         * Editor's enabled flag
-         * @var {boolean} enabled
-         */
-        self.enabled = off.property(true);
 
         /**
          * Optional, additional components to add in top right corner
@@ -35,13 +29,17 @@ define(function(require){
         self.init.override(function($super){
             $super();
 
-            var header = infoheader();
+            var header = InfoHeader();
             header.title('Fountain Editor');
             header.info('Just a basic fountain editor. Use Ctrl-Space for auto-complete. Go to fountain.io for more details about Fountain format.');
             this.add(header);
 
-            self.content = handlebar('plugins/editor')
+            self.content = handlebar('plugins/editor');
             self.add(self.content);
+
+            self.fountain_editor = FountainEditor();
+            self.add(self.fountain_editor);
+
             self.flow(self.content.init).run(self.init_content).dynamic();
         });
 
@@ -53,30 +51,13 @@ define(function(require){
             self.update_size();
         });
 
-        self.create_editor = off(function() {
-
-            var text_area = $('#editor-textarea').get(0);
-            self.editor = cm.fromTextArea(text_area, {
-                mode: "fountain",
-                lineNumbers: false,
-                lineWrapping: true,
-                styleActiveLine: true,
-                extraKeys: {
-                    "Ctrl-Space": "autocomplete"
-                }
-            });
-        });
-
         self.init_content = off(function() {
-            self.create_editor();
-            self.update_size();
             self.init_resize_updates();
             self.create_icons_placeholder();
-            self.render();
         });
 
         self.create_icons_placeholder = function() {
-            self.icons_placeholder = component();
+            self.icons_placeholder = Component();
             self.icons_placeholder.init($('#additional_icons').get(0));
             self.manage(this.icons_placeholder);
 
@@ -91,21 +72,13 @@ define(function(require){
 
         self.update_size = off(function() {
             // TODO: if (layout.small) {
-            var width = "auto",
-                height = $('.plugin-content[plugin="editor"]').height() - 70;
-            self.editor.setSize(width, height);
-            self.editor.refresh();
+            var height = $('.plugin-content[plugin="editor"]').height() - 70;
+            self.fountain_editor.set_size('auto', height);
         });
 
         self.init_resize_updates = off(function() {
             $(window).resize(self.update_size);
         });
-
-        self.render = off(function() {
-            $('.CodeMirror').css('opacity', this.enabled() ? 1 : 0.5);
-        });
-
-        self.flow(self.enabled).run(self.render);
 
         return self;
     });

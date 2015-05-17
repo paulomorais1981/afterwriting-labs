@@ -2,7 +2,8 @@ define(function(require){
 
     var layout = require('utils/layout'),
         SyncIcon = require('views/components/syncicon'),
-        EditorPlugin = require('views/plugins/editor');
+        EditorPlugin = require('views/plugins/editor'),
+        FountainEditor = require('views/components/fountaineditor');
 
     var module = {
         sync_available: off.property(true),
@@ -14,10 +15,13 @@ define(function(require){
         EditorPlugin.add(function(editor){
             var sync_icon = add_sync_icon_to_the_editor(editor);
             handle_sync();
-            disable_editor_when_sync(editor);
             restore_content(sync_icon);
             switch_sync(sync_icon);
             hide_icon_when_sync_is_not_available(sync_icon);
+        });
+
+        FountainEditor.add(function(fountain_editor){
+            disable_editor_when_sync(fountain_editor);
         });
     };
 
@@ -40,9 +44,9 @@ define(function(require){
         });
     }
 
-    function disable_editor_when_sync(editor) {
+    function disable_editor_when_sync(fountain_editor) {
         module.sync_enabled.bind(function(is_sync){
-            editor.enabled(!is_sync);
+            fountain_editor.enabled(!is_sync);
         });
     }
 

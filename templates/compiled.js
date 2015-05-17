@@ -103,19 +103,19 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
 
 
-  buffer += "<div class=\"header-menu\" style=\"\r\n    margin-top: -40px;\r\n    margin-left: 490px;\r\n    position: absolute;\r\n\">\r\n		<span id=\"additional_icons\"></span>\r\n		<span id=\"separator\">&nbsp;|&nbsp;</span>\r\n		<span>save .fountain: <a href=\"#\" action=\"save-fountain\"><img src=\"";
+  buffer += "<div class=\"header-menu\" style=\"\r\n    margin-top: -40px;\r\n    margin-left: 490px;\r\n    position: absolute;\r\n\">\r\n	<span id=\"additional_icons\"></span>\r\n	<span id=\"separator\">&nbsp;|&nbsp;</span>\r\n	<span>save .fountain: <a href=\"#\" action=\"save-fountain\"><img src=\"";
   if (helper = helpers.static_path) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.static_path); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "gfx/icons/other/download.svg\" class=\"icon small-icon\" title=\"Download Fountain file\" /></a></span>\r\n		<span><a href=\"#\" action=\"save-dropbox-fountain\"><img src=\"";
+    + "gfx/icons/other/download.svg\" class=\"icon small-icon\" title=\"Download Fountain file\" /></a></span>\r\n	<span><a href=\"#\" action=\"save-dropbox-fountain\"><img src=\"";
   if (helper = helpers.static_path) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.static_path); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "gfx/icons/other/dropbox.svg\" class=\"icon small-icon\" title=\"Upload Fountain file to Dropbox\" /></a></span>\r\n		<span><a href=\"#\" action=\"save-gd-fountain\"><img src=\"";
+    + "gfx/icons/other/dropbox.svg\" class=\"icon small-icon\" title=\"Upload Fountain file to Dropbox\" /></a></span>\r\n	<span><a href=\"#\" action=\"save-gd-fountain\"><img src=\"";
   if (helper = helpers.static_path) { stack1 = helper.call(depth0, {hash:{},data:data}); }
   else { helper = (depth0 && depth0.static_path); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
   buffer += escapeExpression(stack1)
-    + "gfx/icons/other/gd.svg\" class=\"icon small-icon\" title=\"Upload Fountain file to Google Drive\" /></a></span>\r\n	</div><div style=\"clear:both\"/>\r\n<textarea id=\"editor-textarea\" placeholder=\"Write here! Right now!\" class=\"to-the-bottom\"></textarea>";
+    + "gfx/icons/other/gd.svg\" class=\"icon small-icon\" title=\"Upload Fountain file to Google Drive\" /></a></span>\r\n</div><div style=\"clear:both\"/>\r\n";
   return buffer;
   });
 

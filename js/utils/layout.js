@@ -177,6 +177,7 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 			$('.plugin-content').height(height - $('.top-bar').height() - (module.small ? 10 : 50));
 
 			/** to the bottom **/
+			// TODO: remove
 			$('.to-the-bottom').height(function () {
 				return height - $(this).offset().top - 60;
 			});
