@@ -65,7 +65,10 @@ define(function(require){
                     "Ctrl-Space": "autocomplete"
                 }
             });
+        });
 
+        self.init_content = off(function() {
+            self.create_editor();
             self.update_size();
             self.init_resize_updates();
             self.create_icons_placeholder();
@@ -86,21 +89,21 @@ define(function(require){
             });
         };
 
-        self.update_size = function() {
+        self.update_size = off(function() {
             // TODO: if (layout.small) {
             var width = "auto",
                 height = $('.plugin-content[plugin="editor"]').height() - 70;
             self.editor.setSize(width, height);
             self.editor.refresh();
-        };
+        });
 
-        self.init_resize_updates = function() {
+        self.init_resize_updates = off(function() {
             $(window).resize(self.update_size);
-        };
+        });
 
-        self.render = function() {
+        self.render = off(function() {
             $('.CodeMirror').css('opacity', this.enabled() ? 1 : 0.5);
-        };
+        });
 
         self.flow(self.enabled).run(self.render);
 
