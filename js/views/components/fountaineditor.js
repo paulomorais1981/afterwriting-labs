@@ -46,7 +46,7 @@ define(function (require) {
         });
 
         self.render = off(function() {
-            $('.CodeMirror').css('opacity', this.enabled() ? 1 : 0.5);
+            d3.select('.CodeMirror').style('opacity', this.enabled() ? 1 : 0.5);
         });
 
         self.flow(self.enabled).run(self.render);
