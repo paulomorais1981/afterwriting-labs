@@ -1,13 +1,18 @@
 define(function(require){
 
     var layout = require('utils/layout'),
-        save = require('plugins/save');
+        SavePlugin = require('views/plugins/save');
 
     var module = {};
 
     module.init = function() {
-        layout.add_plugin(save);
+        add_save_to_layout();
     };
+
+    function add_save_to_layout() {
+        var save = SavePlugin();
+        layout.add_plugin(save);
+    }
 
     return module;
 

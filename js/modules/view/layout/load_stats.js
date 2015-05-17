@@ -1,13 +1,18 @@
 define(function(require){
 
     var layout = require('utils/layout'),
-        stats = require('plugins/stats');
+        StatsPlugin = require('views/plugins/stats');
 
     var module = {};
 
     module.init = function() {
-        layout.add_plugin(stats);
+        add_stats_to_layout();
     };
+
+    function add_stats_to_layout() {
+        var stats = StatsPlugin();
+        layout.add_plugin(stats);
+    }
 
     return module;
 

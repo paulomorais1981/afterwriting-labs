@@ -1,13 +1,18 @@
 define(function(require){
 
     var layout = require('utils/layout'),
-        preview = require('plugins/preview');
+        PreviewPlugin = require('views/plugins/preview');
 
     var module = {};
 
     module.init = function() {
-        layout.add_plugin(preview);
+        add_preview_to_layout();
     };
+
+    function add_preview_to_layout() {
+        var preview = PreviewPlugin();
+        layout.add_plugin(preview);
+    }
 
     return module;
 
