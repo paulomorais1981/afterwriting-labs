@@ -20,7 +20,7 @@ define(function(require){
             hide_icon_when_sync_is_not_available(sync_icon);
         });
 
-        FountainEditor.add(function(fountain_editor){
+        FountainEditor.as('main-fountain-editor').add(function(fountain_editor){
             disable_editor_when_sync(fountain_editor);
         });
     };

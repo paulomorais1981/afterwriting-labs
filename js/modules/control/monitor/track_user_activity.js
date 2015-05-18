@@ -54,7 +54,7 @@ define(function (require) {
 
 		bootstrap.initialized.add(module.assign_trackers);
 
-		InfoHeader.add(function(header){
+		InfoHeader.as('top-header').add(function(header){
 			header.opened.add(function(){
 				track_event('feature', 'help', header.title())
 			});

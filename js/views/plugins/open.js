@@ -3,7 +3,7 @@ define(function(require){
     var base = require('views/plugins/plugin'),
         off = require('off'),
         handlebar = require('views/components/handlebar'),
-        infoheader = require('views/components/infoheader');
+        infoheader = require('views/components/infoheader').as('top-header');
 
     return off(function() {
         var open = base('open', 'open', true);

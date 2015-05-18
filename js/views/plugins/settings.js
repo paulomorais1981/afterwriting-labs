@@ -2,7 +2,7 @@ define(function(require){
 
     var base = require('views/plugins/plugin'),
         handlebar = require('views/components/handlebar'),
-        infoheader = require('views/components/infoheader'),
+        infoheader = require('views/components/infoheader').as('top-header'),
         off = require('off');
 
     return off(function(){

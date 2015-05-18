@@ -6,8 +6,8 @@ define(function(require){
         handlebar = require('views/components/handlebar'),
         base = require('views/plugins/plugin'),
         Component = require('utils/view/component'),
-        FountainEditor = require('views/components/fountaineditor'),
-        InfoHeader = require('views/components/infoheader');
+        FountainEditor = require('views/components/fountaineditor').as('main-fountain-editor'),
+        InfoHeader = require('views/components/infoheader').as('top-header');
 
     /**
      * Editor plugin factory
