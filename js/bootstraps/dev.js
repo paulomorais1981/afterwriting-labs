@@ -9,6 +9,8 @@ require(['bootstrap',
 		'modules/control/open/load_last_used',
 
 		'modules/view/sync',
+		'modules/view/editor_content',
+
 		'modules/view/layout/load_all_plugins',
 
 		'modules/view/layout/show_app',

@@ -112,7 +112,7 @@
 		property = off(function (value, reset) {
 			if (arguments.length === 0 && reset !== _reset) {
 				property.lock = true;
-				return _value;
+				return $guard();
 			} else {
 				return setter(value, $guard);
 			}
@@ -133,8 +133,13 @@
 			}
 			return _value;
 		};
+
+		if (typeof initial_value === 'function' && initial_value._property) {
+			$guard = initial_value;
+		}
+
 		$guard.property = property;
-		property.property = true;
+		property._property = true;
 
 		return property;
 	};
