@@ -16,7 +16,7 @@
 			jstree: 'libs/jstree.min',
 			cookie: 'libs/jquery.cookie',
 			dropbox: 'libs/dropbox.min',
-			off: 'libs/off-min'
+			off: 'libs/off'
 		},
 		shim: {
 			handlebars: {
