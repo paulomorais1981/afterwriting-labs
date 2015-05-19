@@ -5,9 +5,8 @@ define(function(require){
 
     var module = {};
 
-    module.init = function(state) {
+    module.init = function() {
         var info_plugin = InfoPlugin();
-        state.view_registry.add('info', info_plugin);
         layout.add_plugin(info_plugin);
     };
 

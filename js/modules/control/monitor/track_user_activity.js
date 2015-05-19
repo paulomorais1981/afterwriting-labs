@@ -31,8 +31,7 @@ define(function (require) {
 		};
 	};
 
-	module.init = function (state) {
-		this.view_registry = state.view_registry;
+	module.init = function () {
 
 		if (window.location.protocol !== 'file:') {
 			(function (i, s, o, g, r, a, m) {
@@ -103,7 +102,7 @@ define(function (require) {
 		layout.scopes.back_close_content.add(function (plugin) {
 			track_event('navigation', 'back-close', plugin.name);
 		});
-		;
+
 		layout.toggle_expand.add(track_handler('feature', 'expand'));
 
 		// editor

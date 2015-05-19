@@ -1,6 +1,4 @@
 require(['bootstrap',
-		'modules/prepare',
-
 		'modules/data',
 		'modules/queries',
 		'modules/charts',
