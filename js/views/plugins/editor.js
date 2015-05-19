@@ -7,6 +7,7 @@ define(function(require){
         base = require('views/plugins/plugin'),
         Component = require('utils/view/component'),
         FountainEditor = require('views/components/fountaineditor').as('main-fountain-editor'),
+        IconButton = require('views/components/iconbutton').as('editor-save-icon'),
         InfoHeader = require('views/components/infoheader').as('top-header');
 
     /**
@@ -21,6 +22,21 @@ define(function(require){
          * @var {Component[]} additional_icons
          */
         self.additional_icons = off.property([]);
+
+        /**
+         * @event save_as_fountain - dispatched when user clicks on save as fountain icon
+         */
+        self.save_as_fountain = off.signal();
+
+        /**
+         * @event
+         */
+        self.save_to_dropbox = off.signal();
+
+        /**
+         * @event
+         */
+        self.save_to_googledrive = off.signal();
 
         /**
          * Init
@@ -53,22 +69,52 @@ define(function(require){
 
         self.init_content = off(function() {
             self.init_resize_updates();
-            self.create_icons_placeholder();
+            self.create_left_icons_placeholder();
         });
 
-        self.create_icons_placeholder = function() {
-            self.icons_placeholder = Component();
-            self.icons_placeholder.init($('#additional_icons').get(0));
-            self.manage(this.icons_placeholder);
+        self.create_left_icons_placeholder = function() {
+            self.left_icons_placeholder = Component();
+            self.left_icons_placeholder.init($('#left-icons').get(0));
+            self.manage(this.left_icons_placeholder);
 
             if (self.additional_icons().length == 0) {
                 $('#separator').hide();
             }
 
             self.additional_icons().forEach(function(icon){
-                self.icons_placeholder.add(icon);
+                self.left_icons_placeholder.add(icon);
             });
+
+            self.create_base_icons();
         };
+
+        /**
+         * Create save icons
+         */
+        self.create_base_icons = off(function(){
+            self.right_icons_placeholder = Component();
+            self.right_icons_placeholder.init($('#right-icons').get(0));
+            self.manage(this.right_icons_placeholder);
+
+            var save_fountain = IconButton();
+            save_fountain.title('save .fountain: ');
+            save_fountain.src(common.data.static_path + 'gfx/icons/other/download.svg');
+            save_fountain.link_title('Download Fountain file');
+            save_fountain.clicked.add(self.save_as_fountain);
+            self.right_icons_placeholder.add(save_fountain);
+
+            var save_dropbox = IconButton();
+            save_dropbox.src(common.data.static_path + 'gfx/icons/other/dropbox.svg');
+            save_dropbox.link_title('Upload Fountain file to Dropbox');
+            save_dropbox.clicked.add(self.save_to_dropbox);
+            self.right_icons_placeholder.add(save_dropbox);
+
+            var save_googledrive = IconButton();
+            save_googledrive.src(common.data.static_path + 'gfx/icons/other/gd.svg');
+            save_googledrive.link_title('Upload Fountain file to Google Drive');
+            save_googledrive.clicked(self.save_to_googledrive);
+            self.right_icons_placeholder.add(save_googledrive);
+        });
 
         self.update_size = off(function() {
             // TODO: if (layout.small) {

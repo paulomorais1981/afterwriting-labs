@@ -100,23 +100,10 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
 this["JST"]["templates/plugins/editor.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, helper, functionType="function", escapeExpression=this.escapeExpression;
+  
 
 
-  buffer += "<div class=\"header-menu\" style=\"\r\n    margin-top: -40px;\r\n    margin-left: 490px;\r\n    position: absolute;\r\n\">\r\n	<span id=\"additional_icons\"></span>\r\n	<span id=\"separator\">&nbsp;|&nbsp;</span>\r\n	<span>save .fountain: <a href=\"#\" action=\"save-fountain\"><img src=\"";
-  if (helper = helpers.static_path) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.static_path); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "gfx/icons/other/download.svg\" class=\"icon small-icon\" title=\"Download Fountain file\" /></a></span>\r\n	<span><a href=\"#\" action=\"save-dropbox-fountain\"><img src=\"";
-  if (helper = helpers.static_path) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.static_path); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "gfx/icons/other/dropbox.svg\" class=\"icon small-icon\" title=\"Upload Fountain file to Dropbox\" /></a></span>\r\n	<span><a href=\"#\" action=\"save-gd-fountain\"><img src=\"";
-  if (helper = helpers.static_path) { stack1 = helper.call(depth0, {hash:{},data:data}); }
-  else { helper = (depth0 && depth0.static_path); stack1 = typeof helper === functionType ? helper.call(depth0, {hash:{},data:data}) : helper; }
-  buffer += escapeExpression(stack1)
-    + "gfx/icons/other/gd.svg\" class=\"icon small-icon\" title=\"Upload Fountain file to Google Drive\" /></a></span>\r\n</div><div style=\"clear:both\"/>\r\n";
-  return buffer;
+  return "<div class=\"header-menu\" style=\"\r\n    margin-top: -40px;\r\n    margin-left: 490px;\r\n    position: absolute;\r\n\">\r\n	<span id=\"left-icons\"></span>\r\n	<span id=\"separator\">&nbsp;|&nbsp;</span>\r\n	<span id=\"right-icons\"></span>\r\n</div><div style=\"clear:both\"/>";
   });
 
 this["JST"]["templates/plugins/facts.hbs"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {

@@ -40,7 +40,7 @@ define(function (require) {
          * Full name chain
          * @private
          */
-        component.$names = off.property([])
+        component.$names = off.property([]);
 
         /**
          * Component name
@@ -108,7 +108,7 @@ define(function (require) {
 
         component.init_child = off(function(child) {
             if (!component.container) {
-                throw new Error("Component " + component.$name + " does not support adding children. Child: " + child.$name);
+                throw new Error("Component " + component.$name() + " does not support adding children. Child: " + child.$name());
             }
             child.parent = component.container;
             child.$bubble.add(component.$bubble);

@@ -7,7 +7,12 @@ define(function(require){
 
     module.init = function() {
 
-        EditorPlugin.add(function(editor){});
+        EditorPlugin.add(function(editor){
+            editor.save_as_fountain.add(function(){
+                console.log("save as fountain");
+            });
+
+        });
         add_editor_to_layout();
     };
 
