@@ -1,7 +1,7 @@
 define(function(require){
 
     var layout = require('utils/layout'),
-        SyncIcon = require('views/components/syncicon'),
+        SyncIcon = require('views/components/syncicon').as('main-sync'),
         EditorPlugin = require('views/plugins/editor'),
         FountainEditor = require('views/components/fountaineditor');
 
