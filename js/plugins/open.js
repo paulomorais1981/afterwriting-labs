@@ -5,7 +5,6 @@ define(function (require) {
 		templates = require('templates'),
 		editor = require('plugins/editor'),
 		data = require('modules/data'),
-		helper = require('utils/helper'),
 		off = require('off'),
 		$ = require('jquery'),
 		gd = require('utils/googledrive'),
@@ -135,28 +134,6 @@ define(function (require) {
 
 	plugin.init = function () {
 		log.info("Init: script handlers");
-		data.script.add(function () {
-			var title = '';
-			data.data('last-used-script', data.script());
-			data.data('last-used-date', helper.format_date(new Date()));
-			if (data.script()) {
-				var title_match;
-				var wait_for_non_empty = false;
-				data.script().split('\n').some(function (line) {
-					title_match = line.match(/title\:(.*)/i);
-					if (wait_for_non_empty) {
-						title = line.trim().replace(/\*/g, '').replace(/_/g, '');
-						wait_for_non_empty = !title;
-					}
-					if (title_match) {
-						title = title_match[1].trim();
-						wait_for_non_empty = !title;
-					}
-					return title && !wait_for_non_empty;
-				});
-			}
-			data.data('last-used-title', title || 'No title');
-		});
 		save.gd_saved.add(function (item) {
 			clear_last_opened();
 			data.data('gd-link', item.alternateLink);
