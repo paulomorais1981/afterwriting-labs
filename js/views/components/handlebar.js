@@ -25,6 +25,10 @@ define(function(require){
             }
         });
 
+        component.get_html_node = function() {
+            return component.root.node();
+        };
+
         component.recreate_content = off(function(){
             this.root.html(this.template(component.context()));
         });
