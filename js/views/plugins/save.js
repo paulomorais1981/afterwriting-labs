@@ -3,6 +3,7 @@ define(function (require) {
     var base = require('views/plugins/plugin'),
         d3 = require('d3'),
         off = require('off'),
+        save = require('plugins/save'),
         handlebar = require('views/components/handlebar');
 
     /**
@@ -36,6 +37,10 @@ define(function (require) {
         self.assign_to_link = function(action, signal) {
             d3.select(self.content.get_html_node()).select('a[action="' + action + '"]').on('click', signal);
         };
+
+        self.actions.override(function() {
+            self.save_as_fountain.add(save.save_as_fountain);
+        });
 
         return self;
     });

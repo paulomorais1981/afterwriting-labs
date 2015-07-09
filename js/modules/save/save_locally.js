@@ -11,7 +11,12 @@ define(function(require){
 
     function save_as_fountain() {
         SavePlugin.add(function(save_plugin){
-            save_plugin.save_as_fountain.add(save.save_as_fountain);
+            save_plugin.actions.override(function(){
+                save_plugin.save_as_fountain.add(function(){
+                    alert('overridden');
+                })
+            });
+
         });
     }
 

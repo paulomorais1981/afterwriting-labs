@@ -6,7 +6,7 @@ require(['bootstrap',
 		'modules/control/monitor/track_user_activity',
 		'modules/control/open/load_last_used',
 
-		'modules/save/save_locally',
+		//'modules/save/save_locally',
 
 		'modules/view/sync',
 		'modules/view/editor_content',

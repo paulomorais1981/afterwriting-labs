@@ -71,6 +71,7 @@ define(function (require) {
         });
 
         component.init.add(function() {
+            this.actions();
             this.initialized(true);
         });
 
@@ -140,6 +141,8 @@ define(function (require) {
             });
             return observer;
         };
+
+        component.actions = off(function(){});
 
         return component;
     });
