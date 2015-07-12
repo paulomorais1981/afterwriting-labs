@@ -24,10 +24,10 @@ define(function(require){
 
         var flow = context.object(source);
         while (steps.length) {
-            var signal = steps.pop();
+            var signal = steps.shift();
 
-            var step = off.async(function(signal, value, args, _, callback) {
-                callback(context.object(signal)(value));
+            var step = off(function(signal, value) {
+                return context.object(signal)(value);
             }.bind(null, signal));
 
             flow.add(step);

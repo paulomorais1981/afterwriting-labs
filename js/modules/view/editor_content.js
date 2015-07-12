@@ -37,6 +37,12 @@ define(function(require){
             });
         });
     }
+    /*
+    feature("main_editor -> *", function(editor){
+        module
+    }
+     */
+
 
     /**
      * Each time user changes the content - script is updated.

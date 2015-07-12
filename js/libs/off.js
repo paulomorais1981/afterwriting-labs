@@ -35,7 +35,9 @@
 				runner.lock = false;
 			} else {
 				_handlers.forEach(function (handler) {
-					if (result instanceof Function && result._off) {
+					if (result instanceof Function && result._property) {
+						result.bind(handler);
+					} else if (result instanceof Function && result._off) {
 						result.add(handler);
 					} else {
 						handler.apply(self, [result, args, self]);
@@ -90,6 +92,20 @@
 		runner.func = func;
 
 		return runner;
+	};
+
+	off.async_result = function() {
+		var result = off.property();
+		result.add = result.bind;
+		return result;
+	};
+
+	off.async2 = function(func) {
+		return off(function(value) {
+			var result = off.property();
+			func(value, result);
+			return result;
+		});
 	};
 
 	off.signal = function () {

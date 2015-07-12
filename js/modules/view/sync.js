@@ -25,6 +25,17 @@ define(function(require){
         });
     };
 
+    /*
+     feature("editor -> *", function(editor) {
+         editor.additional_icons().push(SyncIcon);
+     });
+     feature("model.sync_enabled -> log");
+     feature("model.sync_enabled -> sync_icon.is_sync");
+     feature("model.sync_enabled -> $not -> fountain_editor.enabled")
+     feature("sync_icon.toggle_sync -> module.toggle_sync");
+     feature("module.sync_available -> sync_icon.visible");
+     */
+
     function add_sync_icon_to_the_editor(editor) {
         var sync_icon = SyncIcon();
         editor.additional_icons().push(sync_icon);
@@ -36,6 +47,7 @@ define(function(require){
             console.log("Sync:",value);
         });
     }
+
 
     function switch_sync(sync_icon) {
         module.sync_enabled.bind(sync_icon.is_sync);
