@@ -35,12 +35,14 @@ define('modules/data', function (require) {
 
 	plugin.format = '';
 
-	plugin.script = off.property('', function (value, $setter) {
+	plugin.script = off.property('');
+
+	plugin.import = function (value) {
 		var result = converter.to_fountain(value);
 		result.value = preprocessor.process_snippets(result.value, plugin.config.snippets);
 		plugin.format = result.format;
-		$setter(result.value);
-	});
+		plugin.script(result.value);
+	};
 
 	plugin.parse = off(function () {
 		plugin.parsed = fparser.parse(plugin.script(), plugin.config);

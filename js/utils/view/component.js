@@ -45,11 +45,12 @@ define(function (require) {
         /**
          * Component name
          */
-        component.$name = off.property("", function(value, guard){
+        component.$name = off.property("");
+
+        component.$name.add(function(value){
             if (value) {
                 component.$names().push(value);
             }
-            return guard(value);
         });
 
         /**

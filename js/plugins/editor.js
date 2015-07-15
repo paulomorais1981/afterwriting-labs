@@ -36,7 +36,7 @@ define(function (require) {
 		//});
 
 		editor.on('change', function () {
-			data.script(editor.getValue());
+			data.import(editor.getValue());
 		});
 	};
 
@@ -79,7 +79,7 @@ define(function (require) {
 		}
 		else if (last_content !== content) {
 			last_content = content;
-			data.script(content);
+			data.import(content);
 			data.parse();
 			plugin.synced();
 			if (active) {

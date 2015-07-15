@@ -22,7 +22,7 @@ define(function (require) {
 	var set_script = function (value) {
 		clear_last_opened();
 		editor.set_sync(false);
-		data.script(value);
+		data.import(value);
 		layout.show_main();
 	};
 
