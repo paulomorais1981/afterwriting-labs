@@ -34,7 +34,6 @@
 			dropbox: {
 				exports: 'Dropbox'
 			}
-				
 		}
 	});
 

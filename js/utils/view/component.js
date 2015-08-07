@@ -69,6 +69,9 @@ define(function (require) {
             if (element) {
                 this.container = element;
             }
+            else if (arguments.length === 1) {
+                throw new Error("Component initialization failed: element does not exits");
+            }
         });
 
         component.init.add(function() {

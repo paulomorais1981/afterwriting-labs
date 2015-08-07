@@ -181,7 +181,6 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 			$('.to-the-bottom').height(function () {
 				return height - $(this).offset().top - 60;
 			});
-
 		};
 
 		/** calc on each reize **/

@@ -3,6 +3,7 @@ define(function (require) {
 	var pm = require('utils/pluginmanager'),
 		editor = require('plugins/editor'),
 		off = require('off'),
+		pdfjsviewer = require('utils/pdfjsviewer'),
 		pdfmaker = require('utils/pdfmaker');
 	
 	var plugin = pm.create_plugin('preview', 'view');

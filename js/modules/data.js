@@ -148,8 +148,7 @@ define('modules/data', function (require) {
 				color: '#888888',
 				italic: true
 			}
-
-		},
+		}
 	};
 
 	print_profiles.usletter = JSON.parse(JSON.stringify(print_profiles.a4));
@@ -211,7 +210,9 @@ define('modules/data', function (require) {
 		each_scene_on_new_page: false,
 		use_print_settings_for_stats: true,
 		scene_continuation_bottom: false,
-		scene_continuation_top: false
+		scene_continuation_top: false,
+		cloud_lazy_loading: false,
+		pdfjs_viewer: false
 	};
 
 
