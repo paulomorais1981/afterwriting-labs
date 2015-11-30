@@ -12,6 +12,6 @@ require(['bootstrap',
 		'plugins/preview',
 		'plugins/facts',
 		'plugins/stats'
-], function (bootstrap) {
-	bootstrap.init(arguments);
+], function (Bootstrap) {
+	Bootstrap.create().init(arguments);
 });

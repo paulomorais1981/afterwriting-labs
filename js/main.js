@@ -15,7 +15,8 @@
 			impromptu: 'libs/jquery-impromptu.min',
 			jstree: 'libs/jstree.min',
 			cookie: 'libs/jquery.cookie',
-			dropbox: 'libs/dropbox.min'
+			dropbox: 'libs/dropbox.min',
+			protoplast: 'libs/protoplast'
 		},
 		shim: {
 			handlebars: {
@@ -32,6 +33,9 @@
 			},
 			dropbox: {
 				exports: 'Dropbox'
+			},
+			protoplast: {
+				exports: 'Protoplast'
 			}
 		}
 	});
