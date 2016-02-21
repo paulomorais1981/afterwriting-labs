@@ -1,4 +1,4 @@
-define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanager', 'utils/common', 'templates', 'utils/decorator', 'impromptu', 'jstree', 'cookie'], function ($, temlates, data, Handlebars, pm, common, templates, decorator) {
+define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanager', 'utils/common', 'templates', 'utils/decorator', 'p', 'view/pluginwrapper','impromptu', 'jstree', 'cookie'], function ($, temlates, data, Handlebars, pm, common, templates, decorator, p, PluginWrapper) {
 	
 	var module = {
 		only_active_visible: true
@@ -121,6 +121,14 @@ define(['jquery', 'templates', 'modules/data', 'handlebars', 'utils/pluginmanage
 		var body = layout(context);
 		$('body').append(body);
 
+
+        var plugins_contents = p.Component.Root($('.plugin-contents').get(0), context.context);
+
+        context.plugins.forEach(function(plugin) {
+            if (!plugin.deprecated) {
+                plugins_contents.add(PluginWrapper.create(plugin));
+            }
+        });
 
 		var inactive_plugins_count = 0,
 			all_plugins_count = 0;

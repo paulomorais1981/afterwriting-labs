@@ -78,6 +78,13 @@ function program5(depth0,data) {
 
 function program7(depth0,data) {
   
+  var stack1;
+  stack1 = helpers['if'].call(depth0, (depth0 && depth0.deprecated), {hash:{},inverse:self.noop,fn:self.program(8, program8, data),data:data});
+  if(stack1 || stack1 === 0) { return stack1; }
+  else { return ''; }
+  }
+function program8(depth0,data) {
+  
   var buffer = "", stack1, helper;
   buffer += "<div class=\"plugin-content\" plugin=\"";
   if (helper = helpers.name) { stack1 = helper.call(depth0, {hash:{},data:data}); }

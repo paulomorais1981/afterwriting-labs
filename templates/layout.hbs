@@ -28,6 +28,6 @@
 		
 	</div>
 	<div class="plugin-contents">
-		{{#each plugins}}<div class="plugin-content" plugin="{{name}}">{{{view}}}</div>{{/each}}</div>
+		{{#each plugins}}{{#if deprecated}}<div class="plugin-content" plugin="{{name}}">{{{view}}}</div>{{/if}}{{/each}}</div>
 </div>
 <div id="tooltip"></div>

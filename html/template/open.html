@@ -1,0 +1,38 @@
+<h1>Start&nbsp;<div class="info-icon" section="open-start" /></h1>
+<p class="info-content" section="open-start">You can open a .fountain or .fdx file (it will be converted to Fountain), or use one of the samples below.</p>
+<ul class="no-bullets">
+    <li>
+        <img src="<%= common.static_path %>gfx/icons/other/new.svg" class="icon" />
+        <a href="#" open-action="new">Create new</a>
+    </li>
+    <li>
+        <img src="<%= common.static_path %>gfx/icons/other/load.svg" class="icon" />
+        <a href="#" open-action="open">Load file</a>
+    </li>
+    <li>
+        <img src="<%= common.static_path %>gfx/icons/other/dropbox.svg" class="icon" />
+        <a href="#" open-action="dropbox">Open from Dropbox</a>
+    </li>
+    <li>
+        <img src="<%= common.static_path %>gfx/icons/other/gd.svg" class="icon" />
+        <a href="#" open-action="googledrive">Open from Google Drive</a>
+    </li><% if (last_used.date) { %>
+    <li>
+        <img src="<%= common.static_path %>gfx/icons/other/reuse.svg" class="icon" />Last editor's content:&nbsp;
+        <a href="#" open-action="last"><%= last_used.title %></a>&nbsp;(<%= last_used.date %>)</li><% } %></ul>
+<h1>Samples</h1>
+<ul>
+    <li>
+        <a href="#" open-action="sample" value="brick_and_steel">
+            <i>Brick & Steel</i>
+        </a>&nbsp;by Stu Maschwitz</li>
+    <li>
+        <a href="#" open-action="sample" value="my_living_memory">
+            <i>My Living Memory</i>
+        </a>&nbsp;by Dan Rahmel</li>
+    <li>
+        <a href="#" open-action="sample" value="printing_trouble">
+            <i>Printing Trouble</i>
+        </a>&nbsp;by Dan Rahmel</li>
+</ul>
+<div id="open-file-wrapper"></div>

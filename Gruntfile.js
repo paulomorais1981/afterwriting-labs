@@ -185,7 +185,7 @@ module.exports = function (grunt) {
 		},
 		replace: {
 			last_update: {
-				src: ['html/*'],
+				src: ['html/afterwriting.html', 'index.html'],
 				overwrite: true,
 				replacements: [{
 						from: /last_update[=?0-9a-z\-_]*\"/g,

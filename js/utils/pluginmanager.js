@@ -1,5 +1,5 @@
 define(function(require){
-	
+
 	var logger = require('logger'),
 		data = require('modules/data'),
 		decorator = require('utils/decorator');
@@ -11,6 +11,7 @@ define(function(require){
 	
 	module.create_plugin = function (name, title) {
 		return {
+			deprecated: true,
 			is_plugin: true,
 			activate: function () {},
 			deactivate: function () {},

@@ -1,14 +1,14 @@
 /*global define*/
-define(['templates', 'logger', 'utils/layout', 'utils/decorator', 'd3', 'jquery', 'protoplast'], function (templates, logger, layout, decorator, d3, $, Protoplast) {
+define(['templates', 'logger', 'utils/layout', 'utils/decorator', 'd3', 'jquery', 'p'], function (templates, logger, layout, decorator, d3, $, p) {
 
 	var LOG = logger.get('bootstrap');
 
-	var Bootstrap = Protoplast.extend({
+	var Bootstrap = p.extend({
 
 		decorate_all_properties: function (plugin) {
 			d3.keys(plugin).forEach(function(property) {
 				if (typeof (plugin[property]) === "function" && !(plugin[property].decorated)) {
-					plugin[property] = decorator(plugin[property]);
+					plugin[property] = decorator(plugin[property].bind(plugin));
 				}
 			});
 		},
@@ -24,7 +24,8 @@ define(['templates', 'logger', 'utils/layout', 'utils/decorator', 'd3', 'jquery'
 			});
 
 			var context = {
-				plugins: []
+				plugins: [],
+                context: p.Context.create()
 			};
 
 			var plugins = modules.filter(function (module) {
@@ -45,12 +46,18 @@ define(['templates', 'logger', 'utils/layout', 'utils/decorator', 'd3', 'jquery'
 			});
 
 			plugins.forEach(function (plugin) {
-				var template_name = 'templates/plugins/' + plugin.name + '.hbs';
-				if (templates.hasOwnProperty(template_name)) {
-					var template = templates[template_name];
-					var html = template(plugin.context);
-					plugin.view = html;
-				}
+                if (!plugin.deprecated) {
+                    context.context.register(plugin.name, plugin);
+                }
+                else {
+                    var template_name = 'templates/plugins/' + plugin.name + '.hbs';
+                    if (templates.hasOwnProperty(template_name)) {
+                        var template = templates[template_name];
+                        var html = template(plugin.context);
+                        plugin.view = html;
+                    }
+                }
+
 				context.plugins.push(plugin);
 			});
 

@@ -16,7 +16,9 @@
 			jstree: 'libs/jstree.min',
 			cookie: 'libs/jquery.cookie',
 			dropbox: 'libs/dropbox.min',
-			protoplast: 'libs/protoplast'
+			p: 'libs/protoplast',
+			lodash: 'libs/lodash.min',
+			text: '../node_modules/requirejs-text/text'
 		},
 		shim: {
 			handlebars: {
@@ -34,7 +36,7 @@
 			dropbox: {
 				exports: 'Dropbox'
 			},
-			protoplast: {
+			p: {
 				exports: 'Protoplast'
 			}
 		}
