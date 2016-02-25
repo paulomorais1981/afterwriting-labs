@@ -10,6 +10,8 @@ define(function(require){
         data: null,
 
         compiled_template: null,
+        
+        template: null,
 
         $create: function() {
             this.compiled_template = _.template(this.template);
