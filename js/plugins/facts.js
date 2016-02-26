@@ -1,47 +1,68 @@
-define(function (require) {
-	var pm = require('utils/pluginmanager'),
+define(function(require) {
+
+	var Plugin = require('plugins/plugin'),
+		FactsView = require('view/factsview'),
 		data = require('modules/data'),
 		queries = require('modules/queries'),
 		editor = require('plugins/editor'),
 		decorator = require('utils/decorator'),
 		fhelpers = require('utils/fountain/helpers');
 
-	var plugin = pm.create_plugin('facts', 'facts');
 
-	var generate_data = function () {
+	var FactsPlugin = Plugin.extend({
+
+		title: 'facts',
+
+		name: 'facts',
 		
-		var basics = queries.basics.run(data.parsed_stats.lines);
-		plugin.data.facts = basics;
-		var facts = plugin.data.facts;
+		data: null,
+
+		view: {
+			value: FactsView.create()
+		},
 		
-		facts.title = fhelpers.first_text('title', data.parsed.title_page, '');
+		$create: function() {
+			this.data = {};
+		},
 
-		facts.characters = queries.characters.run(data.parsed_stats.tokens, basics, {sort_by: 'lines'});
-		facts.locations = queries.locations.run(data.parsed_stats.tokens);
-	};
-	
-	plugin.get_characters_by_level = function(level) {
-		return plugin.data.facts.characters.filter(function(character){
-			return character.level === level;
-		});
-	};
+		generate_data: function() {
 
-	plugin.each_scene_on_new_page = function() {
-		return data.config.each_scene_on_new_page;
-	};
-	
-	plugin.refresh = decorator(function(){
-		generate_data();
+			var basics = queries.basics.run(data.parsed_stats.lines);
+			this.data.facts = basics;
+			var facts = this.data.facts;
+
+			facts.title = fhelpers.first_text('title', data.parsed.title_page, '');
+
+			facts.characters = queries.characters.run(data.parsed_stats.tokens, basics, {
+				sort_by: 'lines'
+			});
+			facts.locations = queries.locations.run(data.parsed_stats.tokens);
+		},
+
+		get_characters_by_level: function(level) {
+			return this.data.facts.characters.filter(function(character) {
+				return character.level === level;
+			});
+		},
+
+		each_scene_on_new_page: function() {
+			return data.config.each_scene_on_new_page;
+		},
+
+		refresh: decorator(function() {
+			this.generate_data();
+		}),
+
+		activate: function() {
+			editor.synced.add(this.refresh);
+			this.refresh();
+		},
+
+		deactivate: function() {
+			editor.synced.remove(this.refresh);
+		}
+
 	});
-	
-	plugin.activate = function () {
-		editor.synced.add(plugin.refresh);
-		plugin.refresh();
-	};
-	
-	plugin.deactivate = function() {
-		editor.synced.remove(plugin.refresh);
-	};
 
-	return plugin;
+	return FactsPlugin.create();
 });
