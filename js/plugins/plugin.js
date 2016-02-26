@@ -9,13 +9,13 @@ define(function(require){
         deactivate: function () {},
         context: {},
         init: function () {},
-        data: {},
         name: '',
         title: '',
         class: 'inactive',
 
         $create: function() {
             this.log = logger.get(this.name);
+            this.data = {};
         }
 
     });
