@@ -1,4 +1,4 @@
-define(['../../test/acceptance/tests'], function () {
+define(['../../test/acceptance/tests'], function (tests) {
 
     var module = {};
 
@@ -16,7 +16,29 @@ define(['../../test/acceptance/tests'], function () {
         if (enabled) {
             window.clock.tick(5000);
             window.clock.restore();
-            mocha.run();
+            //mocha.run();
+
+            var cucumber = Cucumber(tests.features, tests.supportCode);
+
+            var listener = Cucumber.Listener();
+
+            listener.handleStepResultEvent = function handleStepResult(event, callback) {
+                var stepResult = event.getPayloadItem('stepResult');
+                var status = stepResult.getStatus();
+                var step = stepResult.getStep();
+                console.log(step.getScenario().getName() + ': ' + step.getName(), status);
+                callback();
+            };
+
+            listener.handleFeaturesResultEvent = function handleFeaturesResultEvent(event, callback) {
+                var featuresResult = event.getPayloadItem('featuresResult');
+                console.log(featuresResult.isSuccessful() ? 'SUCCESS' : 'FAILED');
+                callback();
+            };
+
+            cucumber.attachListener(listener);
+
+            cucumber.start(function() {});
         }
     };
 
