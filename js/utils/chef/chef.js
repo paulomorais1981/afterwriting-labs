@@ -13,6 +13,10 @@ define(function(require) {
             this._rnd = 0;
         },
 
+        next_name: function() {
+            return '__' + (this._rnd++) + '___';
+        },
+
         add: function(name, descriptor) {
 
             var index;
@@ -21,29 +25,16 @@ define(function(require) {
                 this.descriptors.push(descriptor);
                 this.names.push(name);
 
-                var operator = {}, vo = this;
-
-                Object.defineProperty(operator, 'value', {
-                    set: function(value) {
-                        vo[name] = value;
-                    },
-                    get: function() {
-                        return vo[name];
-                    }
-                });
-
-                Object.defineProperty(operator, 'VALUE', {
-                    set: descriptor.setter,
-                    get: descriptor.getter
-                });
-
+                var vo = this;
+                var operator = descriptor.create(name, vo);
+                
                 for (var definition in descriptor.$meta.properties.type) {
                     var type = descriptor.$meta.properties.type[definition];
                     (function(self) {
 
                         var index = self.descriptors.indexOf(type);
                         if (index === -1) {
-                            self.add('__' + (this._rnd++) + '___', type);
+                            self.add(self.next_name(), type);
                             index = self.descriptors.indexOf(type);
                         }
                         var existing_name = self.names[index];
@@ -86,7 +77,7 @@ define(function(require) {
         },
 
         set: function(name, value) {
-            this.operators[name].VALUE = value;
+            this.operators[name].$value = value;
             this.purge(name);
         },
 
@@ -94,7 +85,7 @@ define(function(require) {
             if (this.cache.hasOwnProperty(name)) {
                 return this.cache[name];
             }
-            return this.cache[name] = this.operators[name].VALUE;
+            return this.cache[name] = this.operators[name].$value;
         }
 
     });

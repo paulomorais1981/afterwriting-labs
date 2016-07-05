@@ -11,6 +11,9 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
             words_getter = sinon.stub();
 
             Content = Recipe.extend({
+                $create: function() {
+                    this.value = 'default';
+                },
                 setter: function(value) {
                     this.value = value;
                 },
@@ -51,6 +54,13 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
                     return this.words.length;
                 }
             });
+        });
+
+        it('default values', function() {
+            var script = Chef.create();
+            script.add('content', Content);
+
+            chai.assert.equal(script.get('content'), 'default');
         });
 
         it('basic setter and getter', function() {
