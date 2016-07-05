@@ -1,6 +1,7 @@
 define(function(require) {
 
-    var Protoplast = require('p');
+    var Protoplast = require('p'),
+        Cache = require('utils/chef/cache');
 
     var Chef = Protoplast.extend({
 
@@ -8,8 +9,7 @@ define(function(require) {
             this.names = [];
             this.types = [];
             this.recipes = {};
-            this.cache = {};
-            this.cache_hierarchy = {};
+            this.cache = Cache.create();
             this._rnd = 0;
         },
 
@@ -43,7 +43,7 @@ define(function(require) {
 
         inject_type: function(consumer, property_name, host_type) {
             var host_name = this.get_or_create_dependency(host_type);
-            this.add_cache_hierarchy(host_name, consumer.name);
+            this.cache.add_trigger(host_name, consumer.name);
             consumer.define(property_name, host_name, this);
         },
 
@@ -56,34 +56,16 @@ define(function(require) {
             return this.names[index];
         },
 
-        add_cache_hierarchy: function(host, leech) {
-            this.cache_hierarchy[host] = this.cache_hierarchy[host] || [];
-            this.cache_hierarchy[host].push(leech);
-        },
-
-        purge: function(name) {
-            var queue = this.cache_hierarchy[name] || [], new_queue;
-            delete this.cache[name];
-            while (queue.length) {
-                new_queue = [];
-                queue.forEach(function(dependency) {
-                    delete this.cache[dependency];
-                    new_queue = new_queue.concat(this.cache_hierarchy[dependency] || []);
-                }, this);
-                queue = new_queue;
-            }
-        },
-
         set: function(name, value) {
             this.recipes[name].value = value;
-            this.purge(name);
+            this.cache.purge(name);
         },
 
         get: function(name) {
-            if (this.cache.hasOwnProperty(name)) {
-                return this.cache[name];
+            if (this.cache.has(name)) {
+                return this.cache.get(name);
             }
-            return this.cache[name] = this.recipes[name].value;
+            return this.cache.set(name, this.recipes[name].value);
         }
 
     });
