@@ -26,31 +26,12 @@ define(function(require) {
                 this.names.push(name);
 
                 var operator = recipe.create();
-                
+
                 for (var dependency in recipe.$meta.properties.type) {
                     var type = recipe.$meta.properties.type[dependency];
-                    (function(self) {
-
-                        var index = self.recipes.indexOf(type);
-                        if (index === -1) {
-                            self.add(self.next_name(), type);
-                            index = self.recipes.indexOf(type);
-                        }
-                        var existing_name = self.names[index];
-
-                        self.cache_hierarchy[existing_name] = self.cache_hierarchy[existing_name] || [];
-                        self.cache_hierarchy[existing_name].push(name);
-
-                        Object.defineProperty(operator, dependency, {
-                            set: function(value) {
-                                self.set(existing_name, value);
-                            },
-                            get: function() {
-                                return self.get(existing_name);
-                            }
-                        });
-                    })(this);
-
+                    existing_name = this.get_or_create_dependency(type);
+                    this.add_cache_hierarchy(existing_name, name);
+                    operator.define(dependency, existing_name, this);
                 }
 
                 this.operators[name] = operator;
@@ -60,6 +41,20 @@ define(function(require) {
                 this.operators[name] = this.operators[existing_name];
             }
 
+        },
+
+        get_or_create_dependency: function(type) {
+            var index = this.recipes.indexOf(type);
+            if (index === -1) {
+                this.add(this.next_name(), type);
+                index = this.recipes.indexOf(type);
+            }
+            return this.names[index];
+        },
+
+        add_cache_hierarchy: function(host, leech) {
+            this.cache_hierarchy[host] = this.cache_hierarchy[host] || [];
+            this.cache_hierarchy[host].push(leech);
         },
 
         purge: function(name) {
