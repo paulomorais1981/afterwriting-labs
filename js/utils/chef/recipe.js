@@ -4,6 +4,12 @@ define(function(require) {
 
     var Recipe = Protoplast.extend({
 
+        $create: function(name) {
+            this.name = name;
+        },
+
+        name: '',
+
         define: function(dependency, existing_name, self) {
             Object.defineProperty(this, dependency, {
                 set: function(value) {

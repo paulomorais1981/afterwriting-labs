@@ -25,13 +25,11 @@ define(function(require) {
                 this.recipes.push(recipe);
                 this.names.push(name);
 
-                var operator = recipe.create();
+                var operator = recipe.create(name);
 
-                for (var dependency in recipe.$meta.properties.type) {
-                    var type = recipe.$meta.properties.type[dependency];
-                    existing_name = this.get_or_create_dependency(type);
-                    this.add_cache_hierarchy(existing_name, name);
-                    operator.define(dependency, existing_name, this);
+                for (var property_name in recipe.$meta.properties.type) {
+                    var type = recipe.$meta.properties.type[property_name];
+                    this.inject_type(operator, property_name, type);
                 }
 
                 this.operators[name] = operator;
@@ -41,6 +39,12 @@ define(function(require) {
                 this.operators[name] = this.operators[existing_name];
             }
 
+        },
+
+        inject_type: function(leech, property_name, host_type) {
+            var host_name = this.get_or_create_dependency(host_type);
+            this.add_cache_hierarchy(host_name, leech.name);
+            leech.define(property_name, host_name, this);
         },
 
         get_or_create_dependency: function(type) {
