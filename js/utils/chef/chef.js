@@ -25,8 +25,7 @@ define(function(require) {
                 this.descriptors.push(descriptor);
                 this.names.push(name);
 
-                var vo = this;
-                var operator = descriptor.create(name, vo);
+                var operator = descriptor.create();
                 
                 for (var definition in descriptor.$meta.properties.type) {
                     var type = descriptor.$meta.properties.type[definition];
