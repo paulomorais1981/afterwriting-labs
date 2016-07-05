@@ -6,7 +6,7 @@ define(function(require) {
 
         $create: function() {
             this.names = [];
-            this.descriptors = [];
+            this.recipes = [];
             this.operators = {};
             this.cache = {};
             this.cache_hierarchy = {};
@@ -17,31 +17,31 @@ define(function(require) {
             return '__' + (this._rnd++) + '___';
         },
 
-        add: function(name, descriptor) {
+        add: function(name, recipe) {
 
             var index;
 
-            if (index = this.descriptors.indexOf(descriptor) === -1) {
-                this.descriptors.push(descriptor);
+            if (index = this.recipes.indexOf(recipe) === -1) {
+                this.recipes.push(recipe);
                 this.names.push(name);
 
-                var operator = descriptor.create();
+                var operator = recipe.create();
                 
-                for (var definition in descriptor.$meta.properties.type) {
-                    var type = descriptor.$meta.properties.type[definition];
+                for (var dependency in recipe.$meta.properties.type) {
+                    var type = recipe.$meta.properties.type[dependency];
                     (function(self) {
 
-                        var index = self.descriptors.indexOf(type);
+                        var index = self.recipes.indexOf(type);
                         if (index === -1) {
                             self.add(self.next_name(), type);
-                            index = self.descriptors.indexOf(type);
+                            index = self.recipes.indexOf(type);
                         }
                         var existing_name = self.names[index];
 
                         self.cache_hierarchy[existing_name] = self.cache_hierarchy[existing_name] || [];
                         self.cache_hierarchy[existing_name].push(name);
 
-                        Object.defineProperty(operator, definition, {
+                        Object.defineProperty(operator, dependency, {
                             set: function(value) {
                                 self.set(existing_name, value);
                             },
