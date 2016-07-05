@@ -17,22 +17,22 @@ define(function(require) {
             return '__' + (this._rnd++) + '___';
         },
 
-        add: function(name, recipe) {
+        add: function(name, Recipe) {
 
             var index;
 
-            if (index = this.types.indexOf(recipe) === -1) {
-                this.types.push(recipe);
+            if (index = this.types.indexOf(Recipe) === -1) {
+                this.types.push(Recipe);
                 this.names.push(name);
 
-                var operator = recipe.create(name);
+                var recipe = Recipe.create(name);
 
-                for (var property_name in recipe.$meta.properties.type) {
-                    var type = recipe.$meta.properties.type[property_name];
-                    this.inject_type(operator, property_name, type);
+                for (var property_name in Recipe.$meta.properties.type) {
+                    var type = Recipe.$meta.properties.type[property_name];
+                    this.inject_type(recipe, property_name, type);
                 }
 
-                this.recipes[name] = operator;
+                this.recipes[name] = recipe;
             }
             else {
                 var existing_name = this.names[index];
