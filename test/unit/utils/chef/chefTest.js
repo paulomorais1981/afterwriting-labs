@@ -1,4 +1,4 @@
-define(['utils/chef/chef'], function(Chef) {
+define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
 
     describe.only('chef', function() {
 
@@ -10,7 +10,7 @@ define(['utils/chef/chef'], function(Chef) {
             content_getter = sinon.stub();
             words_getter = sinon.stub();
 
-            Content = {
+            Content = Recipe.extend({
                 setter: function(value) {
                     this.value = value;
                 },
@@ -18,9 +18,9 @@ define(['utils/chef/chef'], function(Chef) {
                     content_getter();
                     return this.value;
                 }
-            };
+            });
 
-            EncodedContent = {
+            EncodedContent = Recipe.extend({
                 content: {
                     type: Content
                 },
@@ -31,9 +31,9 @@ define(['utils/chef/chef'], function(Chef) {
                 getter: function() {
                     return this.value;
                 }
-            };
+            });
 
-            Words = {
+            Words = Recipe.extend({
                 content: {
                     type: Content
                 },
@@ -41,16 +41,16 @@ define(['utils/chef/chef'], function(Chef) {
                     words_getter();
                     return this.content.split(' ');
                 }
-            };
+            });
 
-            WordsCount = {
+            WordsCount = Recipe.extend({
                 words: {
                     type: Words
                 },
                 getter: function() {
                     return this.words.length;
                 }
-            };
+            });
         });
 
         it('basic setter and getter', function() {

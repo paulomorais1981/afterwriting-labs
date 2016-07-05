@@ -1,11 +1,10 @@
 define(function(require) {
 
     var Protoplast = require('p');
-    
+
     var Chef = Protoplast.extend({
 
         $create: function() {
-            this.vo = {};
             this.names = [];
             this.descriptors = [];
             this.operators = {};
@@ -17,7 +16,7 @@ define(function(require) {
         add: function(name, descriptor) {
 
             var index;
-            
+
             if (index = this.descriptors.indexOf(descriptor) === -1) {
                 this.descriptors.push(descriptor);
                 this.names.push(name);
@@ -38,30 +37,30 @@ define(function(require) {
                     get: descriptor.getter
                 });
 
-                for (var definition in descriptor) {
-                    if (descriptor.hasOwnProperty(definition) && definition !== 'setter' && definition !== 'getter') {
-                        (function(self){
+                for (var definition in descriptor.$meta.properties.type) {
+                    var type = descriptor.$meta.properties.type[definition];
+                    (function(self) {
 
-                            var index = self.descriptors.indexOf(descriptor[definition].type);
-                            if (index === -1) {
-                                self.add('__' + (this._rnd++) + '___', descriptor[definition].type);
-                                index = self.descriptors.indexOf(descriptor[definition].type);
+                        var index = self.descriptors.indexOf(type);
+                        if (index === -1) {
+                            self.add('__' + (this._rnd++) + '___', type);
+                            index = self.descriptors.indexOf(type);
+                        }
+                        var existing_name = self.names[index];
+
+                        self.cache_hierarchy[existing_name] = self.cache_hierarchy[existing_name] || [];
+                        self.cache_hierarchy[existing_name].push(name);
+
+                        Object.defineProperty(operator, definition, {
+                            set: function(value) {
+                                self.set(existing_name, value);
+                            },
+                            get: function() {
+                                return self.get(existing_name);
                             }
-                            var existing_name = self.names[index];
+                        });
+                    })(this);
 
-                            self.cache_hierarchy[existing_name] = self.cache_hierarchy[existing_name] || [];
-                            self.cache_hierarchy[existing_name].push(name);
-
-                            Object.defineProperty(operator, definition, {
-                                set: function(value) {
-                                    self.set(existing_name, value);
-                                },
-                                get: function() {
-                                    return self.get(existing_name);
-                                }
-                            });
-                        })(this);
-                    }
                 }
 
                 this.operators[name] = operator;
