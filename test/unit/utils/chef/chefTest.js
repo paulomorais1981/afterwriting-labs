@@ -14,12 +14,14 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
                 $create: function() {
                     this.value = 'default';
                 },
-                setter: function(value) {
-                    this.value = value;
-                },
-                getter: function() {
-                    content_getter();
-                    return this.value;
+                value: {
+                    set: function(value) {
+                        this.content = value;
+                    },
+                    get: function() {
+                        content_getter();
+                        return this.content;
+                    }
                 }
             });
 
@@ -27,12 +29,14 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
                 content: {
                     type: Content
                 },
-                setter: function(value) {
-                    this.value = value;
-                    this.content = value.toLowerCase();
-                },
-                getter: function() {
-                    return this.value;
+                value: {
+                    set: function(value) {
+                        this.encoded = value;
+                        this.content = value.toLowerCase();
+                    },
+                    get: function() {
+                        return this.encoded;
+                    }
                 }
             });
 
@@ -40,9 +44,11 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
                 content: {
                     type: Content
                 },
-                getter: function() {
-                    words_getter();
-                    return this.content.split(' ');
+                value: {
+                    get: function() {
+                        words_getter();
+                        return this.content.split(' ');
+                    }
                 }
             });
 
@@ -50,8 +56,10 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
                 words: {
                     type: Words
                 },
-                getter: function() {
-                    return this.words.length;
+                value: {
+                    get: function() {
+                        return this.words.length;
+                    }
                 }
             });
         });

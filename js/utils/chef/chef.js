@@ -76,7 +76,7 @@ define(function(require) {
         },
 
         set: function(name, value) {
-            this.operators[name].$value = value;
+            this.operators[name].value = value;
             this.purge(name);
         },
 
@@ -84,7 +84,7 @@ define(function(require) {
             if (this.cache.hasOwnProperty(name)) {
                 return this.cache[name];
             }
-            return this.cache[name] = this.operators[name].$value;
+            return this.cache[name] = this.operators[name].value;
         }
 
     });
