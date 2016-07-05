@@ -6,8 +6,8 @@ define(function(require) {
 
         $create: function() {
             this.names = [];
-            this.recipes = [];
-            this.operators = {};
+            this.types = [];
+            this.recipes = {};
             this.cache = {};
             this.cache_hierarchy = {};
             this._rnd = 0;
@@ -21,8 +21,8 @@ define(function(require) {
 
             var index;
 
-            if (index = this.recipes.indexOf(recipe) === -1) {
-                this.recipes.push(recipe);
+            if (index = this.types.indexOf(recipe) === -1) {
+                this.types.push(recipe);
                 this.names.push(name);
 
                 var operator = recipe.create(name);
@@ -32,26 +32,26 @@ define(function(require) {
                     this.inject_type(operator, property_name, type);
                 }
 
-                this.operators[name] = operator;
+                this.recipes[name] = operator;
             }
             else {
                 var existing_name = this.names[index];
-                this.operators[name] = this.operators[existing_name];
+                this.recipes[name] = this.recipes[existing_name];
             }
 
         },
 
-        inject_type: function(leech, property_name, host_type) {
+        inject_type: function(consumer, property_name, host_type) {
             var host_name = this.get_or_create_dependency(host_type);
-            this.add_cache_hierarchy(host_name, leech.name);
-            leech.define(property_name, host_name, this);
+            this.add_cache_hierarchy(host_name, consumer.name);
+            consumer.define(property_name, host_name, this);
         },
 
         get_or_create_dependency: function(type) {
-            var index = this.recipes.indexOf(type);
+            var index = this.types.indexOf(type);
             if (index === -1) {
                 this.add(this.next_name(), type);
-                index = this.recipes.indexOf(type);
+                index = this.types.indexOf(type);
             }
             return this.names[index];
         },
@@ -75,7 +75,7 @@ define(function(require) {
         },
 
         set: function(name, value) {
-            this.operators[name].value = value;
+            this.recipes[name].value = value;
             this.purge(name);
         },
 
@@ -83,7 +83,7 @@ define(function(require) {
             if (this.cache.hasOwnProperty(name)) {
                 return this.cache[name];
             }
-            return this.cache[name] = this.operators[name].value;
+            return this.cache[name] = this.recipes[name].value;
         }
 
     });
