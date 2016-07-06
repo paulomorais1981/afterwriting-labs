@@ -176,6 +176,43 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
             sinon.assert.calledWith(trigger, 'test');
         });
 
+        it('direct access', function() {
+
+            var data = Chef.create();
+            data.add('content', Content);
+
+            data.set('content', 'test');
+
+            chai.assert(data.content, 'test');
+
+            data.content = 'test2';
+
+            chai.assert(data.get('content'), 'test2');
+        });
+
+        it('functions', function() {
+
+            var UpperCase = Recipe.extend({
+
+                content: {
+                    type: Content
+                },
+
+                method: function() {
+                    return this.content.toUpperCase();
+                }
+            });
+
+            var data = Chef.create();
+            data.add('content', Content);
+            data.add('toUpperCase', UpperCase);
+
+            data.set('content', 'foo');
+            chai.assert.equal(data.get('content'), 'foo');
+            chai.assert.equal(data.get('toUpperCase')(), 'FOO');
+            chai.assert.equal(data.toUpperCase(), 'FOO');
+        });
+
         it('use case', function() {
 
             var Fountain = Recipe.extend({

@@ -28,6 +28,10 @@ define(function(require) {
 
                 var recipe = Recipe.create(name);
 
+                if (typeof(recipe.method) === 'function') {
+                    recipe.value = recipe.method.bind(recipe);
+                }
+
                 for (var property_name in Recipe.$meta.properties.type) {
                     var type = Recipe.$meta.properties.type[property_name];
                     this.inject_type(recipe, property_name, type);
@@ -44,6 +48,15 @@ define(function(require) {
                 var existing_name = this.names[index];
                 this.recipes[name] = this.recipes[existing_name];
             }
+
+            Object.defineProperty(this, name, {
+                set: function(value) {
+                    this.set(name, value);
+                },
+                get: function() {
+                    return this.get(name);
+                }
+            });
 
         },
 
