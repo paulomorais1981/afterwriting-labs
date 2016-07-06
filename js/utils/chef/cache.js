@@ -10,22 +10,22 @@ define(function(require) {
         
         $create: function() {
             this.values = {};
-            this.triggers = {};
+            this._triggers = {};
         },
         
         add_trigger: function(host, consumer) {
-            this.triggers[host] = this.triggers[host] || [];
-            this.triggers[host].push(consumer);
+            this._triggers[host] = this._triggers[host] || [];
+            this._triggers[host].push(consumer);
         },
 
         purge: function(name) {
-            var queue = this.triggers[name] || [], new_queue;
+            var queue = this._triggers[name] || [], new_queue;
             delete this.values[name];
             while (queue.length) {
                 new_queue = [];
                 queue.forEach(function(dependency) {
                     delete this.values[dependency];
-                    new_queue = new_queue.concat(this.triggers[dependency] || []);
+                    new_queue = new_queue.concat(this._triggers[dependency] || []);
                 }, this);
                 queue = new_queue;
             }
