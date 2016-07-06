@@ -1,7 +1,7 @@
 define(function(require) {
 
     var Protoplast = require('p'),
-        Cache = require('utils/chef/cache');
+        Cache = require('utils/tobject/cache');
 
     var TObject = Protoplast.extend({
 

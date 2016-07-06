@@ -1,4 +1,4 @@
-define(['utils/chef/tobject', 'utils/chef/trait'], function(TObject, Trait) {
+define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait) {
 
     describe('TObject', function() {
 
