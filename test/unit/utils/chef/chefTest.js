@@ -1,6 +1,6 @@
-define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
+define(['utils/chef/tobject', 'utils/chef/trait'], function(TObject, Trait) {
 
-    describe('chef', function() {
+    describe('TObject', function() {
 
         var EncodedContent, Content, Words, WordsCount,
             content_getter, words_getter;
@@ -65,14 +65,14 @@ define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
         });
 
         it('default values', function() {
-            var script = Chef.create();
+            var script = TObject.create();
             script.add('content', Content);
 
             chai.assert.equal(script.get('content'), 'default');
         });
 
         it('basic setter and getter', function() {
-            var script = Chef.create();
+            var script = TObject.create();
             script.add('content', Content);
 
             script.set('content', 'test');
@@ -80,7 +80,7 @@ define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
         });
 
         it('computed getters', function() {
-            var script = Chef.create();
+            var script = TObject.create();
             script.add('content', Content);
             script.add('words', Words);
 
@@ -89,7 +89,7 @@ define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
         });
 
         it('two computed getters', function() {
-            var script = Chef.create();
+            var script = TObject.create();
             script.add('content', Content);
             script.add('words', Words);
             script.add('words.count', WordsCount);
@@ -99,7 +99,7 @@ define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
         });
 
         it('missing dependencies', function() {
-            var script = Chef.create();
+            var script = TObject.create();
             script.add('content', Content);
             script.add('words.count', WordsCount);
 
@@ -108,7 +108,7 @@ define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
         });
 
         it('setters', function() {
-            var script = Chef.create();
+            var script = TObject.create();
             script.add('content', Content);
             script.add('content.encoded', EncodedContent);
 
@@ -117,7 +117,7 @@ define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
         });
 
         it('getters are cached', function() {
-            var script = Chef.create();
+            var script = TObject.create();
             script.add('content', Content);
 
             script.set('content', 'test');
@@ -128,7 +128,7 @@ define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
         });
 
         it('cached is clear when the value is set', function() {
-            var script = Chef.create();
+            var script = TObject.create();
             script.add('content', Content);
             script.add('words', Words);
 
@@ -165,7 +165,7 @@ define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
 
             });
 
-            var script = Chef.create();
+            var script = TObject.create();
             script.add('main.content', Content);
             script.add('trigger', Trigger);
 
@@ -178,7 +178,7 @@ define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
 
         it('direct access', function() {
 
-            var data = Chef.create();
+            var data = TObject.create();
             data.add('content', Content);
 
             data.set('content', 'test');
@@ -203,7 +203,7 @@ define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
                 }
             });
 
-            var data = Chef.create();
+            var data = TObject.create();
             data.add('content', Content);
             data.add('toUpperCase', UpperCase);
 
@@ -307,7 +307,7 @@ define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
 
             });
 
-            var script = Chef.create();
+            var script = TObject.create();
             script.add('config.print', PrintConfig);
             script.add('fountain', Fountain);
             script.add('tokens', Tokens);

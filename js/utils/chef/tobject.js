@@ -3,7 +3,7 @@ define(function(require) {
     var Protoplast = require('p'),
         Cache = require('utils/chef/cache');
 
-    var Chef = Protoplast.extend({
+    var TObject = Protoplast.extend({
 
         $create: function() {
             this._names = [];
@@ -92,5 +92,5 @@ define(function(require) {
 
     });
 
-    return Chef;
+    return TObject;
 });
