@@ -8,7 +8,7 @@ define(function(require) {
         $create: function() {
             this._names = [];
             this._types = [];
-            this._recipes = {};
+            this._traits = {};
             this._triggers = {};
             this._cache = Cache.create();
             this._rnd = 0;
@@ -18,35 +18,35 @@ define(function(require) {
             return '__' + (this._rnd++) + '___';
         },
 
-        add: function(name, Recipe) {
+        add: function(name, Trait) {
 
             var index;
 
-            if (index = this._types.indexOf(Recipe) === -1) {
-                this._types.push(Recipe);
+            if (index = this._types.indexOf(Trait) === -1) {
+                this._types.push(Trait);
                 this._names.push(name);
 
-                var recipe = Recipe.create(name);
+                var trait = Trait.create(name);
 
-                if (typeof(recipe.method) === 'function') {
-                    recipe.value = recipe.method.bind(recipe);
+                if (typeof(trait.method) === 'function') {
+                    trait.value = trait.method.bind(trait);
                 }
 
-                for (var property_name in Recipe.$meta.properties.type) {
-                    var type = Recipe.$meta.properties.type[property_name];
-                    this.$inject_type(recipe, property_name, type);
+                for (var property_name in Trait.$meta.properties.type) {
+                    var type = Trait.$meta.properties.type[property_name];
+                    this.$inject_type(trait, property_name, type);
                 }
-                for (var trigger_name in Recipe.$meta.properties.bind) {
-                    var host_name = this.$get_or_create_dependency(Recipe.$meta.properties.type[trigger_name]);
+                for (var trigger_name in Trait.$meta.properties.bind) {
+                    var host_name = this.$get_or_create_dependency(Trait.$meta.properties.type[trigger_name]);
                     this._triggers[host_name] = this._triggers[host_name] || [];
-                    this._triggers[host_name].push(Recipe.$meta.properties.bind[trigger_name].bind(recipe));
+                    this._triggers[host_name].push(Trait.$meta.properties.bind[trigger_name].bind(trait));
                 }
 
-                this._recipes[name] = recipe;
+                this._traits[name] = trait;
             }
             else {
                 var existing_name = this._names[index];
-                this._recipes[name] = this._recipes[existing_name];
+                this._traits[name] = this._traits[existing_name];
             }
 
             Object.defineProperty(this, name, {
@@ -76,7 +76,7 @@ define(function(require) {
         },
 
         set: function(name, value) {
-            this._recipes[name].value = value;
+            this._traits[name].value = value;
             (this._triggers[name] || []).forEach(function(handler) {
                 handler();
             });
@@ -87,7 +87,7 @@ define(function(require) {
             if (this._cache.has(name)) {
                 return this._cache.get(name);
             }
-            return this._cache.set(name, this._recipes[name].value);
+            return this._cache.set(name, this._traits[name].value);
         }
 
     });

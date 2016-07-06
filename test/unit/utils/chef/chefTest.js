@@ -1,4 +1,4 @@
-define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
+define(['utils/chef/chef', 'utils/chef/trait'], function(Chef, Trait) {
 
     describe('chef', function() {
 
@@ -10,7 +10,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
             content_getter = sinon.stub();
             words_getter = sinon.stub();
 
-            Content = Recipe.extend({
+            Content = Trait.extend({
                 $create: function() {
                     this.value = 'default';
                 },
@@ -25,7 +25,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
                 }
             });
 
-            EncodedContent = Recipe.extend({
+            EncodedContent = Trait.extend({
                 content: {
                     type: Content
                 },
@@ -40,7 +40,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
                 }
             });
 
-            Words = Recipe.extend({
+            Words = Trait.extend({
                 content: {
                     type: Content
                 },
@@ -52,7 +52,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
                 }
             });
 
-            WordsCount = Recipe.extend({
+            WordsCount = Trait.extend({
                 words: {
                     type: Words
                 },
@@ -154,7 +154,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
 
             var trigger = sinon.stub();
 
-            var Trigger = Recipe.extend({
+            var Trigger = Trait.extend({
 
                 content: {
                     type: Content,
@@ -192,7 +192,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
 
         it('functions', function() {
 
-            var UpperCase = Recipe.extend({
+            var UpperCase = Trait.extend({
 
                 content: {
                     type: Content
@@ -215,7 +215,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
 
         it('use case', function() {
 
-            var Fountain = Recipe.extend({
+            var Fountain = Trait.extend({
 
                 value: {
                     set: function(value) {
@@ -228,7 +228,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
 
             });
 
-            var Tokens = Recipe.extend({
+            var Tokens = Trait.extend({
 
                 value: {
                     set: function(value) {
@@ -241,7 +241,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
 
             });
 
-            var Lines = Recipe.extend({
+            var Lines = Trait.extend({
 
                 tokens: {
                     type: Tokens
@@ -257,7 +257,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
 
             });
 
-            var PrintConfig = Recipe.extend({
+            var PrintConfig = Trait.extend({
 
                 $create: function() {
                     this.lines_per_page = 5
@@ -274,7 +274,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
 
             });
 
-            var PagesStats = Recipe.extend({
+            var PagesStats = Trait.extend({
 
                 lines: {
                     type: Lines
@@ -292,7 +292,7 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
 
             });
 
-            var FountainParser = Recipe.extend({
+            var FountainParser = Trait.extend({
 
                 tokens: {
                     type: Tokens
