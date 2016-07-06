@@ -1,6 +1,6 @@
 define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
 
-    describe.only('chef', function() {
+    describe('chef', function() {
 
         var EncodedContent, Content, Words, WordsCount,
             content_getter, words_getter;
@@ -148,7 +148,141 @@ define(['utils/chef/chef', 'utils/chef/recipe'], function(Chef, Recipe) {
 
             chai.assert.lengthOf(script.get('words'), 3);
             sinon.assert.calledTwice(words_getter);
-        })
-    });
+        });
 
+        it('binding', function() {
+
+            var trigger = sinon.stub();
+
+            var Trigger = Recipe.extend({
+
+                content: {
+                    type: Content,
+                    bind: function() {
+                        trigger(this.content);
+                    }
+                }
+
+            });
+
+            var script = Chef.create();
+            script.add('main.content', Content);
+            script.add('trigger', Trigger);
+
+            sinon.assert.notCalled(trigger);
+            script.set('main.content', 'test');
+
+            sinon.assert.called(trigger);
+            sinon.assert.calledWith(trigger, 'test');
+        });
+
+        it('use case', function() {
+
+            var Fountain = Recipe.extend({
+
+                value: {
+                    set: function(value) {
+                        this.fountain = value;
+                    },
+                    get: function() {
+                        return this.fountain;
+                    }
+                }
+
+            });
+
+            var Tokens = Recipe.extend({
+
+                value: {
+                    set: function(value) {
+                        this.tokens = value;
+                    },
+                    get: function() {
+                        return this.tokens;
+                    }
+                }
+
+            });
+
+            var Lines = Recipe.extend({
+
+                tokens: {
+                    type: Tokens
+                },
+
+                value: {
+                    get: function() {
+                        return this.tokens.filter(function(token) {
+                            return token;
+                        })
+                    }
+                }
+
+            });
+
+            var PrintConfig = Recipe.extend({
+
+                $create: function() {
+                    this.lines_per_page = 5
+                },
+
+                value: {
+                    set: function(value) {
+                        this.config = value;
+                    },
+                    get: function() {
+                        return this.config;
+                    }
+                }
+
+            });
+
+            var PagesStats = Recipe.extend({
+
+                lines: {
+                    type: Lines
+                },
+
+                config: {
+                    type: PrintConfig
+                },
+
+                value: {
+                    get: function() {
+                        return this.lines.length / this.config.lines_per_page;
+                    }
+                }
+
+            });
+
+            var FountainParser = Recipe.extend({
+
+                tokens: {
+                    type: Tokens
+                },
+
+                fountain: {
+                    type: Fountain,
+                    bind: function() {
+                        this.tokens = this.fountain.split('\n');
+                    }
+                }
+
+            });
+
+            var script = Chef.create();
+            script.add('config.print', PrintConfig);
+            script.add('fountain', Fountain);
+            script.add('tokens', Tokens);
+            script.add('lines', Lines);
+            script.add('stats.pages', PagesStats);
+            script.add('parser.fountain', FountainParser);
+
+            script.set('fountain', 'line 1\n\nline 2\nline 3');
+            script.set('config.print', {lines_per_page: 3});
+
+            chai.assert(script.get('stats.pages'), 1);
+        });
+
+    });
 });

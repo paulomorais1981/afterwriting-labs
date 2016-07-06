@@ -9,6 +9,7 @@ define(function(require) {
             this.names = [];
             this.types = [];
             this.recipes = {};
+            this.triggers = {};
             this.cache = Cache.create();
             this._rnd = 0;
         },
@@ -30,6 +31,11 @@ define(function(require) {
                 for (var property_name in Recipe.$meta.properties.type) {
                     var type = Recipe.$meta.properties.type[property_name];
                     this.inject_type(recipe, property_name, type);
+                }
+                for (var trigger_name in Recipe.$meta.properties.bind) {
+                    var host_name = this.get_or_create_dependency(Recipe.$meta.properties.type[trigger_name]);
+                    this.triggers[host_name] = this.triggers[host_name] || [];
+                    this.triggers[host_name].push(Recipe.$meta.properties.bind[trigger_name].bind(recipe));
                 }
 
                 this.recipes[name] = recipe;
@@ -58,6 +64,9 @@ define(function(require) {
 
         set: function(name, value) {
             this.recipes[name].value = value;
+            (this.triggers[name] || []).forEach(function(handler) {
+                handler();
+            });
             this.cache.purge(name);
         },
 
