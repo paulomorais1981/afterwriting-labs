@@ -4,6 +4,8 @@ define(function(require) {
 
     var TraitUtils = Protoplast.extend({
 
+        _counter: 0,
+
         flatten_traits: function(result, current, ns) {
 
             for (var name  in current) {
@@ -15,6 +17,10 @@ define(function(require) {
                 }
             }
 
+        },
+
+        next_name: function() {
+            return '__' + (this._counter++) + '___';
         }
 
     });

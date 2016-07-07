@@ -25,6 +25,10 @@ define(['utils/tobject/trait-utils', 'utils/tobject/trait'], function(TraitUtils
             });
         });
 
+        it('generates unique names', function() {
+            chai.assert.notEqual(TraitUtils.next_name(), TraitUtils.next_name());
+        });
+
     });
 
 });

@@ -12,7 +12,6 @@ define(function(require) {
             this._traits = {};
             this._triggers = {};
             this._cache = Cache.create();
-            this._rnd = 0;
 
             if (traits) {
                 var flat_traits = {};
@@ -22,11 +21,7 @@ define(function(require) {
                 }
             }
         },
-
-        $next_name: function() {
-            return '__' + (this._rnd++) + '___';
-        },
-
+        
         $add: function(name, Trait) {
 
             var index;
@@ -96,7 +91,7 @@ define(function(require) {
         $get_or_create_dependency: function(type) {
             var index = this._types.indexOf(type);
             if (index === -1) {
-                this.$add(this.$next_name(), type);
+                this.$add(TraitUtils.next_name(), type);
                 index = this._types.indexOf(type);
             }
             return this._names[index];
