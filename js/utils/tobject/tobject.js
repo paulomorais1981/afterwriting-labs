@@ -49,15 +49,33 @@ define(function(require) {
                 this._traits[name] = this._traits[existing_name];
             }
 
-            Object.defineProperty(this, name, {
+            var self = this;
+            var property_description = this.$get_property_owner(name);
+
+            Object.defineProperty(property_description.owner, property_description.name, {
                 set: function(value) {
-                    this.set(name, value);
+                    self.set(name, value);
                 },
                 get: function() {
-                    return this.get(name);
+                    return self.get(name);
                 }
             });
 
+        },
+
+        $get_property_owner: function(name) {
+
+            var result = {owner: this, name: name};
+
+            var current, ns = name.split('.');
+            while (ns.length > 1) {
+                current = ns.shift();
+                result.owner[current] = result.owner[current] || {};
+                result.owner = result.owner[current];
+            }
+            result.name = ns[0];
+
+            return result;
         },
 
         $inject_type: function(consumer, property_name, host_type) {

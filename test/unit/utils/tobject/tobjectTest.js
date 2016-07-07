@@ -109,11 +109,11 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
 
         it('setters', function() {
             var script = TObject.create();
-            script.add('content', Content);
+            script.add('content.value', Content);
             script.add('content.encoded', EncodedContent);
 
             script.set('content.encoded', 'FOO BAR');
-            chai.assert.equal(script.get('content'), 'foo bar');
+            chai.assert.equal(script.get('content.value'), 'foo bar');
         });
 
         it('getters are cached', function() {
@@ -188,6 +188,16 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
             data.content = 'test2';
 
             chai.assert(data.get('content'), 'test2');
+        });
+
+        it('nested properties', function() {
+
+            var data = TObject.create();
+            data.add('my.namespace.content', Content);
+
+            data.my.namespace.content = 'value';
+            chai.assert(data.get('my.namespace.content'), 'value');
+
         });
 
         it('functions', function() {
