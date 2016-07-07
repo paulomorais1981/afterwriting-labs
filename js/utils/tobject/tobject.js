@@ -17,7 +17,7 @@ define(function(require) {
                 var flat_traits = {};
                 this.$flatten_traits(flat_traits, traits, []);
                 for (var name in flat_traits) {
-                    this.add(name, flat_traits[name]);
+                    this.$add(name, flat_traits[name]);
                 }
             }
         },
@@ -39,7 +39,7 @@ define(function(require) {
             return '__' + (this._rnd++) + '___';
         },
 
-        add: function(name, Trait) {
+        $add: function(name, Trait) {
 
             var index;
 
@@ -108,7 +108,7 @@ define(function(require) {
         $get_or_create_dependency: function(type) {
             var index = this._types.indexOf(type);
             if (index === -1) {
-                this.add(this.$next_name(), type);
+                this.$add(this.$next_name(), type);
                 index = this._types.indexOf(type);
             }
             return this._names[index];

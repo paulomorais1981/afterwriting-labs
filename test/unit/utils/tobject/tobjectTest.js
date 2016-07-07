@@ -1,6 +1,6 @@
 define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait) {
 
-    describe.only('TObject', function() {
+    describe('TObject', function() {
 
         var EncodedContent, Content, Words, WordsCount,
             content_getter, words_getter;
@@ -204,16 +204,6 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
             data.content = 'test2';
 
             chai.assert(data.get('content'), 'test2');
-        });
-
-        it('nested properties', function() {
-
-            var data = TObject.create();
-            data.add('my.namespace.content', Content);
-
-            data.my.namespace.content = 'value';
-            chai.assert(data.get('my.namespace.content'), 'value');
-
         });
 
         it('functions', function() {
