@@ -1,8 +1,9 @@
 define(function(require) {
 
     var Protoplast = require('p'),
+        TraitUtils = require('utils/tobject/trait-utils'),
         Cache = require('utils/tobject/cache');
-
+ 
     var TObject = Protoplast.extend({
 
         $create: function(traits) {
@@ -15,24 +16,11 @@ define(function(require) {
 
             if (traits) {
                 var flat_traits = {};
-                this.$flatten_traits(flat_traits, traits, []);
+                TraitUtils.flatten_traits(flat_traits, traits, []);
                 for (var name in flat_traits) {
                     this.$add(name, flat_traits[name]);
                 }
             }
-        },
-
-        $flatten_traits: function(result, current, ns) {
-
-            for (var name  in current) {
-                if (current[name].$meta && current[name].$meta.trait) {
-                    result[ns.concat(name).join('.')] = current[name];
-                }
-                else {
-                    this.$flatten_traits(result, current[name], ns.concat(name))
-                }
-            }
-
         },
 
         $next_name: function() {
