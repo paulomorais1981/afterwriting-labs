@@ -4,6 +4,10 @@ define(function(require) {
 
     var Trait = Protoplast.extend({
 
+        $meta: {
+            trait: true
+        },
+
         $create: function(name) {
             this.name = name;
         },

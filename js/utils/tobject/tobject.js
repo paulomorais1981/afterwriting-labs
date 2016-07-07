@@ -5,13 +5,34 @@ define(function(require) {
 
     var TObject = Protoplast.extend({
 
-        $create: function() {
+        $create: function(traits) {
             this._names = [];
             this._types = [];
             this._traits = {};
             this._triggers = {};
             this._cache = Cache.create();
             this._rnd = 0;
+
+            if (traits) {
+                var flat_traits = {};
+                this.$flatten_traits(flat_traits, traits, []);
+                for (var name in flat_traits) {
+                    this.add(name, flat_traits[name]);
+                }
+            }
+        },
+
+        $flatten_traits: function(result, current, ns) {
+
+            for (var name  in current) {
+                if (current[name].$meta && current[name].$meta.trait) {
+                    result[ns.concat(name).join('.')] = current[name];
+                }
+                else {
+                    this.$flatten_traits(result, current[name], ns.concat(name))
+                }
+            }
+
         },
 
         $next_name: function() {

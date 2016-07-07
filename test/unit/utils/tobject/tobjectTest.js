@@ -1,6 +1,6 @@
 define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait) {
 
-    describe('TObject', function() {
+    describe.only('TObject', function() {
 
         var EncodedContent, Content, Words, WordsCount,
             content_getter, words_getter;
@@ -65,60 +65,71 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
         });
 
         it('default values', function() {
-            var script = TObject.create();
-            script.add('content', Content);
+            var script = TObject.create({
+                content: Content
+            });
 
             chai.assert.equal(script.get('content'), 'default');
         });
 
         it('basic setter and getter', function() {
-            var script = TObject.create();
-            script.add('content', Content);
+            var script = TObject.create({
+                content: Content
+            });
 
             script.set('content', 'test');
             chai.assert.equal(script.get('content'), 'test');
         });
 
         it('computed getters', function() {
-            var script = TObject.create();
-            script.add('content', Content);
-            script.add('words', Words);
+            var script = TObject.create({
+                content: Content,
+                words: Words
+            });
 
             script.set('content', 'foo bar');
             chai.assert.lengthOf(script.get('words'), 2);
         });
 
         it('two computed getters', function() {
-            var script = TObject.create();
-            script.add('content', Content);
-            script.add('words', Words);
-            script.add('words.count', WordsCount);
+            var script = TObject.create({
+                content: Content,
+                words: {
+                    list: Words,
+                    count: WordsCount
+                }
+            });
 
             script.set('content', 'foo bar');
             chai.assert.equal(script.get('words.count'), 2);
         });
 
         it('missing dependencies', function() {
-            var script = TObject.create();
-            script.add('content', Content);
-            script.add('words.count', WordsCount);
+            var script = TObject.create({
+                content: Content,
+                'words.count': WordsCount
+            });
 
             script.set('content', 'foo bar');
             chai.assert.equal(script.get('words.count'), 2);
         });
 
         it('setters', function() {
-            var script = TObject.create();
-            script.add('content.value', Content);
-            script.add('content.encoded', EncodedContent);
+            var script = TObject.create({
+                content: {
+                    value: Content,
+                    encoded: EncodedContent
+                }
+            });
 
             script.set('content.encoded', 'FOO BAR');
             chai.assert.equal(script.get('content.value'), 'foo bar');
         });
 
         it('getters are cached', function() {
-            var script = TObject.create();
-            script.add('content', Content);
+            var script = TObject.create({
+                content: Content
+            });
 
             script.set('content', 'test');
             script.get('content');
@@ -128,9 +139,10 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
         });
 
         it('cached is clear when the value is set', function() {
-            var script = TObject.create();
-            script.add('content', Content);
-            script.add('words', Words);
+            var script = TObject.create({
+                content: Content,
+                words: Words
+            });
 
             script.set('content', 'foo bar');
             sinon.assert.notCalled(words_getter);
@@ -165,9 +177,12 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
 
             });
 
-            var script = TObject.create();
-            script.add('main.content', Content);
-            script.add('trigger', Trigger);
+            var script = TObject.create({
+                main: {
+                    content: Content
+                },
+                trigger: Trigger
+            });
 
             sinon.assert.notCalled(trigger);
             script.set('main.content', 'test');
@@ -178,8 +193,9 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
 
         it('direct access', function() {
 
-            var data = TObject.create();
-            data.add('content', Content);
+            var data = TObject.create({
+                content: Content
+            });
 
             data.set('content', 'test');
 
@@ -213,9 +229,10 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
                 }
             });
 
-            var data = TObject.create();
-            data.add('content', Content);
-            data.add('toUpperCase', UpperCase);
+            var data = TObject.create({
+                content: Content,
+                toUpperCase: UpperCase
+            });
 
             data.set('content', 'foo');
             chai.assert.equal(data.get('content'), 'foo');
@@ -317,13 +334,20 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
 
             });
 
-            var script = TObject.create();
-            script.add('config.print', PrintConfig);
-            script.add('fountain', Fountain);
-            script.add('tokens', Tokens);
-            script.add('lines', Lines);
-            script.add('stats.pages', PagesStats);
-            script.add('parser.fountain', FountainParser);
+            var script = TObject.create({
+                config: {
+                    print: PrintConfig
+                },
+                fountain: Fountain,
+                tokens: Tokens,
+                lines: Lines,
+                stats: {
+                    pages: PagesStats
+                },
+                parser: {
+                    fountain: FountainParser
+                }
+            });
 
             script.set('fountain', 'line 1\n\nline 2\nline 3');
             script.set('config.print', {lines_per_page: 3});
