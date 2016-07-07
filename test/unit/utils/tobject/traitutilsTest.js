@@ -29,6 +29,22 @@ define(['utils/tobject/trait-utils', 'utils/tobject/trait'], function(TraitUtils
             chai.assert.notEqual(TraitUtils.next_name(), TraitUtils.next_name());
         });
 
+        it('resolves property from the namespace', function() {
+            var object = {
+                my: {
+                    namespace: {
+                        host: {
+                            property: 'value'
+                        }
+                    }
+                }
+            };
+
+            var result = TraitUtils.resolve_property_owner(object, 'my.namespace.host.property');
+            chai.assert.strictEqual(result.owner, object.my.namespace.host);
+            chai.assert.strictEqual(result.name, 'property');
+        });
+
     });
 
 });

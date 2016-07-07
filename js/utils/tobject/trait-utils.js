@@ -21,6 +21,21 @@ define(function(require) {
 
         next_name: function() {
             return '__' + (this._counter++) + '___';
+        },
+
+        resolve_property_owner: function(host, name) {
+
+            var result = {owner: host, name: name};
+
+            var current, ns = name.split('.');
+            while (ns.length > 1) {
+                current = ns.shift();
+                result.owner[current] = result.owner[current] || {};
+                result.owner = result.owner[current];
+            }
+            result.name = ns[0];
+
+            return result;
         }
 
     });

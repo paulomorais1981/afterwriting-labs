@@ -54,7 +54,7 @@ define(function(require) {
             }
 
             var self = this;
-            var property_description = this.$get_property_owner(name);
+            var property_description = TraitUtils.resolve_property_owner(this, name);
 
             Object.defineProperty(property_description.owner, property_description.name, {
                 set: function(value) {
@@ -65,21 +65,6 @@ define(function(require) {
                 }
             });
 
-        },
-
-        $get_property_owner: function(name) {
-
-            var result = {owner: this, name: name};
-
-            var current, ns = name.split('.');
-            while (ns.length > 1) {
-                current = ns.shift();
-                result.owner[current] = result.owner[current] || {};
-                result.owner = result.owner[current];
-            }
-            result.name = ns[0];
-
-            return result;
         },
 
         $inject_type: function(consumer, property_name, host_type) {
