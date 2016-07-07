@@ -53,6 +53,11 @@ define(function(require) {
                 this._traits[name] = this._traits[existing_name];
             }
 
+            this.$define_nested_property(name);
+        },
+
+        $define_nested_property: function(name) {
+
             var self = this;
             var property_description = TraitUtils.resolve_property_owner(this, name);
 
@@ -64,7 +69,6 @@ define(function(require) {
                     return self.get(name);
                 }
             });
-
         },
 
         $inject_type: function(consumer, property_name, host_type) {
