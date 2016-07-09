@@ -8,6 +8,12 @@ define(function(require) {
         }
     };
 
+    /**
+     * Trait represents a property of an object. Could be a property (setter + getter), computed property (get only),
+     * or a method.
+     *
+     * @Trait
+     */
     var Trait = Protoplast.extend({
 
         $meta: {
