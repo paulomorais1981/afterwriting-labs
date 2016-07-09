@@ -1,10 +1,10 @@
 define(function(require) {
 
     var Protoplast = require('p'),
-        TraitUtils = require('utils/tobject/trait-utils'),
-        Cache = require('utils/tobject/cache');
+        TraitUtils = require('utils/lazy-object/trait-utils'),
+        Cache = require('utils/lazy-object/cache');
  
-    var TObject = Protoplast.extend({
+    var LazyObject = Protoplast.extend({
 
         $create: function(traits) {
             this._names = [];
@@ -114,5 +114,5 @@ define(function(require) {
 
     });
 
-    return TObject;
+    return LazyObject;
 });

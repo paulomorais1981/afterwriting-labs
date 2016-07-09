@@ -1,6 +1,6 @@
-define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait) {
+define(['utils/lazy-object/lazy-object', 'utils/lazy-object/trait'], function(LazyObject, Trait) {
 
-    describe('TObject', function() {
+    describe('LazyObject', function() {
 
         var EncodedContent, Content, Words, WordsCount,
             content_getter, words_getter;
@@ -65,7 +65,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
         });
 
         it('default values', function() {
-            var script = TObject.create({
+            var script = LazyObject.create({
                 content: Content
             });
 
@@ -73,7 +73,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
         });
 
         it('basic setter and getter', function() {
-            var script = TObject.create({
+            var script = LazyObject.create({
                 content: Content
             });
 
@@ -82,7 +82,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
         });
 
         it('computed getters', function() {
-            var script = TObject.create({
+            var script = LazyObject.create({
                 content: Content,
                 words: Words
             });
@@ -92,7 +92,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
         });
 
         it('two computed getters', function() {
-            var script = TObject.create({
+            var script = LazyObject.create({
                 content: Content,
                 words: {
                     list: Words,
@@ -105,7 +105,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
         });
 
         it('missing dependencies', function() {
-            var script = TObject.create({
+            var script = LazyObject.create({
                 content: Content,
                 'words.count': WordsCount
             });
@@ -115,7 +115,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
         });
 
         it('setters', function() {
-            var script = TObject.create({
+            var script = LazyObject.create({
                 content: {
                     value: Content,
                     encoded: EncodedContent
@@ -127,7 +127,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
         });
 
         it('getters are cached', function() {
-            var script = TObject.create({
+            var script = LazyObject.create({
                 content: Content
             });
 
@@ -139,7 +139,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
         });
 
         it('cached is clear when the value is set', function() {
-            var script = TObject.create({
+            var script = LazyObject.create({
                 content: Content,
                 words: Words
             });
@@ -177,7 +177,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
 
             });
 
-            var script = TObject.create({
+            var script = LazyObject.create({
                 main: {
                     content: Content
                 },
@@ -193,7 +193,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
 
         it('direct access', function() {
 
-            var data = TObject.create({
+            var data = LazyObject.create({
                 content: Content
             });
 
@@ -221,7 +221,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
                 }
             });
 
-            var data = TObject.create({
+            var data = LazyObject.create({
                 content: Content,
                 trait: SimpleTrait
             });
@@ -252,7 +252,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
                 }
             });
 
-            var data = TObject.create({
+            var data = LazyObject.create({
                 content: Content,
                 toUpperCase: UpperCase
             });
@@ -357,7 +357,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
 
             });
 
-            var script = TObject.create({
+            var script = LazyObject.create({
                 config: {
                     print: PrintConfig
                 },

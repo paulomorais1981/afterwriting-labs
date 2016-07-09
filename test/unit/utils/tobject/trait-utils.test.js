@@ -1,4 +1,4 @@
-define(['utils/tobject/trait-utils', 'utils/tobject/trait'], function(TraitUtils, Trait) {
+define(['utils/lazy-object/trait-utils', 'utils/lazy-object/trait'], function(TraitUtils, Trait) {
 
     describe('TraitUtils', function() {
 

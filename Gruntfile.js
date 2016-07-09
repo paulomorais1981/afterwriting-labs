@@ -230,7 +230,7 @@ module.exports = function(grunt) {
             }
         },
 
-        template: {
+            template: {
             test: {
                 options: {
                     data: {
