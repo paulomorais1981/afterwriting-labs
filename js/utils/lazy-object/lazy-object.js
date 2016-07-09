@@ -7,8 +7,6 @@ define(function(require) {
     var LazyObject = Protoplast.extend({
 
         $create: function(traits) {
-            this._names = [];
-            this._types = [];
             this._traits = {};
             this._observers = {};
             this._cache = Cache.create();
@@ -21,31 +19,35 @@ define(function(require) {
                 }
             }
         },
-        
+
+        $trait_name: function(type) {
+            for (var name in this._traits) {
+                if (this._traits[name].type === type) {
+                    return name;
+                }
+            }
+            return null;
+        },
+
         $add: function(name, Trait) {
 
-            var index;
+            this._traits[name] = this._traits[name] || {};
 
-            if (index = this._types.indexOf(Trait) === -1) {
-                this._types.push(Trait);
-                this._names.push(name);
+            if (!this.$trait_name(Trait)) {
 
                 var trait = Trait.create(name);
-
-                if (typeof(trait.method) === 'function') {
-                    trait.value = trait.method.bind(trait);
-                }
-
+                
                 for (var property_name in Trait.$meta.properties.type) {
                     var type = Trait.$meta.properties.type[property_name];
                     this.$inject_type(trait, property_name, type);
                 }
 
-                this._traits[name] = trait;
+                this._traits[name].trait = trait;
+                this._traits[name].type = Trait;
             }
             else {
-                var existing_name = this._names[index];
-                this._traits[name] = this._traits[existing_name];
+                this._traits[name].trait = this._traits[this.$trait_name(Trait)].trait;
+                this._traits[name].type = Trait;
             }
 
             this.$define_nested_property(name);
@@ -73,16 +75,14 @@ define(function(require) {
         },
 
         $get_or_create_dependency: function(type) {
-            var index = this._types.indexOf(type);
-            if (index === -1) {
+            if (!this.$trait_name(type)) {
                 this.$add(TraitUtils.next_name(), type);
-                index = this._types.indexOf(type);
             }
-            return this._names[index];
+            return this.$trait_name(type);
         },
 
         set: function(name, value) {
-            this._traits[name].value = value;
+            this._traits[name].trait.value = value;
             var purged = this._cache.purge(name);
             purged.forEach(function(name) {
                 (this._observers[name] || []).forEach(function(handler) {
@@ -95,7 +95,7 @@ define(function(require) {
             if (this._cache.has(name)) {
                 return this._cache.get(name);
             }
-            return this._cache.set(name, this._traits[name].value);
+            return this._cache.set(name, this._traits[name].trait.value);
         },
         
         observe: function(name, handler) {

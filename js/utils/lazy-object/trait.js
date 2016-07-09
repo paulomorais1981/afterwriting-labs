@@ -2,10 +2,17 @@ define(function(require) {
 
     var Protoplast = require('p');
 
+    var autobind_method = function () {
+        if (typeof(this.method) === 'function') {
+            this.value = this.method.bind(this);
+        }
+    };
+
     var Trait = Protoplast.extend({
 
         $meta: {
-            trait: true
+            trait: true,
+            constructors: [autobind_method]
         },
 
         $create: function(name) {
