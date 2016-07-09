@@ -162,35 +162,6 @@ define(['utils/lazy-object/lazy-object', 'utils/lazy-object/trait'], function(La
             sinon.assert.calledTwice(words_getter);
         });
 
-        it('triggers', function() {
-
-            var trigger = sinon.stub();
-
-            var Trigger = Trait.extend({
-
-                content: {
-                    type: Content,
-                    trigger: function() {
-                        trigger(this.content);
-                    }
-                }
-
-            });
-
-            var script = LazyObject.create({
-                main: {
-                    content: Content
-                },
-                trigger: Trigger
-            });
-
-            sinon.assert.notCalled(trigger);
-            script.set('main.content', 'test');
-
-            sinon.assert.called(trigger);
-            sinon.assert.calledWith(trigger, 'test');
-        });
-
         it('direct access', function() {
 
             var data = LazyObject.create({
@@ -342,21 +313,6 @@ define(['utils/lazy-object/lazy-object', 'utils/lazy-object/trait'], function(La
 
             });
 
-            var FountainParser = Trait.extend({
-
-                tokens: {
-                    type: Tokens
-                },
-
-                fountain: {
-                    type: Fountain,
-                    trigger: function() {
-                        this.tokens = this.fountain.split('\n');
-                    }
-                }
-
-            });
-
             var script = LazyObject.create({
                 config: {
                     print: PrintConfig
@@ -366,10 +322,12 @@ define(['utils/lazy-object/lazy-object', 'utils/lazy-object/trait'], function(La
                 lines: Lines,
                 stats: {
                     pages: PagesStats
-                },
-                parser: {
-                    fountain: FountainParser
                 }
+            });
+
+            // fountain parser
+            script.observe('fountain', function() {
+                script.tokens = script.fountain.split('\n');
             });
 
             script.set('fountain', 'line 1\n\nline 2\nline 3');

@@ -10,7 +10,6 @@ define(function(require) {
             this._names = [];
             this._types = [];
             this._traits = {};
-            this._triggers = {};
             this._observers = {};
             this._cache = Cache.create();
 
@@ -40,11 +39,6 @@ define(function(require) {
                 for (var property_name in Trait.$meta.properties.type) {
                     var type = Trait.$meta.properties.type[property_name];
                     this.$inject_type(trait, property_name, type);
-                }
-                for (var trigger_name in Trait.$meta.properties.trigger) {
-                    var host_name = this.$get_or_create_dependency(Trait.$meta.properties.type[trigger_name]);
-                    this._triggers[host_name] = this._triggers[host_name] || [];
-                    this._triggers[host_name].push(Trait.$meta.properties.trigger[trigger_name].bind(trait));
                 }
 
                 this._traits[name] = trait;
@@ -89,9 +83,6 @@ define(function(require) {
 
         set: function(name, value) {
             this._traits[name].value = value;
-            (this._triggers[name] || []).forEach(function(handler) {
-                handler();
-            });
             var purged = this._cache.purge(name);
             purged.forEach(function(name) {
                 (this._observers[name] || []).forEach(function(handler) {
