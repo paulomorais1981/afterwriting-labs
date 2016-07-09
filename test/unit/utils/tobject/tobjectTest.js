@@ -162,7 +162,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
             sinon.assert.calledTwice(words_getter);
         });
 
-        it('binding', function() {
+        it('triggers', function() {
 
             var trigger = sinon.stub();
 
@@ -170,7 +170,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
 
                 content: {
                     type: Content,
-                    bind: function() {
+                    trigger: function() {
                         trigger(this.content);
                     }
                 }
@@ -350,7 +350,7 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
 
                 fountain: {
                     type: Fountain,
-                    bind: function() {
+                    trigger: function() {
                         this.tokens = this.fountain.split('\n');
                     }
                 }

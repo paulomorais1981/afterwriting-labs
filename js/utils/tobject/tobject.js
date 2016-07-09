@@ -41,10 +41,10 @@ define(function(require) {
                     var type = Trait.$meta.properties.type[property_name];
                     this.$inject_type(trait, property_name, type);
                 }
-                for (var trigger_name in Trait.$meta.properties.bind) {
+                for (var trigger_name in Trait.$meta.properties.trigger) {
                     var host_name = this.$get_or_create_dependency(Trait.$meta.properties.type[trigger_name]);
                     this._triggers[host_name] = this._triggers[host_name] || [];
-                    this._triggers[host_name].push(Trait.$meta.properties.bind[trigger_name].bind(trait));
+                    this._triggers[host_name].push(Trait.$meta.properties.trigger[trigger_name].bind(trait));
                 }
 
                 this._traits[name] = trait;
