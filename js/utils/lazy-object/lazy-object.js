@@ -7,8 +7,9 @@ define(function(require) {
     var LazyObject = Protoplast.extend({
 
         $create: function(traits) {
+
             this._traits = {};
-            this._observers = {};
+            this._watchers = {};
             this._cache = Cache.create();
 
             if (traits) {
@@ -85,9 +86,9 @@ define(function(require) {
             this._traits[name].trait.value = value;
             var purged = this._cache.purge(name);
             purged.forEach(function(name) {
-                (this._observers[name] || []).forEach(function(handler) {
-                    handler();
-                });
+                (this._watchers[name] || []).forEach(function(handler) {
+                    handler.handler.call(handler.context, this.get(name));
+                }, this);
             }, this);
         },
 
@@ -97,10 +98,21 @@ define(function(require) {
             }
             return this._cache.set(name, this._traits[name].trait.value);
         },
-        
-        observe: function(name, handler) {
-            this._observers[name] = this._observers[name] || [];
-            this._observers[name].push(handler);
+
+        bind: function(name, handler, context) {
+            if (arguments.length !== 3) {
+                throw new Error('bind(name, handler, context) requires all arguments to be passed');
+            }
+            this._watchers[name] = this._watchers[name] || [];
+            this._watchers[name].push({handler: handler, context: context});
+            handler.call(context, this.get(name));
+        },
+
+        unbind: function(name, handler, context) {
+            if (arguments.length !== 3) {
+                throw new Error('bind(name, handler, context) requires all arguments to be passed');
+            }
+            
         }
 
     });

@@ -202,37 +202,96 @@ define(['utils/lazy-object/lazy-object', 'utils/lazy-object/trait'], function(La
             chai.assert(data.get('content'), 'test2');
         });
 
-        it('observse changes in the values without calculating them straight away', function() {
+        describe.only('bindings', function() {
 
-            var trait_formula = sinon.stub();
+            var trait_formula, SimpleTrait, data, bind_trait;
 
-            var SimpleTrait = Trait.extend({
-                
-                content: {
-                    type: Content
-                },
+            beforeEach(function() {
+                trait_formula = sinon.stub();
 
-                value: {
-                    get: trait_formula
-                }
+                SimpleTrait = Trait.extend({
+
+                    content: {
+                        type: Content
+                    },
+
+                    value: {
+                        get: trait_formula
+                    }
+                });
+
+                data = LazyObject.create({
+                    content: Content,
+                    trait: SimpleTrait
+                });
+
+                bind_trait = sinon.stub();
             });
 
-            var data = LazyObject.create({
-                content: Content,
-                trait: SimpleTrait
+            it('binds to changes running handler straight away', function() {
+
+                data.bind('trait', bind_trait, null);
+
+                sinon.assert.calledOnce(bind_trait);
+                sinon.assert.calledOnce(trait_formula);
+                data.content = "foo bar";
+                sinon.assert.calledTwice(bind_trait);
+                sinon.assert.calledTwice(trait_formula);
             });
 
-            var observe_trait = sinon.stub();
+            it('removing bindings', function() {
+                data.bind('trait', bind_trait, null);
+                data.unbind('trait', bind_trait, null);
 
-            data.observe('trait', observe_trait);
+                data.content = "foo bar";
+                sinon.assert.notCalled(bind_trait);
+            });
 
-            sinon.assert.notCalled(observe_trait);
-            data.content = "foo bar";
-            sinon.assert.called(observe_trait);
+            it('removing specific bindings', function() {
+                var bind_trait2 = sinon.stub();
 
-            sinon.assert.notCalled(trait_formula);
-            data.trait;
-            sinon.assert.calledOnce(trait_formula);
+                data.bind('trait', bind_trait, null);
+                data.bind('trait', bind_trait2, null);
+                data.unbind('trait', bind_trait, null);
+
+                data.content = "foo bar";
+                sinon.assert.called(bind_trait);
+                sinon.assert.notCalled(bind_trait);
+            });
+
+            it('removing all bindings for a context', function() {
+                var bind_trait_same_context = sinon.stub(),
+                    bind_trait_other_context = sinon.stub(),
+                    a = {}, b = {};
+
+                data.bind('trait', bind_trait, a);
+                data.bind('trait', bind_trait_same_context, a);
+                data.bind('trait', bind_trait_other_context, b);
+                data.unbind('trait', null, a);
+
+                data.content = "foo bar";
+                sinon.assert.called(bind_trait_other_context);
+                sinon.assert.notCalled(bind_trait);
+                sinon.assert.notCalled(bind_trait_same_context);
+
+            });
+
+            it('removing all bindings', function() {
+                var bind_trait_same_context = sinon.stub(),
+                    bind_trait_other_context = sinon.stub(),
+                    a = {}, b = {};
+
+                data.bind('trait', bind_trait, a);
+                data.bind('trait', bind_trait_same_context, a);
+                data.bind('trait', bind_trait_other_context, b);
+                data.unbind('trait', null, a);
+
+                data.content = "foo bar";
+                sinon.assert.notCalled(bind_trait_other_context);
+                sinon.assert.notCalled(bind_trait);
+                sinon.assert.notCalled(bind_trait_same_context);
+            });
+
         });
 
         it('functions', function() {
@@ -262,6 +321,10 @@ define(['utils/lazy-object/lazy-object', 'utils/lazy-object/trait'], function(La
         it('use case', function() {
 
             var Fountain = Trait.extend({
+
+                $create: function() {
+                    this.fountain = '';
+                },
 
                 value: {
                     set: function(value) {
@@ -351,12 +414,12 @@ define(['utils/lazy-object/lazy-object', 'utils/lazy-object/trait'], function(La
             });
 
             // fountain parser
-            script.observe('fountain', function() {
+            script.bind('fountain', function() {
                 script.tokens = script.fountain.split('\n');
-            });
+            }, null);
 
-            script.set('fountain', 'line 1\n\nline 2\nline 3');
             script.set('config.print', {lines_per_page: 3});
+            script.set('fountain', 'line 1\n\nline 2\nline 3');
 
             chai.assert(script.get('stats.pages'), 1);
         });
