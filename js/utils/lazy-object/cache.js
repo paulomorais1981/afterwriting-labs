@@ -19,24 +19,24 @@ define(function(require) {
         },
 
         purge: function(name) {
-            var queue = this._triggers[name] || [], new_queue, purged = [];
+            var queue = this._triggers[name] || [], new_queue, affected_entries = [];
             delete this.values[name];
-            if (purged.indexOf(name) === -1) {
-                purged.push(name);
+            if (affected_entries.indexOf(name) === -1) {
+                affected_entries.push(name);
             }
             while (queue.length) {
                 new_queue = [];
                 queue.forEach(function(dependency) {
                     delete this.values[dependency];
-                    if (purged.indexOf(dependency) === -1) {
-                        purged.push(dependency);
+                    if (affected_entries.indexOf(dependency) === -1) {
+                        affected_entries.push(dependency);
                     }
                     new_queue = new_queue.concat(this._triggers[dependency] || []);
                 }, this);
                 queue = new_queue;
             }
 
-            return purged;
+            return affected_entries;
         },
         
         has: function(name) {
