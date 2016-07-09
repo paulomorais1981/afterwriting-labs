@@ -11,6 +11,7 @@ define(function(require) {
             this._types = [];
             this._traits = {};
             this._triggers = {};
+            this._observers = {};
             this._cache = Cache.create();
 
             if (traits) {
@@ -91,7 +92,12 @@ define(function(require) {
             (this._triggers[name] || []).forEach(function(handler) {
                 handler();
             });
-            this._cache.purge(name);
+            var purged = this._cache.purge(name);
+            purged.forEach(function(name) {
+                (this._observers[name] || []).forEach(function(handler) {
+                    handler();
+                });
+            }, this);
         },
 
         get: function(name) {
@@ -99,6 +105,11 @@ define(function(require) {
                 return this._cache.get(name);
             }
             return this._cache.set(name, this._traits[name].value);
+        },
+        
+        observe: function(name, handler) {
+            this._observers[name] = this._observers[name] || [];
+            this._observers[name].push(handler);
         }
 
     });

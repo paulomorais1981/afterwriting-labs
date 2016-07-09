@@ -206,6 +206,39 @@ define(['utils/tobject/tobject', 'utils/tobject/trait'], function(TObject, Trait
             chai.assert(data.get('content'), 'test2');
         });
 
+        it('observse changes in the values without calculating them straight away', function() {
+
+            var trait_formula = sinon.stub();
+
+            var SimpleTrait = Trait.extend({
+                
+                content: {
+                    type: Content
+                },
+
+                value: {
+                    get: trait_formula
+                }
+            });
+
+            var data = TObject.create({
+                content: Content,
+                trait: SimpleTrait
+            });
+
+            var observe_trait = sinon.stub();
+
+            data.observe('trait', observe_trait);
+
+            sinon.assert.notCalled(observe_trait);
+            data.content = "foo bar";
+            sinon.assert.called(observe_trait);
+
+            sinon.assert.notCalled(trait_formula);
+            data.trait;
+            sinon.assert.calledOnce(trait_formula);
+        });
+
         it('functions', function() {
 
             var UpperCase = Trait.extend({
