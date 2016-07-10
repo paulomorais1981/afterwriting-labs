@@ -3,13 +3,19 @@ define(function(require) {
     var Protoplast = require('p'),
         TraitUtils = require('utils/lazy-object/trait-utils'),
         Cache = require('utils/lazy-object/cache');
- 
-    var LazyObject = Protoplast.extend({
+
+    /**
+     * LazyObject is a composition of Trait (@see Trait). Each computed traits are loaded only if are requested
+     * using by get() or watched by a watcher. Computed traits are cached. Cache of the trait is cleared when
+     * a value that the trait depends on.
+     *
+     * @alias LazyObject
+     */
+    var LazyObject = Protoplast.extend([Protoplast.Dispatcher], {
 
         $create: function(traits) {
 
             this._traits = {};
-            this._watchers = {};
             this._cache = Cache.create();
 
             if (traits) {
@@ -21,10 +27,10 @@ define(function(require) {
             }
         },
 
-        $trait_name: function(type) {
+        $trait_definition: function(type) {
             for (var name in this._traits) {
                 if (this._traits[name].type === type) {
-                    return name;
+                    return this._traits[name];
                 }
             }
             return null;
@@ -34,7 +40,8 @@ define(function(require) {
 
             this._traits[name] = this._traits[name] || {};
 
-            if (!this.$trait_name(Trait)) {
+            var trait_definition = this.$trait_definition(Trait);
+            if (!trait_definition) {
 
                 var trait = Trait.create(name);
                 
@@ -45,10 +52,14 @@ define(function(require) {
 
                 this._traits[name].trait = trait;
                 this._traits[name].type = Trait;
+                this._traits[name].name = name;
             }
             else {
-                this._traits[name].trait = this._traits[this.$trait_name(Trait)].trait;
-                this._traits[name].type = Trait;
+                var trait_name = trait_definition.name;
+                this._traits[name] = this._traits[trait_name];
+                this._traits[name].name = name;
+                this._cache.rename_trigger(trait_name, name);
+                delete this._traits[trait_name];
             }
 
             this.$define_nested_property(name);
@@ -70,26 +81,32 @@ define(function(require) {
         },
 
         $inject_type: function(consumer, property_name, host_type) {
-            var host_name = this.$get_or_create_dependency(host_type);
-            this._cache.add_trigger(host_name, consumer.name);
-            consumer.define(property_name, host_name, this);
+            var host_definition = this.$get_or_create_dependency(host_type);
+            this._cache.add_trigger(host_definition.name, consumer.name);
+            consumer.define(property_name, host_definition, this);
         },
 
         $get_or_create_dependency: function(type) {
-            if (!this.$trait_name(type)) {
+            if (!this.$trait_definition(type)) {
                 this.$add(TraitUtils.next_name(), type);
             }
-            return this.$trait_name(type);
+            return this.$trait_definition(type);
         },
 
         set: function(name, value) {
+            if (this._cache.has(name) && this._cache.get(name) === value) {
+                return;
+            }
             this._traits[name].trait.value = value;
-            var purged = this._cache.purge(name);
-            purged.forEach(function(name) {
-                (this._watchers[name] || []).forEach(function(handler) {
-                    handler.handler.call(handler.context, this.get(name));
-                }, this);
+            
+            var affected_properties = this._cache.purge(name);
+            affected_properties.forEach(function(property) {
+                if (this._topics[property] && this._topics[property].length) {
+                    this.dispatch(property, this.get(property));
+                }
             }, this);
+
+            return this._cache.set(name, this._traits[name].trait.value);
         },
 
         get: function(name) {
@@ -99,20 +116,13 @@ define(function(require) {
             return this._cache.set(name, this._traits[name].trait.value);
         },
 
-        bind: function(name, handler, context) {
-            if (arguments.length !== 3) {
-                throw new Error('bind(name, handler, context) requires all arguments to be passed');
-            }
-            this._watchers[name] = this._watchers[name] || [];
-            this._watchers[name].push({handler: handler, context: context});
+        watch: function(name, handler, context) {
+            this.on(name, handler, context);
             handler.call(context, this.get(name));
         },
 
-        unbind: function(name, handler, context) {
-            if (arguments.length !== 3) {
-                throw new Error('bind(name, handler, context) requires all arguments to be passed');
-            }
-            
+        unwatch: function(name, handler, context) {
+            this.off(name, handler, context);
         }
 
     });
