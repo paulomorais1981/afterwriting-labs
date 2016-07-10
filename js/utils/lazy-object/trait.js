@@ -27,16 +27,25 @@ define(function(require) {
 
         name: '',
 
-        define: function(dependency, existing_name, self) {
+        define: function(dependency, definition, self) {
             Object.defineProperty(this, dependency, {
                 set: function(value) {
-                    self.set(existing_name, value);
+                    self.set(definition.name, value);
                 },
                 get: function() {
-                    return self.get(existing_name);
+                    return self.get(definition.name)
                 }
             });
 
+        },
+
+        value: {
+            set: function(value) {
+                this._value = value;
+            },
+            get: function() {
+                return this._value;
+            }
         }
         
     });

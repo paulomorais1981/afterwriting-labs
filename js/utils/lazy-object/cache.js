@@ -38,6 +38,19 @@ define(function(require) {
 
             return affected_entries;
         },
+
+        rename_trigger: function(old_name, new_name) {
+            if (this._triggers[old_name]) {
+                this._triggers[new_name] = this._triggers[old_name];
+                delete this._triggers[old_name];
+            }
+            for (var host in this._triggers) {
+                var index = this._triggers[host].indexOf(old_name);
+                if (index !== -1) {
+                    this._triggers[host][index] = new_name;
+                }
+            }
+        },
         
         has: function(name) {
             return this.values.hasOwnProperty(name);

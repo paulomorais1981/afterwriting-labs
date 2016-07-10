@@ -20,7 +20,7 @@ define(function(require) {
         },
 
         next_name: function() {
-            return '__' + (this._counter++) + '___';
+            return '__' + (this._counter++) + '__';
         },
 
         resolve_property_owner: function(host, name) {

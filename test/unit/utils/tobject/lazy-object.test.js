@@ -114,16 +114,18 @@ define(['utils/lazy-object/lazy-object', 'utils/lazy-object/trait'], function(La
             chai.assert.equal(script.get('words.count'), 2);
         });
 
-        it('aliases', function() {
+        it('renames property if added multiple times', function() {
             var script = LazyObject.create({
                 content: Content,
-                count: WordsCount,
-                length: WordsCount
+                count: WordsCount
             });
+            script.$add('length', WordsCount);
+            script.$add('words', Words);
 
             script.set('content', 'foo bar');
-            chai.assert.equal(script.get('count'), 2);
             chai.assert.equal(script.get('length'), 2);
+            chai.assert.deepEqual(script.get('words'), ['foo', 'bar']);
+            chai.assert.throws(script.get.bind(script, 'count'));
         });
 
         it('aliases for missing dependencies', function() {
