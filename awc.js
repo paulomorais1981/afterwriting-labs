@@ -35,9 +35,10 @@ require = require('./js/client/awrequire.js');
 require.config({
 	map: {
 		'modernizr': {},
-		'pdfkit': 'libs/pdfkit'
+		'pdfkit': 'libs/pdfkit',
+        'logger': 'libs/logger'
 	},
-	use_node_require: ['jquery', 'fs', 'd3']
+	use_node_require: ['jquery', 'fs', 'd3', 'protoplast', 'off']
 });
 
 var parser, data, liner, pdfmaker, help;

@@ -1,6 +1,6 @@
-define(function(require) {
+define('utils/lazy-object/cache', function(require) {
    
-    var Protoplast = require('p');
+    var Protoplast = require('protoplast');
     
     var Cache = Protoplast.extend({
 

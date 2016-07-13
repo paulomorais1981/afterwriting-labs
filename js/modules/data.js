@@ -3,8 +3,6 @@ define('modules/data', function(require) {
     var Modernizr = require('modernizr'),
         fparser = require('utils/fountain/parser'),
         fliner = require('utils/fountain/liner'),
-        converter = require('utils/converters/scriptconverter'),
-        preprocessor = require('utils/fountain/preprocessor'),
         print_profiles = require('utils/print-profiles'),
         browser = require('utils/browser'),
         Module = require('core/module'),
@@ -146,7 +144,7 @@ define('modules/data', function(require) {
         },
 
         load_config: function(overrides) {
-            this.config = Object.create(this.default_config);
+            var config = Object.create(this.default_config);
             if (!overrides) {
                 try {
                     overrides = JSON.parse(this.data('config'));
@@ -155,8 +153,11 @@ define('modules/data', function(require) {
                 }
             }
             for (var attrname in overrides) {
-                this.config[attrname] = overrides[attrname];
+                config[attrname] = overrides[attrname];
             }
+
+            this.config = config;
+            this.script.config = config;
         },
 
         prepare: function() {

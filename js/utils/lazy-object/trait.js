@@ -1,6 +1,6 @@
-define(function(require) {
+define('utils/lazy-object/trait', function(require) {
 
-    var Protoplast = require('p');
+    var Protoplast = require('protoplast');
 
     var autobind_method = function () {
         if (typeof(this.method) === 'function') {

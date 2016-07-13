@@ -1,6 +1,6 @@
-define(function(require) {
+define('core/module', function(require) {
 
-    var p = require('p'),
+    var p = require('protoplast'),
         off = require('off'),
         logger = require('logger');
 
