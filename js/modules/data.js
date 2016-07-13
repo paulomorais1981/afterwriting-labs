@@ -8,6 +8,7 @@ define('modules/data', function(require) {
         print_profiles = require('utils/print-profiles'),
         browser = require('utils/browser'),
         Module = require('core/module'),
+        Script = require('model/script'),
         off = require('off');
 
     var Data = Module.extend({
@@ -28,7 +29,8 @@ define('modules/data', function(require) {
             this._tempStorage = {};
             this.format = '';
             this._script = '';
-            this.script = off(this.script);
+            this.script = Script.create();
+            this.deprecated_script = off(this.deprecated_script);
             this.parse = off(this.parse);
             this.save_config = off(this.save_config);
             this.init_default_config();
@@ -50,21 +52,19 @@ define('modules/data', function(require) {
             }
         },
 
-        script: function(value) {
+        deprecated_script: function(value) {
             if (arguments.length && this._value !== value) {
-                var result = converter.to_fountain(value);
-                result.value = preprocessor.process_snippets(result.value, this.config.snippets);
-                this.format = this.format || result.format;
-                this._script = result.value;
+                this.script.import_script(value);
+                this.format = this.script.format;
             }
             else {
-                this.script.lock = true;
+                this.deprecated_script.lock = true;
             }
-            return this._script;
+            return this.script.fountain;
         },
 
         parse: function() {
-            this.parsed = fparser.parse(this.script(), this.config);
+            this.parsed = fparser.parse(this.deprecated_script(), this.config);
             this.parsed.lines = fliner.line(this.parsed.tokens, this.config);
 
             if (this.config.use_print_settings_for_stats) {
@@ -77,7 +77,7 @@ define('modules/data', function(require) {
                 stats_config.print_sections = false;
                 stats_config.print_notes = false;
                 stats_config.print_synopsis = false;
-                this.parsed_stats = fparser.parse(this.script(), stats_config);
+                this.parsed_stats = fparser.parse(this.deprecated_script(), stats_config);
                 this.parsed_stats.lines = fliner.line(this.parsed_stats.tokens, stats_config);
             }
         },

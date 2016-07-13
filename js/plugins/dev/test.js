@@ -18,7 +18,7 @@ define(function(require) {
             var start, end, result = [],
                 config = data.config,
                 parsed, tokens, lines,
-                script = data.script();
+                script = data.deprecated_script();
 
             start = new Date().getTime();
             for (var i = 0; i < times; i++) {

@@ -5,9 +5,9 @@ define(function(require) {
         Cache = require('utils/lazy-object/cache');
 
     /**
-     * LazyObject is a composition of Trait (@see Trait). Each computed traits are loaded only if are requested
-     * using by get() or watched by a watcher. Computed traits are cached. Cache of the trait is cleared when
-     * a value that the trait depends on.
+     * LazyObject is a composition of Trait (@see Trait) objects. Computed traits are loaded only if are requested
+     * by get() or watched by a watcher. Computed traits are cached. Cache of the trait is cleared when
+     * a value that the trait depends on changes.
      *
      * @alias LazyObject
      */

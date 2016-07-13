@@ -36,7 +36,7 @@ define(function(require) {
         save_as_fountain: function() {
             forms.text('Select file name: ', this.data.data('fountain-filename') || 'screenplay.fountain', function(result) {
                 this.data.parse();
-                var blob = new Blob([this.data.script()], {
+                var blob = new Blob([this.data.deprecated_script()], {
                     type: "text/plain;charset=utf-8"
                 });
                 this.data.data('fountain-filename', result.text);
@@ -63,7 +63,7 @@ define(function(require) {
                 save_callback: function(selected, filename) {
                     this.data.parse();
                     var path = selected.data.path,
-                        blob = new Blob([this.data.script()], {
+                        blob = new Blob([this.data.deprecated_script()], {
                             type: "text/plain;charset=utf-8"
                         });
                     if (selected.data.isFolder) {
@@ -120,7 +120,7 @@ define(function(require) {
                 client: gd,
                 save_callback: function(selected, filename) {
                     this.data.parse();
-                    var blob = new Blob([this.data.script()], {
+                    var blob = new Blob([this.data.deprecated_script()], {
                         type: "text/plain;charset=utf-8"
                     });
                     gd.upload({

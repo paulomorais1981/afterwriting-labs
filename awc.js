@@ -108,7 +108,7 @@ function main() {
 		} else {
 			load_config(ops.config, function (config) {
 				data.load_config(config);
-				data.script(text);
+				data.deprecated_script(text);
 				data.parse();
 
 				if (ops.pdf) {

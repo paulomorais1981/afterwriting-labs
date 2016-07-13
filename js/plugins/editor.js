@@ -70,8 +70,8 @@ define(function(require) {
             });
 
             this.editor.on('change', function() {
-                this.pending_changes(this.data_model.script() !== this.editor.getValue());
-                this.data_model.script(this.editor.getValue());
+                this.pending_changes(this.data_model.deprecated_script() !== this.editor.getValue());
+                this.data_model.deprecated_script(this.editor.getValue());
             }.bind(this));
         },
 
@@ -155,7 +155,7 @@ define(function(require) {
             }
             else if (this.last_content !== content) {
                 this.last_content = content;
-                this.data_model.script(content);
+                this.data_model.deprecated_script(content);
                 this.data_model.parse();
                 this.synced();
                 if (this.active) {
@@ -170,11 +170,11 @@ define(function(require) {
         },
 
         store: function() {
-            this.data_model.data('editor-last-state', this.data_model.script());
+            this.data_model.data('editor-last-state', this.data_model.deprecated_script());
         },
 
         restore: function() {
-            this.data_model.script(this.data_model.data('editor-last-state'));
+            this.data_model.deprecated_script(this.data_model.data('editor-last-state'));
             this.data_model.parse();
             if (this.active) {
                 this.activate();
@@ -209,7 +209,7 @@ define(function(require) {
         activate: function() {
             this.active = true;
             setTimeout(function() {
-                if (this.data_model.script() !== this.editor.getValue()) this.editor.setValue(this.data_model.script() || "");
+                if (this.data_model.deprecated_script() !== this.editor.getValue()) this.editor.setValue(this.data_model.deprecated_script() || "");
                 this.editor.focus();
                 this.editor.refresh();
 

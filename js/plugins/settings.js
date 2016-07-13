@@ -29,7 +29,7 @@ define(function(require) {
 
         save: function() {
             this.data.save_config();
-            this.data.script(this.data.script());
+            this.data.deprecated_script(this.data.deprecated_script());
         },
 
         get_default_config: function() {

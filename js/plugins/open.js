@@ -55,7 +55,7 @@ define(function(require) {
             this.clear_last_opened();
             this.editor.set_sync(false);
             this.editor.set_auto_save(false);
-            this.data.script(value);
+            this.data.deprecated_script(value);
             this.layout.show_main();
         },
 
@@ -81,11 +81,12 @@ define(function(require) {
         open_file: function(selected_file) {
             var finished = off.signal();
             var fileReader = new FileReader();
+            var self = this;
             fileReader.onload = function() {
                 var value = this.result;
-                this.set_script(value);
+                self.set_script(value);
                 local.local_file(selected_file);
-                finished(this.data.format);
+                finished(self.data.format);
             };
             fileReader.readAsText(selected_file);
             return finished;
@@ -177,7 +178,7 @@ define(function(require) {
             if (this.data.data('last-used-date')) {
                 this.data.data('filename', '');
                 this.logger.info('Last used exists. Loading: ', this.data.data('last-used-title'), this.data.data('last-used-date'));
-                this.context.last_used.script = this.data.data('last-used-script');
+                this.context.last_used.deprecated_script = this.data.data('last-used-script');
                 this.context.last_used.date = this.data.data('last-used-date');
                 this.context.last_used.title = this.data.data('last-used-title');
                 this.last_session_script = this.data.data('last-used-script');
@@ -186,14 +187,14 @@ define(function(require) {
 
             this.logger.info("Init: script handlers");
 
-            this.data.script.add(function() {
+            this.data.deprecated_script.add(function() {
                 var title = '';
-                this.data.data('last-used-script', this.data.script());
+                this.data.data('last-used-script', this.data.deprecated_script());
                 this.data.data('last-used-date', helper.format_date(new Date()));
-                if (this.data.script()) {
+                if (this.data.deprecated_script()) {
                     var title_match;
                     var wait_for_non_empty = false;
-                    this.data.script().split('\n').some(function(line) {
+                    this.data.deprecated_script().split('\n').some(function(line) {
                         title_match = line.match(/title\:(.*)/i);
                         if (wait_for_non_empty) {
                             title = line.trim().replace(/\*/g, '').replace(/_/g, '');
