@@ -1,4 +1,4 @@
-define('core/module', function(require) {
+define(function(require) {
 
     var p = require('protoplast'),
         off = require('off'),

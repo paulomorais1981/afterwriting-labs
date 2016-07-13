@@ -1,4 +1,4 @@
-define('model/script', function(require) {
+define(function(require) {
 
     var LazyObject = require('utils/lazy-object/lazy-object'),
         Trait = require('utils/lazy-object/trait'),

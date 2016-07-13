@@ -1,4 +1,4 @@
-define('utils/lazy-object/lazy-object', function(require) {
+define(function(require) {
 
     var Protoplast = require('protoplast'),
         TraitUtils = require('utils/lazy-object/trait-utils'),
