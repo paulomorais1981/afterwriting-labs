@@ -88,6 +88,7 @@ define(function(require) {
                 local.local_file(selected_file);
                 finished(self.data.format);
             };
+
             fileReader.readAsText(selected_file);
             return finished;
         },
