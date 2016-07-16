@@ -5,7 +5,7 @@ define(function(require) {
         textstats = require('utils/textstats'),
         helper = require('utils/helper');
 
-    var module = {}, data = null;
+    var module = {};
 
     var create_simplestream = function(filepath) {
         var simplestream = {
@@ -45,8 +45,8 @@ define(function(require) {
         return simplestream;
     };
 
-    function initDoc() {
-        var cfg = data.config;
+    function initDoc(script) {
+        var cfg = script.config;
         var options = {
             compress: false,
             size: cfg.print().paper_size === "a4" ? 'A4' : 'LETTER',
@@ -75,7 +75,7 @@ define(function(require) {
         doc.simple_text = function() {
             doc.font(fonts.prime.normal);
             inner_text.apply(doc, arguments);
-        }
+        };
         doc.format_text = function(text, x, y, options) {
             var cache_current_state = doc.format_state;
             doc.reset_format();
@@ -148,15 +148,14 @@ define(function(require) {
         stream.on('finish', callback);
     }
 
-    function generate(doc) {
-        var parsed = data.parsed,
-            cfg = data.config,
-            lines = parsed.lines;
+    function generate(doc, script, fontFixEnabled) {
+        var cfg = script.config,
+            lines = script.lines;
 
-        var title_token = data.get_title_page_token('title');
-        var author_token = data.get_title_page_token('author');
+        var title_token = script.title_token('title');
+        var author_token = script.title_token('author');
         if (!author_token) {
-            author_token = data.get_title_page_token('authors');
+            author_token = script.title_token('authors');
         }
 
         doc.info.Title = title_token ? title_token.text : '';
@@ -182,7 +181,7 @@ define(function(require) {
                 title_page_next_line();
                 return;
             }
-            var token = data.get_title_page_token(type);
+            var token = script.title_token(type);
             if (token) {
                 token.text.split('\n').forEach(function(line) {
                     if (options.capitalize) {
@@ -212,7 +211,7 @@ define(function(require) {
             title_page_main('source');
 
             var concat_types = function(prev, type) {
-                var token = data.get_title_page_token(type);
+                var token = script.title_token(type);
                 if (token) {
                     prev = prev.concat(token.text.split('\n'));
                 }
@@ -238,8 +237,8 @@ define(function(require) {
             doc.addPage();
         }
 
-        if (data.fontFixEnabled) {
-            var unicode_sample = textstats.get_characters(data.deprecated_script());
+        if (fontFixEnabled) {
+            var unicode_sample = textstats.get_characters(script.fountain);
             unicode_sample.forEach(function(character) {
                 doc.format_text(character, 0, 0, {color: '#eeeeee'});
             })
@@ -452,10 +451,9 @@ define(function(require) {
 
     }
 
-    module.get_pdf = function(data_module, callback, filepath) {
-        data = data_module;
-        var doc = initDoc();
-        generate(doc);
+    module.get_pdf = function(script, fontFix, callback, filepath) {
+        var doc = initDoc(script);
+        generate(doc, script, fontFix);
         finishDoc(doc, callback, filepath);
     };
 

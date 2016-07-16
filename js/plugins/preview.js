@@ -27,7 +27,7 @@ define(function(require) {
         },
 
         get_pdf: function(callback) {
-            pdfmaker.get_pdf(this.data, callback);
+            pdfmaker.get_pdf(this.data.script, this.data.fontFixEnabled, callback);
         },
 
         activate: function() {

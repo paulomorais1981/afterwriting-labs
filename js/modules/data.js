@@ -79,19 +79,7 @@ define(function(require) {
                 this.parsed_stats.lines = fliner.line(this.parsed_stats.tokens, stats_config);
             }
         },
-
-        get_title_page_token: function(type) {
-            var result = null;
-            if (this.parsed && this.parsed.title_page) {
-                this.parsed.title_page.forEach(function(token) {
-                    if (token.is(type)) {
-                        result = token;
-                    }
-                });
-            }
-            return result;
-        },
-
+        
         init_default_config: function() {
             this.default_config = {
                 show_background_image: true,

@@ -39,6 +39,27 @@ define(function(require) {
             }
         }
     });
+
+
+    var TitleToken = Trait.extend({
+
+        tokens: {
+            type: Tokens
+        },
+
+        method: function(type) {
+            var result = null;
+            if (this.tokens && this.tokens.title_page) {
+                this.tokens.title_page.forEach(function(token) {
+                    if (token.is(type)) {
+                        result = token;
+                    }
+                });
+            }
+            return result;
+        }
+
+    });
     
     var ParsedStats = Trait.extend({
         
@@ -90,7 +111,7 @@ define(function(require) {
 
         value: {
             get: function() {
-                return liner.line(this.tokens, this.config);
+                return liner.line(this.tokens.tokens, this.config);
             }
         }
     });
@@ -127,7 +148,8 @@ define(function(require) {
         lines: Lines,
         fountain: Fountain,
         import_script: Import,
-        format: Format
+        format: Format,
+        title_token: TitleToken
     });
 
     return Script;
