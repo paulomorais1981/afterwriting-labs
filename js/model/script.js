@@ -2,9 +2,11 @@ define(function(require) {
 
     var LazyObject = require('utils/lazy-object/lazy-object'),
         Trait = require('utils/lazy-object/trait'),
+        browser = require('utils/browser'),
         liner = require('utils/fountain/liner'),
         converter = require('utils/converters/scriptconverter'),
         preprocessor = require('utils/fountain/preprocessor'),
+        pdfmaker = require('utils/pdfmaker'),
         parser = require('utils/fountain/parser');
     
     var Fountain = Trait.extend({
@@ -141,6 +143,32 @@ define(function(require) {
         }
         
     });
+
+    var Pdf = Trait.extend({
+
+        _pdf: null,
+
+        config: {
+            type: Config
+        },
+
+        lines: {
+            type: Lines
+        },
+
+        title_token: {
+            type: TitleToken
+        },
+
+        value: {
+            get: function() {
+                return new Promise(function(resolve) {
+                    pdfmaker.get_pdf(this.lines, this.config, this.title_token.bind(this), !!browser.url_params().fontFix, resolve);
+                }.bind(this));
+            }
+        }
+
+    });
     
     var Script = LazyObject.create({
         config: Config,
@@ -149,7 +177,8 @@ define(function(require) {
         fountain: Fountain,
         import_script: Import,
         format: Format,
-        title_token: TitleToken
+        title_token: TitleToken,
+        pdf: Pdf
     });
 
     return Script;

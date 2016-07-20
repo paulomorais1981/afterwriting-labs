@@ -3,9 +3,8 @@ define(function(require) {
     var Plugin = require('core/plugin'),
         template = require('text!templates/plugins/preview.hbs'),
         off = require('off'),
-        pdfjsviewer = require('utils/pdfjsviewer'),
-        pdfmaker = require('utils/pdfmaker');
-
+        pdfjsviewer = require('utils/pdfjsviewer');
+        
     var Preview = Plugin.extend({
 
         name: 'preview',
@@ -27,7 +26,7 @@ define(function(require) {
         },
 
         get_pdf: function(callback) {
-            pdfmaker.get_pdf(this.data.script, this.data.fontFixEnabled, callback);
+            this.data.script.pdf.then(callback);
         },
 
         activate: function() {

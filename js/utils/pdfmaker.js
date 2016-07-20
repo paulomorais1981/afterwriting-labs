@@ -45,8 +45,7 @@ define(function(require) {
         return simplestream;
     };
 
-    function initDoc(script) {
-        var cfg = script.config;
+    function initDoc(cfg) {
         var options = {
             compress: false,
             size: cfg.print().paper_size === "a4" ? 'A4' : 'LETTER',
@@ -148,14 +147,12 @@ define(function(require) {
         stream.on('finish', callback);
     }
 
-    function generate(doc, script, fontFixEnabled) {
-        var cfg = script.config,
-            lines = script.lines;
+    function generate(doc, lines, cfg, get_title_token, fontFixEnabled) {
 
-        var title_token = script.title_token('title');
-        var author_token = script.title_token('author');
+        var title_token = get_title_token('title');
+        var author_token = get_title_token('author');
         if (!author_token) {
-            author_token = script.title_token('authors');
+            author_token = get_title_token('authors');
         }
 
         doc.info.Title = title_token ? title_token.text : '';
@@ -181,7 +178,7 @@ define(function(require) {
                 title_page_next_line();
                 return;
             }
-            var token = script.title_token(type);
+            var token = get_title_token(type);
             if (token) {
                 token.text.split('\n').forEach(function(line) {
                     if (options.capitalize) {
@@ -211,7 +208,7 @@ define(function(require) {
             title_page_main('source');
 
             var concat_types = function(prev, type) {
-                var token = script.title_token(type);
+                var token = get_title_token(type);
                 if (token) {
                     prev = prev.concat(token.text.split('\n'));
                 }
@@ -451,9 +448,10 @@ define(function(require) {
 
     }
 
-    module.get_pdf = function(script, fontFix, callback, filepath) {
-        var doc = initDoc(script);
-        generate(doc, script, fontFix);
+    module.get_pdf = function(lines, config, title_token, fontFix, callback, filepath) {
+        console.log('creating pdf');
+        var doc = initDoc(config);
+        generate(doc, lines, config, title_token, fontFix);
         finishDoc(doc, callback, filepath);
     };
 
