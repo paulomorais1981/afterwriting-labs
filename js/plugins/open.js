@@ -46,9 +46,7 @@ define(function(require) {
         $create: function() {
             this.open_file_dialog = off.signal();
             this.last_session_script_loaded = false;
-            this.context = {
-                last_used: {}
-            };
+            this.last_used = {};
         },
 
         set_script: function(value) {
@@ -179,9 +177,9 @@ define(function(require) {
             if (this.data.data('last-used-date')) {
                 this.data.data('filename', '');
                 this.logger.info('Last used exists. Loading: ', this.data.data('last-used-title'), this.data.data('last-used-date'));
-                this.context.last_used.deprecated_script = this.data.data('last-used-script');
-                this.context.last_used.date = this.data.data('last-used-date');
-                this.context.last_used.title = this.data.data('last-used-title');
+                this.last_used.deprecated_script = this.data.data('last-used-script');
+                this.last_used.date = this.data.data('last-used-date');
+                this.last_used.title = this.data.data('last-used-title');
                 this.last_session_script = this.data.data('last-used-script');
                 this.last_session_script_loaded = true;
             }
