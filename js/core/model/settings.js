@@ -7,12 +7,16 @@ define(function(require) {
     var Settings = Protoplast.Model.extend({
 
         snippets: null,
+
+        /** UI Specific **/
         
         // DEBT: Rename Settings properties to CamelCase (+)
         showBackgroundImage: {
             name: 'show_background_image',
             value: true
         },
+
+        /** Printing **/
 
         emboldenSceneHeaders: {
             name: 'embolden_scene_headers',
@@ -35,17 +39,17 @@ define(function(require) {
             value: true
         },
 
-        text_more: {
+        textMore: {
             name: 'text_more',
             value: '(MORE)'
         },
 
-        text_contd: {
+        textContd: {
             name: 'text_contd',
             value: "(CONT'D)"
         },
 
-        text_scene_continued: {
+        textSceneContinued: {
             name: 'text_scene_continued',
             value: 'CONTINUED'
         },

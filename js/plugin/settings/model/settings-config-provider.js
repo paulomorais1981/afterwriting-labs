@@ -62,9 +62,9 @@ define(function(require) {
 
         getTextGroup: function() {
             var textGroup = SettingsGroup.create('Text');
-            textGroup.addEntry(this.createInput('text_more', 'Override (MORE) text to'));
-            textGroup.addEntry(this.createInput('text_contd', "Override (CONT'D) text to"));
-            textGroup.addEntry(this.createInput('text_scene_continued', 'Override CONTINUED (scene continuation) text to'));
+            textGroup.addEntry(this.createInput('textMore', 'Override (MORE) text to'));
+            textGroup.addEntry(this.createInput('textContd', "Override (CONT'D) text to"));
+            textGroup.addEntry(this.createInput('textSceneContinued', 'Override CONTINUED (scene continuation) text to'));
             return textGroup
         },
 
