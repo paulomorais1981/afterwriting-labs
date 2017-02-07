@@ -16,6 +16,11 @@ define(function(require) {
             value: true
         },
 
+        nightMode: {
+            name: 'night_mode',
+            value: false
+        },
+
         /** Printing **/
 
         emboldenSceneHeaders: {
@@ -61,16 +66,11 @@ define(function(require) {
         
         /** Open **/
 
-        load_last_opened: {
+        loadLastOpened: {
             name: 'load_last_opened',
             value: false
         },
-
-        night_mode: {
-            name: 'night_mode',
-            value: false
-        },
-
+        
         double_space_between_scenes: {
             name: 'double_space_between_scenes',
             value: false

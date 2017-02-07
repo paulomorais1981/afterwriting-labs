@@ -49,7 +49,7 @@ define(function(require) {
             this.settings.on('changed', this._saveCurrentSettings, this);
 
             Protoplast.utils.bind(this, {
-                'settings.night_mode': this.themeController.nightMode,
+                'settings.nightMode': this.themeController.nightMode,
                 'settings.showBackgroundImage': this.themeController.showBackgroundImage
             })
         },

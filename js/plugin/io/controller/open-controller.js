@@ -141,7 +141,7 @@ define(function(require) {
         },
 
         _openLastUsedOnStartup: function() {
-            if (this.settings.load_last_opened) {
+            if (this.settings.loadLastOpened) {
                 this.openLastUsed();
                 this.pub('plugin/io/startup/opened-last-used')
             }

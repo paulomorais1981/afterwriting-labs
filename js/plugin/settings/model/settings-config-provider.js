@@ -71,8 +71,8 @@ define(function(require) {
         getMiscellaneousGroup: function() {
             var miscellaneousGroup = SettingsGroup.create('Miscellaneous');
             miscellaneousGroup.addEntry(this.createCheckbox('showBackgroundImage','Show background image'));
-            miscellaneousGroup.addEntry(this.createCheckbox('load_last_opened','Load last opened on startup'));
-            miscellaneousGroup.addEntry(this.createCheckbox('night_mode','Night mode'));
+            miscellaneousGroup.addEntry(this.createCheckbox('loadLastOpened','Load last opened on startup'));
+            miscellaneousGroup.addEntry(this.createCheckbox('nightMode','Night mode'));
             return miscellaneousGroup
         },
 
