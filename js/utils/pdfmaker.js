@@ -349,7 +349,7 @@ define('utils/pdfmaker', function (require) {
 					prev_scene_continuation_header = scene_continued;
 				}
 
-				if (cfg.show_page_numbers) {
+				if (cfg.showPageNumbers) {
 					var page_num = page.toFixed() + ".";
 					var number_x = print.action.feed + print.action.max * print.font_width - page_num.length * print.font_width;
 					doc.simple_text(page_num, number_x * 72, number_y * 72);
@@ -377,7 +377,7 @@ define('utils/pdfmaker', function (require) {
 					if (line.type === "transition") {
 						feed = print.action.feed + print.action.max * print.font_width - line.text.length * print.font_width;
 					}
-					if (line.type === "scene_heading" && cfg.embolden_scene_headers) {
+					if (line.type === "scene_heading" && cfg.emboldenSceneHeaders) {
 						text = '**' + text + '**';
 					}
 
@@ -427,7 +427,7 @@ define('utils/pdfmaker', function (require) {
 					if (line.number) {
 						scene_number = String(line.number);
 						var scene_text_length = scene_number.length;
-						if (cfg.embolden_scene_headers) {
+						if (cfg.emboldenSceneHeaders) {
 							scene_number = '**' + scene_number + '**';
 						}
 

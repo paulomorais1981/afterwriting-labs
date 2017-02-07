@@ -9,17 +9,18 @@ define(function(require) {
         snippets: null,
         
         // DEBT: Rename Settings properties to CamelCase (+)
-        show_background_image: {
+        showBackgroundImage: {
             name: 'show_background_image',
             value: true
         },
 
-        embolden_scene_headers: {
+        emboldenSceneHeaders: {
             name: 'embolden_scene_headers',
             value: false
         },
 
-        show_page_numbers: {
+        // TODO: option is not available in settings (add it or remove from settings)
+        showPageNumbers: {
             name: 'show_page_numbers',
             value: true
         },

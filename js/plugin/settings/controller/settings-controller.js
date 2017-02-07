@@ -50,7 +50,7 @@ define(function(require) {
 
             Protoplast.utils.bind(this, {
                 'settings.night_mode': this.themeController.nightMode,
-                'settings.show_background_image': this.themeController.showBackgroundImage
+                'settings.showBackgroundImage': this.themeController.showBackgroundImage
             })
         },
 

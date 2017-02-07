@@ -47,7 +47,7 @@ define(function(require) {
             layoutGroup.addEntry(this.createCheckbox('double_space_between_scenes', 'Double space between scenes'));
             layoutGroup.addEntry(this.createCheckbox('each_scene_on_new_page', 'Page break after a scene'));
             layoutGroup.addEntry(this.createCheckbox('number_sections', 'Prefix sections with numbers'));
-            layoutGroup.addEntry(this.createCheckbox('embolden_scene_headers', 'Embolden scene headers'));
+            layoutGroup.addEntry(this.createCheckbox('emboldenSceneHeaders', 'Embolden scene headers'));
             layoutGroup.addEntry(this.createDropdown('scenes_numbers', 'Scene numbers', [
                 {label: 'none', value: 'none'},
                 {label: 'left', value: 'left'},
@@ -69,7 +69,7 @@ define(function(require) {
 
         getMiscellaneousGroup: function() {
             var miscellaneousGroup = SettingsGroup.create('Miscellaneous');
-            miscellaneousGroup.addEntry(this.createCheckbox('show_background_image','Show background image'));
+            miscellaneousGroup.addEntry(this.createCheckbox('showBackgroundImage','Show background image'));
             miscellaneousGroup.addEntry(this.createCheckbox('load_last_opened','Load last opened on startup'));
             miscellaneousGroup.addEntry(this.createCheckbox('night_mode','Night mode'));
             return miscellaneousGroup
