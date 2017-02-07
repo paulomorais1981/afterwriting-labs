@@ -205,7 +205,7 @@ define('utils/pdfmaker', function (require) {
 			}
 		};
 
-		if (cfg.print_title_page) {
+		if (cfg.printTitlePage) {
 
 			// title page
 			title_page_main(parsed, 'title', {

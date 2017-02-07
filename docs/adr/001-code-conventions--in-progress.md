@@ -13,6 +13,10 @@ Brief description of used conventions. Details TBD in a separate README file.
 * 4 spaces
 * CamelCases
 
+## CSS/DOM
+
+* ids/classes: dashed-name
+
 ## Tests
 
 * 3A convention (http://xp123.com/articles/3a-arrange-act-assert/)

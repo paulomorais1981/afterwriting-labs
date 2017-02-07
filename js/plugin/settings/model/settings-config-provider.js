@@ -7,6 +7,7 @@ define(function(require) {
         SettingsGroup = require('plugin/settings/model/settings-group'),
         SettingsEntry = require('plugin/settings/model/settings-entry');
 
+    // TODO: Convert underscore keys to dashed-names
     var SettingsConfigProvider = Protoplast.Object.extend({
 
         /**
@@ -42,7 +43,7 @@ define(function(require) {
 
         getLayoutGroup: function() {
             var layoutGroup = SettingsGroup.create('Layout');
-            layoutGroup.addEntry(this.createCheckbox('split_dialogue', 'Split dialogue between pages'));
+            layoutGroup.addEntry(this.createCheckbox('splitDialogue', 'Split dialogue between pages'));
             layoutGroup.addEntry(this.createCheckbox('use_dual_dialogue', 'Accept dual dialogue'));
             layoutGroup.addEntry(this.createCheckbox('double_space_between_scenes', 'Double space between scenes'));
             layoutGroup.addEntry(this.createCheckbox('each_scene_on_new_page', 'Page break after a scene'));

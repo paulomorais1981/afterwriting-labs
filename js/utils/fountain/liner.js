@@ -73,7 +73,7 @@ define('utils/fountain/liner', function (require) {
 			(token_on_break.token.lines.indexOf(token_on_break) === 0 ||
 			token_on_break.token.lines.indexOf(token_on_break) === token_on_break.token.lines.length - 2)) {
 			return false;
-		} else if (cfg.split_dialogue && token_on_break.is("dialogue") && token_after && token_after.is("dialogue") && token_before.is("dialogue") && !(token_on_break.dual)) {
+		} else if (cfg.splitDialogue && token_on_break.is("dialogue") && token_after && token_after.is("dialogue") && token_before.is("dialogue") && !(token_on_break.dual)) {
 			var new_page_character;
 			for (var character = before; lines[character].type !== "character"; character--) {}
 			lines.splice(index, 0, h.create_line({

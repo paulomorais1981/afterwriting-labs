@@ -25,12 +25,12 @@ define(function(require) {
             value: true
         },
 
-        split_dialogue: {
+        splitDialogue: {
             name: 'split_dialogue',
             value: true
         },
 
-        print_title_page: {
+        printTitlePage: {
             name: 'print_title_page',
             value: true
         },
