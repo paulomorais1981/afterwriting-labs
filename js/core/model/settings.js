@@ -1,7 +1,7 @@
 define(function(require) {
 
     var Protoplast = require('protoplast'),
-        print_profiles = require('utils/print-profiles');
+        printProfiles = require('utils/print-profiles');
 
     // DEBT: Decouple plugin-specific settings (+)
     var Settings = Protoplast.Model.extend({
@@ -54,10 +54,12 @@ define(function(require) {
             value: 'CONTINUED'
         },
 
-        print_profile: {
+        printProfile: {
             name: 'print_profile',
             value: "a4"
         },
+        
+        /** Open **/
 
         load_last_opened: {
             name: 'load_last_opened',
@@ -207,7 +209,7 @@ define(function(require) {
         },
 
         print: function() {
-            return print_profiles[this.print_profile];
+            return printProfiles[this.printProfile];
         },
 
         _triggerChanged: function(property, key) {

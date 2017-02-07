@@ -27,7 +27,7 @@ define(function(require) {
         getPrintGroup: function() {
             var printGroup = SettingsGroup.create('Print');
 
-            printGroup.addEntry(this.createDropdown('print_profile', 'Page size', [{label: 'A4', value: 'a4'}, {label: 'US letter', value: 'usletter'}]));
+            printGroup.addEntry(this.createDropdown('printProfile', 'Page size', [{label: 'A4', value: 'a4'}, {label: 'US letter', value: 'usletter'}]));
             printGroup.addEntry(this.createCheckbox('print_title_page', 'Print title page'));
             printGroup.addEntry(this.createCheckbox('print_sections', 'Print sections'));
             printGroup.addEntry(this.createCheckbox('print_synopsis', 'Print synopsis'));

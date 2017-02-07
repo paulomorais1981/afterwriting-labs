@@ -5,7 +5,7 @@ define(function(require) {
     var A4_DEFAULT_MAX = 58,
         US_DEFAULT_MAX = 61;
 
-    var print_profiles = {
+    var printProfiles = {
         "a4": {
             paper_size: "a4",
             lines_per_page: 57,
@@ -78,8 +78,8 @@ define(function(require) {
         }
     };
 
-    print_profiles.usletter = JSON.parse(JSON.stringify(print_profiles.a4));
-    var letter = print_profiles.usletter;
+    printProfiles.usletter = JSON.parse(JSON.stringify(printProfiles.a4));
+    var letter = printProfiles.usletter;
     letter.paper_size = 'letter';
     letter.lines_per_page = 55;
     letter.page_width = 8.5;
@@ -95,7 +95,7 @@ define(function(require) {
     // font size = experimental feature
     var url_params = browser.url_params();
     if (url_params.fontSize) {
-        [print_profiles.usletter, print_profiles.a4].forEach(function(profile) {
+        [printProfiles.usletter, printProfiles.a4].forEach(function(profile) {
             var font_size = parseInt(url_params.fontSize),
                 up = font_size / 12.0,
                 down = 12.0 / font_size;
@@ -111,5 +111,5 @@ define(function(require) {
         });
     }
 
-    return print_profiles;
+    return printProfiles;
 });
