@@ -41,7 +41,19 @@ define(function(require) {
         },
         
         parse: function () {
-            this.parsed = fparser.parse(this.script, this.settings);
+
+            this.parsed = fparser.parse(this.script, {
+                print_headers: this.settings.print_headers,
+                print_actions: this.settings.print_actions,
+                print_dialogues: this.settings.print_dialogues,
+                print_notes: this.settings.print_notes,
+                print_sections: this.settings.print_sections,
+                print_synopsis: this.settings.print_synopsis,
+                each_scene_on_new_page: this.settings.each_scene_on_new_page,
+                double_space_between_scenes: this.settings.doubleSpaceBetweenScenes,
+                use_dual_dialogue: this.settings.use_dual_dialogue
+            });
+
             this.parsed.lines = fliner.line(this.parsed.tokens, this.settings);
 
             if (this.settings.use_print_settings_for_stats) {

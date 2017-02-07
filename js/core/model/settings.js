@@ -63,15 +63,8 @@ define(function(require) {
             name: 'print_profile',
             value: "a4"
         },
-        
-        /** Open **/
 
-        loadLastOpened: {
-            name: 'load_last_opened',
-            value: false
-        },
-        
-        double_space_between_scenes: {
+        doubleSpaceBetweenScenes: {
             name: 'double_space_between_scenes',
             value: false
         },
@@ -111,16 +104,6 @@ define(function(require) {
             value: true
         },
 
-        stats_keep_last_scene_time: {
-            name: 'stats_keep_last_scene_time',
-            value: true
-        },
-
-        stats_who_with_who_max: {
-            name: 'stats_who_with_who_max',
-            value: 10
-        },
-
         print_notes: {
             name: 'print_notes',
             value: false
@@ -150,7 +133,26 @@ define(function(require) {
             name: 'each_scene_on_new_page',
             value: false
         },
+        
+        /** Open **/
 
+        loadLastOpened: {
+            name: 'load_last_opened',
+            value: false
+        },
+        
+        /** Stats **/
+        
+        stats_keep_last_scene_time: {
+            name: 'stats_keep_last_scene_time',
+            value: true
+        },
+        
+        stats_who_with_who_max: {
+            name: 'stats_who_with_who_max',
+            value: 10
+        },
+        
         use_print_settings_for_stats: {
             name: 'use_print_settings_for_stats',
             value: true
