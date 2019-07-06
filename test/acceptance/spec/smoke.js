@@ -1,6 +1,6 @@
 define(function (require) {
 
-    var Env = require('acceptance/helper/env');
+    var Env = require('acceptance/env');
     
     describe('Smoke test', function () {
 
@@ -14,9 +14,12 @@ define(function (require) {
             env.destroy();
         });
 
-        it('Selected plugin is active', function() {
-            env.user.open_plugin('info');
-            env.assert.active_plugin_is('info');
+        it('WHEN info plugin is opened from the main menu THEN info plugin is displayed', function() {
+            // act
+            env.user.theme.open_plugin('info');
+            
+            // assert
+            env.assert.theme.active_plugin_is('info');
         });
         
     });

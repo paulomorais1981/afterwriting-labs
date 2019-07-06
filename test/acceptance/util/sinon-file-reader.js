@@ -15,7 +15,6 @@ define(function() {
      * @constructor
      */
     var SinonFileReader = function() {
-        this.real_reader = new RealFileReader();
         this.processing = false;
         SinonFileReader.readers.push(this);
     };
@@ -31,6 +30,7 @@ define(function() {
      */
     SinonFileReader.setup = function() {
         window.FileReader = SinonFileReader;
+        SinonFileReader.readers = [];
     };
 
     /**
@@ -38,6 +38,7 @@ define(function() {
      */
     SinonFileReader.restore = function() {
         window.FileReader = RealFileReader;
+        SinonFileReader.readers = [];
     };
 
     /**
@@ -52,11 +53,26 @@ define(function() {
      */
     SinonFileReader.prototype.readAsText = function(blob) {
         this.processing = true;
-        this.real_reader.onload = function() {
+        var realReader = new RealFileReader();
+        realReader.onload = function() {
             this.processing = false;
-            this.onload.apply(this.real_reader, arguments);
+            this.onload.apply(realReader, arguments);
         }.bind(this);
-        return this.real_reader.readAsText(blob);
+        return realReader.readAsText(blob);
+    };
+
+    /**
+     * readAsArrayBuffer decorator
+     * @param {Blob} blob
+     */
+    SinonFileReader.prototype.readAsArrayBuffer = function(blob) {
+        this.processing = true;
+        var realReader = new RealFileReader();
+        realReader.onload = function() {
+            this.processing = false;
+            this.onload.apply(realReader, arguments);
+        }.bind(this);
+        return realReader.readAsArrayBuffer(blob);
     };
 
     /**

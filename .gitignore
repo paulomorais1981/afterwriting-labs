@@ -1,6 +1,6 @@
 node_modules/
-sandbox.html
+docs/code/
 local/
 coverage/
 .idea/
-.vimrc
+changes.log

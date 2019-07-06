@@ -1,80 +1,54 @@
 define(function(require) {
 
-    var $ = require('jquery'),
-        p = require('p');
+    var p = require('protoplast'),
+        EditorUserHelper = require('acceptance/helper/user/editor-user-helper'),
+        FactsUserHelper = require('acceptance/helper/user/facts-user-helper'),
+        InfoUserHelper = require('acceptance/helper/user/info-user-helper'),
+        OpenUserHelper = require('acceptance/helper/user/open-user-helper'),
+        PopupUserHelper = require('acceptance/helper/user/popup-user-helper'),
+        PreviewUserHelper = require('acceptance/helper/user/preview-user-helper'),
+        SaveUserHelper = require('acceptance/helper/user/save-user-helper'),
+        SettingsUserHelper = require('acceptance/helper/user/settings-user-helper'),
+        StatsUserHelper = require('acceptance/helper/user/stats-user-helper'),
+        ThemeUserHelper = require('acceptance/helper/user/theme-user-helper');
 
     /**
      * Performs user actions
      */
     var User = p.extend({
 
+        editor: null,
+
+        facts: null,
+
+        info: null,
+
+        open: null,
+
+        popup: null,
+
+        preview: null,
+
+        save: null,
+
+        settings: null,
+
+        stats: null,
+
+        theme: null,
+
         $create: function(browser, dom) {
-            this.browser = browser;
-            this.dom = dom;
-        },
-
-        click: function(selector) {
-            $(selector).click();
-            this.browser.tick(20000);
-        },
-
-        back_to_main: function() {
-            this.click(this.dom.$background);
-        },
-
-        open_plugin: function(name) {
-            this.click(this.dom.$plugin(name));
-        },
-
-        open_from_dropbox: function() {
-            this.click(this.dom.$open_dropbox);
-        },
-
-        close_popup: function() {
-            this.click(this.dom.$close_popup);
-        },
-        
-        confirm_popup: function() {
-            this.click(this.dom.$confirm_popup);
-        },
-
-        select_file: function(file) {
-            this.click(this.dom.$file_link(file));
-        },
-
-        click_button: function(label) {
-            this.click(this.dom.$button(label));
-        },
-
-        turn_sync_on: function() {
-            this.click(this.dom.$sync_button);
-            this.click_button('OK');
-        },
-
-        turn_sync_off: function() {
-            this.click(this.dom.$sync_button);
-        },
-
-        turn_auto_save_on: function() {
-            this.click(this.dom.$auto_save_button);
-        },
-
-        sync_keep_content: function() {
-            this.click_button('Keep content');
-        },
-
-        sync_reload_content_before_sync: function() {
-            this.click_button('Load version before sync');
-        },
-
-        set_editor_content: function(content) {
-            $('.CodeMirror').get(0).CodeMirror.setValue(content);
-        },
-
-        select_night_mode: function() {
-           this.click(this.dom.$night_mode);
+            this.editor = EditorUserHelper.create(browser, dom);
+            this.facts = FactsUserHelper.create(browser, dom);
+            this.info = InfoUserHelper.create(browser, dom);
+            this.open = OpenUserHelper.create(browser, dom);
+            this.popup = PopupUserHelper.create(browser, dom);
+            this.preview = PreviewUserHelper.create(browser, dom);
+            this.save = SaveUserHelper.create(browser, dom);
+            this.settings = SettingsUserHelper.create(browser, dom);
+            this.stats = StatsUserHelper.create(browser, dom);
+            this.theme = ThemeUserHelper.create(browser, dom);
         }
-
     });
 
     return User;

@@ -1,43 +1,56 @@
 define(function(require) {
 
-    var p = require('p');
+    var p = require('protoplast'),
+        DropboxAssert = require('acceptance/helper/assert/dropbox-assert'),
+        EditorAssert = require('acceptance/helper/assert/editor-assert'),
+        GoogleDriveAssert = require('acceptance/helper/assert/google-drive-assert'),
+        IoAssert = require('acceptance/helper/assert/io-assert'),
+        MonitorAssert = require('acceptance/helper/assert/monitor-assert'),
+        PopupAssert = require('acceptance/helper/assert/popup-assert'),
+        FactsAssert = require('acceptance/helper/assert/facts-assert'),
+        StatsAssert = require('acceptance/helper/assert/stats-assert'),
+        PreviewAssert = require('acceptance/helper/assert/preview-assert'),
+        ThemeAssert = require('acceptance/helper/assert/theme-assert');
 
     /**
-     * Performs assertions, all chai/sinon assertions go here
+     * Performs assertions, all chai/sinon assertions go here. 
+     * Acceptance test should never call chai.assert directly. It should delegate to Assert helper. 
      */
     var Assert = p.extend({
 
-        $create: function(dom, dropbox) {
-            this.dom = dom;
-            this.dropbox = dropbox;
-        },
-
-        active_plugin_is: function(name) {
-            chai.assert.strictEqual(name, this.dom.get_active_plugin(), 'Expected ' + name + ' plugin to be active, but ' + this.dom.get_active_plugin() + ' is active');
-        },
-
-        file_list_is_visible: function() {
-            chai.assert.ok(this.dom.jstree_visible(), 'file list is not visible');
-        },
+        dropbox: null,
         
-        editor_content: function(content) {
-            chai.assert.equal(this.dom.editor_content(), content, "editor's content does not match expected value");
-        },
+        editor: null,
+        
+        googleDrive: null,
+        
+        io: null,
+        
+        monitor: null,
+        
+        popup: null,
 
-        dropbox_saved: function(count) {
-            chai.assert.equal(this.dropbox.saved_count, count, 'content has been saved ' + this.dropbox.saved_count + ', expected: ', count);
-        },
+        facts: null,
 
-        night_mode_is_enabled: function(value) {
-           var night_mode = this.dom.is_night_mode();
-           if (value) {
-              chai.assert.ok(night_mode);
-           }
-           else {
-              chai.assert.notOk(night_mode);
-           }
+        stats: null,
+
+        preview: null,
+        
+        theme: null,
+        
+        $create: function(dom, dropbox, ga) {
+            this.dropbox = DropboxAssert.create(dom, dropbox, ga);
+            this.editor = EditorAssert.create(dom, dropbox, ga);
+            this.googleDrive = GoogleDriveAssert.create(dom, dropbox, ga);
+            this.io = IoAssert.create(dom, dropbox, ga);
+            this.monitor = MonitorAssert.create(dom, dropbox, ga);
+            this.popup = PopupAssert.create(dom, dropbox, ga);
+            this.facts = FactsAssert.create(dom, dropbox, ga);
+            this.stats = StatsAssert.create(dom, dropbox, ga);
+            this.preview = PreviewAssert.create(dom, dropbox, ga);
+            this.theme = ThemeAssert.create(dom, dropbox, ga);
         }
-
+        
     });
 
     

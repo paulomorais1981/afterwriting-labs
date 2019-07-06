@@ -1,54 +1,65 @@
 define(function(require) {
 
-    var p = require('p');
+    var $ = require('jquery'),
+        p = require('protoplast'),
+        EditorDomHelper = require('acceptance/helper/dom/editor-dom-helper'),
+        FactsDomHelper = require('acceptance/helper/dom/facts-dom-helper'),
+        InfoDomHelper = require('acceptance/helper/dom/info-dom-helper'),
+        OpenDomHelper = require('acceptance/helper/dom/open-dom-helper'),
+        PopupDomHelper = require('acceptance/helper/dom/popup-dom-helper'),
+        PreviewDomHelper = require('acceptance/helper/dom/preview-dom-helper'),
+        SaveDomHelper = require('acceptance/helper/dom/save-dom-helper'),
+        SettingsDomHelper = require('acceptance/helper/dom/settings-dom-helper'),
+        StatsDomHelper = require('acceptance/helper/dom/stats-dom-helper'),
+        ThemeDomHelper = require('acceptance/helper/dom/theme-dom-helper');
 
     /**
-     * Translates DOM element into meaningful UI descriptions
+     * Translates DOM element into meaningful UI descriptions.
+     * 
+     * Selectors are prefixed with "$"
      */
     var DomHelper = p.extend({
 
-        $background: '#back',
-
-        $open_dropbox: '[open-action=dropbox]',
-
-        $close_popup: '[name=jqi_state0_buttonCancel]',
-
-        $confirm_popup: '[name=jqi_state0_buttonOpen]',
-
-        $sync_button: '.auto-reload-icon',
-
-        $auto_save_button: '.auto-save-icon',
-
-        $night_mode: 'input[setting="night_mode"]',
-
-        $button: function(label) {
-            return $('button:contains("' + label + '")');
-        },
-
-        $plugin: function(name) {
-            return '.menu-item.' + name;
-        },
-
-        $file_link: function(file) {
-            return $(document.getElementById('/' + file + '_anchor'));
-        },
-
-        get_active_plugin: function() {
-            return $('.plugin-content.active').attr('plugin');
-        },
-
-        jstree_visible: function() {
-            return !!$('.jstree-anchor').attr('id');
-        },
+        editor: null,
         
-        editor_content: function() {
-            return $('.CodeMirror').get(0).CodeMirror.getValue();
+        facts: null,
+        
+        info: null,
+        
+        open: null,
+        
+        popup: null,
+        
+        preview: null,
+        
+        save: null,
+        
+        settings: null,
+        
+        stats: null,
+        
+        theme: null,
+
+        $create: function() {
+            this.editor = EditorDomHelper.create();
+            this.facts = FactsDomHelper.create();
+            this.info = InfoDomHelper.create();
+            this.open = OpenDomHelper.create();
+            this.popup = PopupDomHelper.create();
+            this.preview = PreviewDomHelper.create();
+            this.save = SaveDomHelper.create();
+            this.settings = SettingsDomHelper.create();
+            this.stats = StatsDomHelper.create();
+            this.theme = ThemeDomHelper.create();
         },
 
-        is_night_mode: function() {
-           return $('body').hasClass('night-mode');
-        }
+        is_visible: function(selector) {
+            return $(selector).is(':visible');
+        },
 
+        clean_href: function(selector) {
+            $(selector).attr('href', 'javascript:void(0)');
+        }
     });
 
     return DomHelper;
